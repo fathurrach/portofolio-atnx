@@ -68,7 +68,7 @@ const Journey = () => {
           <span className="font-mono text-xs tracking-widest text-brand-primary uppercase block mb-3">
             03 &bull; Milestones
           </span>
-          <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-gray-900 dark:text-gray-100 leading-tight">
+          <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-black dark:text-white leading-tight">
             My Creative Path.
           </h2>
           <div className="w-16 h-[2px] bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full mt-4" />
@@ -80,7 +80,7 @@ const Journey = () => {
             <div key={item.id} className="relative group">
               
               {/* Chronological year on the left (desktop only) */}
-              <div className="hidden md:block absolute -left-[240px] top-1.5 w-44 text-right font-heading font-extrabold text-lg text-gray-600 dark:text-gray-400 transition-colors duration-300 group-hover:text-brand-primary">
+              <div className="hidden md:block absolute -left-[240px] top-1.5 w-44 text-right font-heading font-extrabold text-lg text-slate-700 dark:text-gray-400 transition-colors duration-300 group-hover:text-brand-primary">
                 {item.year}
               </div>
 
@@ -95,7 +95,7 @@ const Journey = () => {
               </div>
 
               {/* Milestone Card */}
-              <div className="rounded-3xl glass-card border border-white/5 p-8 relative">
+              <div className="rounded-3xl glass-card border border-black/10 dark:border-white/5 p-8 relative">
                 
                 {/* Type Indicator Tag */}
                 <div className="absolute top-8 right-8 text-gray-500 group-hover:text-brand-primary transition-colors duration-300">
@@ -107,7 +107,7 @@ const Journey = () => {
                 </div>
 
                 <div className="mb-4">
-                  <h3 className="font-heading font-extrabold text-xl text-gray-900 dark:text-gray-100 group-hover:text-brand-primary transition-colors duration-300">
+                  <h3 className="font-heading font-extrabold text-xl text-black dark:text-white group-hover:text-brand-primary transition-colors duration-300">
                     {item.role}
                   </h3>
                   <div className="font-mono text-xs text-brand-secondary tracking-widest uppercase mt-1">
@@ -115,16 +115,16 @@ const Journey = () => {
                   </div>
                 </div>
 
-                <p className="text-gray-600 dark:text-gray-400 font-light text-sm leading-relaxed mb-6">
+                <p className="text-slate-700 dark:text-gray-400 font-normal text-sm leading-relaxed mb-6">
                   {item.description}
                 </p>
 
                 {/* Highlights bullet points */}
-                <ul className="space-y-2 border-t border-black/5 dark:border-white/5 pt-6">
+                <ul className="space-y-2 border-t border-black/10 dark:border-white/5 pt-6">
                   {item.highlights.map((h, i) => (
                     <li
                       key={i}
-                      className="flex items-start gap-2.5 text-xs text-gray-600 dark:text-gray-400 font-light leading-relaxed"
+                      className="flex items-start gap-2.5 text-xs text-slate-700 dark:text-gray-400 font-normal leading-relaxed"
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-brand-primary mt-1.5 flex-shrink-0" />
                       <span>{h}</span>

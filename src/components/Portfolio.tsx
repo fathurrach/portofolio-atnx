@@ -82,14 +82,14 @@ const Portfolio = () => {
             <span className="font-mono text-xs tracking-widest text-brand-primary uppercase block mb-3">
               02 &bull; Showcase
             </span>
-            <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-gray-900 dark:text-gray-100 leading-tight">
+            <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-black dark:text-white leading-tight">
               Selected Creations.
             </h2>
             <div className="w-16 h-[2px] bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full mt-4" />
           </div>
 
           {/* Filters */}
-          <div className="flex flex-wrap gap-2.5 p-1 rounded-2xl glass-panel self-start md:self-auto border border-white/5">
+          <div className="flex flex-wrap gap-2.5 p-1 rounded-2xl glass-panel self-start md:self-auto border border-black/10 dark:border-white/5">
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -97,7 +97,7 @@ const Portfolio = () => {
                 className={`py-2 px-6 rounded-xl font-mono text-xs tracking-wider transition-all duration-300 interactive ${
                   activeCategory === cat
                     ? "bg-brand-primary text-white dark:text-[#0a0a0c] shadow-md font-medium"
-                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
+                    : "text-slate-700 dark:text-gray-400 hover:text-black dark:hover:text-gray-200"
                 }`}
               >
                 {cat}
@@ -111,7 +111,7 @@ const Portfolio = () => {
           {filteredProjects.map((project, idx) => (
             <div
               key={project.id}
-              className="group rounded-3xl glass-card border border-white/5 overflow-hidden flex flex-col justify-between"
+              className="group rounded-3xl glass-card border border-black/10 dark:border-white/5 overflow-hidden flex flex-col justify-between"
             >
               {/* Project Image */}
               <div className="relative overflow-hidden aspect-video">
@@ -136,11 +136,11 @@ const Portfolio = () => {
               {/* Project info */}
               <div className="p-8 flex-grow flex flex-col justify-between">
                 <div>
-                  <h3 className="font-heading font-extrabold text-2xl text-gray-900 dark:text-gray-100 group-hover:text-brand-primary transition-colors duration-300 mb-4 flex items-center justify-between">
+                  <h3 className="font-heading font-extrabold text-2xl text-black dark:text-white group-hover:text-brand-primary transition-colors duration-300 mb-4 flex items-center justify-between">
                     {project.title}
                     <FolderGit2 className="opacity-30 group-hover:opacity-75 group-hover:text-brand-primary transition-all duration-300" size={20} />
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400 font-light text-sm leading-relaxed mb-6">
+                  <p className="text-slate-700 dark:text-gray-400 font-normal text-sm leading-relaxed mb-6">
                     {project.description}
                   </p>
                 </div>
@@ -151,7 +151,7 @@ const Portfolio = () => {
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="py-1 px-2.5 rounded-lg border border-black/5 dark:border-white/5 bg-black/5 dark:bg-white/5 font-mono text-[10px] text-gray-600 dark:text-gray-400"
+                        className="py-1 px-2.5 rounded-lg border border-black/10 dark:border-white/5 bg-black/5 dark:bg-white/5 font-mono text-[10px] text-slate-700 dark:text-gray-400"
                       >
                         {tag}
                       </span>
@@ -159,7 +159,7 @@ const Portfolio = () => {
                   </div>
  
                   {/* Actions */}
-                  <div className="flex items-center gap-4 border-t border-black/5 dark:border-white/5 pt-6">
+                  <div className="flex items-center gap-4 border-t border-black/10 dark:border-white/5 pt-6">
                     <a
                       href={project.demoUrl}
                       className="flex items-center gap-2 text-brand-primary font-mono text-xs tracking-widest uppercase hover:underline interactive font-bold"
@@ -169,7 +169,7 @@ const Portfolio = () => {
                     <span className="text-black/10 dark:text-white/10">|</span>
                     <a
                       href={project.githubUrl}
-                      className="text-gray-600 dark:text-gray-400 hover:text-brand-primary font-mono text-xs tracking-widest uppercase interactive"
+                      className="text-slate-700 dark:text-gray-400 hover:text-brand-primary font-mono text-xs tracking-widest uppercase interactive"
                     >
                       Github
                     </a>

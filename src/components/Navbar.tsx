@@ -73,7 +73,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                 key={link.name}
                 href={link.href}
                 className={`font-mono text-sm tracking-wider hover:text-brand-primary transition-colors duration-300 relative interactive py-2 ${
-                  activeSection === id ? "text-brand-primary font-medium" : "text-gray-600 dark:text-gray-400"
+                  activeSection === id ? "text-brand-primary font-medium" : "text-slate-700 dark:text-gray-400"
                 }`}
               >
                 {link.name}
@@ -91,7 +91,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
 
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="p-2.5 rounded-full border border-black/10 dark:border-white/10 glass-panel hover:bg-brand-primary/10 hover:border-brand-primary/30 transition-all duration-300 md:hidden text-gray-700 dark:text-gray-300 interactive"
+            className="p-2.5 rounded-full border border-black/10 dark:border-white/10 glass-panel hover:bg-brand-primary/10 hover:border-brand-primary/30 transition-all duration-300 md:hidden text-slate-800 dark:text-gray-300 interactive"
             aria-label="Toggle menu"
           >
             {isOpen ? <X size={18} /> : <Menu size={18} />}
@@ -114,7 +114,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                 href={link.href}
                 onClick={() => setIsOpen(false)}
                 className={`font-heading text-2xl tracking-widest hover:text-brand-primary transition-all duration-300 ${
-                  activeSection === id ? "text-brand-primary font-bold scale-110" : "text-gray-700 dark:text-gray-300"
+                  activeSection === id ? "text-brand-primary font-bold scale-110" : "text-slate-800 dark:text-gray-300"
                 }`}
               >
                 {link.name}

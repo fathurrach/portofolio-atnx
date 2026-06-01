@@ -19,11 +19,16 @@ function App() {
   };
 
   useEffect(() => {
+    const root = document.documentElement;
     const body = document.body;
     if (theme === "light") {
+      root.classList.add("light");
+      root.classList.remove("dark");
       body.classList.add("light");
       body.classList.remove("dark");
     } else {
+      root.classList.add("dark");
+      root.classList.remove("light");
       body.classList.add("dark");
       body.classList.remove("light");
     }

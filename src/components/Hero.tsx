@@ -70,7 +70,7 @@ const Hero = () => {
         {/* Dynamic Tagline using TextType */}
         <p
           ref={subtitleRef}
-          className="opacity-0 text-base md:text-xl font-mono tracking-wide max-w-2xl text-gray-700 dark:text-gray-300 font-light mb-8 leading-relaxed min-h-[3.5em] sm:min-h-[2.5em] flex items-center justify-center"
+          className="opacity-0 text-base md:text-xl font-mono tracking-wide max-w-2xl text-slate-800 dark:text-gray-300 font-normal mb-8 leading-relaxed min-h-[3.5em] sm:min-h-[2.5em] flex items-center justify-center"
         >
           {showTypewriter && (
             <TextType
@@ -99,7 +99,7 @@ const Hero = () => {
           </a>
           <a
             href="#contact"
-            className="w-full sm:w-auto flex items-center justify-center gap-2 py-3.5 px-8 rounded-full border border-black/10 dark:border-white/10 glass-panel hover:bg-black/5 dark:hover:bg-white/5 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300 interactive font-mono text-sm tracking-wider text-gray-700 dark:text-gray-300"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 py-3.5 px-8 rounded-full border border-black/10 dark:border-white/10 glass-panel hover:bg-black/5 dark:hover:bg-white/5 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300 interactive font-mono text-sm tracking-wider text-slate-800 dark:text-gray-300"
           >
             Let's Talk
           </a>
@@ -116,7 +116,7 @@ const Hero = () => {
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-35 hidden md:block">
         <a
           href="#about"
-          className="flex flex-col items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-brand-primary transition-colors duration-300 font-mono text-xs tracking-widest uppercase interactive"
+          className="flex flex-col items-center gap-2 text-slate-700 dark:text-gray-400 hover:text-brand-primary transition-colors duration-300 font-mono text-xs tracking-widest uppercase interactive"
         >
           Scroll Down
           <ArrowDown size={14} className="animate-bounce text-brand-primary" />

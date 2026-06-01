@@ -9,18 +9,44 @@ const Contact = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitSuccess(false);
+    setSubmitError(null);
 
-    // Simulate sending email
-    setTimeout(() => {
+    const formData = new FormData();
+    formData.append("access_key", import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || "YOUR_ACCESS_KEY_HERE");
+    formData.append("name", formState.name);
+    formData.append("email", formState.email);
+    formData.append("message", formState.message);
+    formData.append("subject", "New Contact Form Submission - ATNX Portfolio");
+    formData.append("from_name", "ATNX Portfolio");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSubmitSuccess(true);
+        setFormState({ name: "", email: "", message: "" });
+        setTimeout(() => setSubmitSuccess(false), 5000);
+      } else {
+        console.error("Web3Forms Error:", data);
+        setSubmitError(data.message || "Failed to submit form. Please check your Access Key.");
+      }
+    } catch (error) {
+      console.error("Submission Error:", error);
+      setSubmitError("Network error. Please check your connection and try again.");
+    } finally {
       setIsSubmitting(false);
-      setSubmitSuccess(true);
-      setFormState({ name: "", email: "", message: "" });
-      setTimeout(() => setSubmitSuccess(false), 5000);
-    }, 1500);
+    }
   };
 
   const handleChange = (
@@ -36,8 +62,8 @@ const Contact = () => {
     {
       icon: <Mail size={18} className="text-brand-primary" />,
       label: "Direct Email",
-      value: "hello@atnx.dev",
-      href: "mailto:hello@atnx.dev",
+      value: "hello@atnx.my.id",
+      href: "mailto:hello@atnx.my.id",
     },
     {
       icon: <MapPin size={18} className="text-brand-secondary" />,
@@ -103,7 +129,7 @@ const Contact = () => {
           <span className="font-mono text-xs tracking-widest text-brand-primary uppercase block mb-3">
             04 &bull; Let's Connect
           </span>
-          <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-gray-900 dark:text-gray-100 leading-tight">
+          <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-black dark:text-white leading-tight">
             Start a Conversation.
           </h2>
           <div className="w-16 h-[2px] bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full mt-4" />
@@ -114,7 +140,7 @@ const Contact = () => {
           {/* Contact Details & Info */}
           <div className="lg:col-span-2 space-y-8">
             <div className="max-w-md">
-              <p className="text-gray-700 dark:text-gray-300 text-lg font-light leading-relaxed mb-6">
+              <p className="text-slate-800 dark:text-gray-300 text-lg font-light leading-relaxed mb-6">
                 Have a project idea, a job opportunity, or just want to chat about creative coding? Drop me a line! I am always open to exploring fresh concepts and collaborating on premium web environments.
               </p>
             </div>
@@ -130,7 +156,7 @@ const Contact = () => {
                     {detail.icon}
                   </div>
                   <div>
-                    <div className="text-[10px] font-mono uppercase text-gray-600 dark:text-gray-400 tracking-widest">
+                    <div className="text-[10px] font-mono uppercase text-slate-700 dark:text-gray-400 tracking-widest">
                       {detail.label}
                     </div>
                     {detail.href ? (
@@ -141,7 +167,7 @@ const Contact = () => {
                         {detail.value}
                       </a>
                     ) : (
-                      <div className="text-sm font-sans text-gray-700 dark:text-gray-300 font-medium">
+                      <div className="text-sm font-sans text-slate-800 dark:text-gray-300 font-medium">
                         {detail.value}
                       </div>
                     )}
@@ -152,7 +178,7 @@ const Contact = () => {
 
             {/* Social Rings */}
             <div>
-              <div className="text-xs font-mono uppercase text-gray-600 dark:text-gray-400 tracking-widest mb-4">
+              <div className="text-xs font-mono uppercase text-slate-700 dark:text-gray-400 tracking-widest mb-4">
                 FOLLOW MY ENDEAVORS
               </div>
               <div className="flex items-center gap-3">
@@ -162,7 +188,7 @@ const Contact = () => {
                     href={social.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="p-3 rounded-full border border-black/10 dark:border-white/10 glass-panel hover:bg-brand-primary/10 hover:border-brand-primary/30 hover:scale-110 transition-all duration-300 text-gray-700 dark:text-gray-300 interactive"
+                    className="p-3 rounded-full border border-black/10 dark:border-white/10 glass-panel hover:bg-brand-primary/10 hover:border-brand-primary/30 hover:scale-110 transition-all duration-300 text-slate-700 dark:text-gray-300 interactive"
                     aria-label={`Visit my ${social.name}`}
                   >
                     {social.icon}
@@ -191,7 +217,7 @@ const Contact = () => {
                   />
                   <label
                     htmlFor="name"
-                    className="absolute left-5 top-4 text-xs font-mono text-gray-600 dark:text-gray-400 transition-all duration-300 pointer-events-none peer-placeholder-shown:text-sm peer-placeholder-shown:top-4.5 peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:text-brand-primary peer-[&:not(:placeholder-shown)]:top-1.5 peer-[&:not(:placeholder-shown)]:text-[10px]"
+                    className="absolute left-5 top-4 text-xs font-mono text-slate-700 dark:text-gray-400 transition-all duration-300 pointer-events-none peer-placeholder-shown:text-sm peer-placeholder-shown:top-4.5 peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:text-brand-primary peer-[&:not(:placeholder-shown)]:top-1.5 peer-[&:not(:placeholder-shown)]:text-[10px]"
                   >
                     YOUR NAME
                   </label>
@@ -211,7 +237,7 @@ const Contact = () => {
                   />
                   <label
                     htmlFor="email"
-                    className="absolute left-5 top-4 text-xs font-mono text-gray-600 dark:text-gray-400 transition-all duration-300 pointer-events-none peer-placeholder-shown:text-sm peer-placeholder-shown:top-4.5 peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:text-brand-primary peer-[&:not(:placeholder-shown)]:top-1.5 peer-[&:not(:placeholder-shown)]:text-[10px]"
+                    className="absolute left-5 top-4 text-xs font-mono text-slate-700 dark:text-gray-400 transition-all duration-300 pointer-events-none peer-placeholder-shown:text-sm peer-placeholder-shown:top-4.5 peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:text-brand-primary peer-[&:not(:placeholder-shown)]:top-1.5 peer-[&:not(:placeholder-shown)]:text-[10px]"
                   >
                     EMAIL ADDRESS
                   </label>
@@ -231,7 +257,7 @@ const Contact = () => {
                   />
                   <label
                     htmlFor="message"
-                    className="absolute left-5 top-4 text-xs font-mono text-gray-600 dark:text-gray-400 transition-all duration-300 pointer-events-none peer-placeholder-shown:text-sm peer-placeholder-shown:top-4.5 peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:text-brand-primary peer-[&:not(:placeholder-shown)]:top-1.5 peer-[&:not(:placeholder-shown)]:text-[10px]"
+                    className="absolute left-5 top-4 text-xs font-mono text-slate-700 dark:text-gray-400 transition-all duration-300 pointer-events-none peer-placeholder-shown:text-sm peer-placeholder-shown:top-4.5 peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:text-brand-primary peer-[&:not(:placeholder-shown)]:top-1.5 peer-[&:not(:placeholder-shown)]:text-[10px]"
                   >
                     PROJECT BRIEF / MESSAGE
                   </label>
@@ -258,13 +284,20 @@ const Contact = () => {
                     MESSAGE DELIVERED SUCCESSFULLY! I'LL BE IN TOUCH SOON.
                   </div>
                 )}
+
+                {/* Error alert */}
+                {submitError && (
+                  <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/25 text-rose-400 text-xs font-mono tracking-wide text-center animate-fade-in-up">
+                    {submitError.toUpperCase()}
+                  </div>
+                )}
               </form>
             </div>
           </div>
         </div>
 
         {/* Footer info */}
-        <div className="mt-28 pt-8 border-t border-black/5 dark:border-t-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-gray-500">
+        <div className="mt-28 pt-8 border-t border-black/10 dark:border-t-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-600">
           <div>&copy; {new Date().getFullYear()} ATNX. ALL RIGHTS RESERVED.</div>
           <div className="flex items-center gap-4">
             <a href="#home" className="hover:text-brand-primary transition-colors duration-300 interactive">BACK TO TOP</a>
