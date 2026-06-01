@@ -138,10 +138,10 @@ const About = () => {
               </div>
               <div>
                 <div className="text-3xl font-heading font-extrabold text-brand-secondary">
-                  20+
+                  2
                 </div>
                 <div className="text-xs text-slate-700 dark:text-gray-400 font-mono mt-1">
-                  PROJECTS DONE
+                  PROJECTS SHIPPED
                 </div>
               </div>
             </div>
