@@ -25,7 +25,7 @@ const Portfolio = () => {
       description:
         "A community report and complaint management platform designed to streamline communication and monitor issue resolution.",
       tags: ["Next.js", "React", "Tailwind CSS", "Vercel"],
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+      image: "/images/portfolio/laporfm.png",
       demoUrl: "https://laporfm.web.id",
       githubUrl: "https://github.com/fathurrach/LAPOR_FM_DDP",
     },
@@ -36,7 +36,7 @@ const Portfolio = () => {
       description:
         "A collaborative travel itinerary and tour booking platform designed to connect adventurers and map out group journeys.",
       tags: ["React", "Vite", "Tailwind CSS", "Framer Motion"],
-      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+      image: "/images/portfolio/jelajahbersama.webp",
       demoUrl: "https://jelajahbersama.atnx.my.id",
       githubUrl: "https://github.com/fathurrach/JelajahBersama",
     },
