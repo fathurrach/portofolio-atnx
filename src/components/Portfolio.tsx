@@ -9,7 +9,7 @@ interface Project {
   tags: string[];
   image: string;
   demoUrl: string;
-  githubUrl: string;
+  githubUrl?: string;
 }
 
 const Portfolio = () => {
@@ -27,7 +27,6 @@ const Portfolio = () => {
       tags: ["Next.js", "React", "Tailwind CSS", "Vercel"],
       image: "/images/portfolio/laporfm.webp",
       demoUrl: "https://laporfm.web.id",
-      githubUrl: "https://github.com/fathurrach/LAPOR_FM_DDP",
     },
     {
       id: 2,
@@ -38,7 +37,6 @@ const Portfolio = () => {
       tags: ["React", "Vite", "Tailwind CSS", "Framer Motion"],
       image: "/images/portfolio/jelajahbersama.webp",
       demoUrl: "https://jelajahbersama.atnx.my.id",
-      githubUrl: "https://github.com/fathurrach/JelajahBersama",
     },
   ];
 
@@ -144,13 +142,17 @@ const Portfolio = () => {
                     >
                       Live Demo <ArrowUpRight size={14} />
                     </a>
-                    <span className="text-black/10 dark:text-white/10">|</span>
-                    <a
-                      href={project.githubUrl}
-                      className="text-slate-700 dark:text-gray-400 hover:text-brand-primary font-mono text-xs tracking-widest uppercase interactive"
-                    >
-                      Github
-                    </a>
+                    {project.githubUrl && (
+                      <>
+                        <span className="text-black/10 dark:text-white/10">|</span>
+                        <a
+                          href={project.githubUrl}
+                          className="text-slate-700 dark:text-gray-400 hover:text-brand-primary font-mono text-xs tracking-widest uppercase interactive"
+                        >
+                          Github
+                        </a>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
