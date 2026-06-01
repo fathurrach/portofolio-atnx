@@ -38,17 +38,17 @@ const About = () => {
     {
       icon: <Sparkles size={16} className="text-brand-primary animate-pulse" />,
       title: "Vibe Coding",
-      desc: "Flowing with code, modern music, and clean workspace layouts. Building tools to make work smarter.",
+      desc: "Code, ambient beats, and aesthetic dark setups.",
     },
     {
       icon: <Palette size={16} className="text-brand-secondary" />,
       title: "Creative Design",
-      desc: "Crafting beautiful layouts and responsive modules. Making sure every detail is polished.",
+      desc: "Sleek grids, micro-interactions, and motion.",
     },
     {
       icon: <Camera size={16} className="text-brand-accent" />,
       title: "Photography",
-      desc: "Shooting photos taught me how to slow down, frame properly, and pay attention to detail.",
+      desc: "Capturing light, framing, and visual stories.",
     },
   ];
 
@@ -73,10 +73,10 @@ const About = () => {
         {/* Bento Grid */}
         <div
           ref={cardsRef}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[220px]"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 md:auto-rows-[240px] auto-rows-auto"
         >
           {/* Main Biography Card */}
-          <div className="md:col-span-2 md:row-span-2 rounded-3xl glass-card glow-card p-8 flex flex-col justify-between">
+          <div className="md:col-span-2 md:row-span-2 rounded-3xl glass-card glow-card p-6 md:p-8 flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 rounded-xl bg-brand-primary/10 text-brand-primary">
@@ -100,7 +100,7 @@ const About = () => {
           </div>
 
           {/* Philosophy Card */}
-          <div className="rounded-3xl glass-card glow-card p-8 flex flex-col justify-between">
+          <div className="rounded-3xl glass-card glow-card p-6 md:p-8 flex flex-col justify-between">
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-xl bg-brand-secondary/10 text-brand-secondary">
                 <Zap size={20} />
@@ -118,7 +118,7 @@ const About = () => {
           </div>
 
           {/* Stats Card */}
-          <div className="rounded-3xl glass-card glow-card p-8 flex flex-col justify-between">
+          <div className="rounded-3xl glass-card glow-card p-6 md:p-8 flex flex-col justify-between">
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-xl bg-brand-accent/10 text-brand-accent">
                 <Layers size={20} />
@@ -151,7 +151,7 @@ const About = () => {
           </div>
 
           {/* Tech Stack Card */}
-          <div className="md:col-span-2 rounded-3xl glass-card glow-card p-8 flex flex-col justify-between">
+          <div className="md:col-span-2 rounded-3xl glass-card glow-card p-6 md:p-8 flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 rounded-xl bg-brand-primary/10 text-brand-primary">
@@ -178,7 +178,7 @@ const About = () => {
           </div>
 
           {/* Passions Card */}
-          <div className="rounded-3xl glass-card glow-card p-8 flex flex-col justify-between">
+          <div className="rounded-3xl glass-card glow-card p-6 flex flex-col justify-between">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 rounded-xl bg-brand-secondary/10 text-brand-secondary">
                 <Compass size={20} />
@@ -187,15 +187,15 @@ const About = () => {
                 Passions
               </h3>
             </div>
-            <div className="space-y-3.5 my-auto">
+            <div className="space-y-3 mt-2">
               {passions.map((passion, idx) => (
-                <div key={idx} className="flex gap-3 items-start">
+                <div key={idx} className="flex gap-2.5 items-start">
                   <div className="mt-0.5 flex-shrink-0">{passion.icon}</div>
                   <div>
                     <h4 className="text-xs font-mono font-bold uppercase text-black dark:text-white leading-none">
                       {passion.title}
                     </h4>
-                    <p className="text-[11px] text-slate-700 dark:text-gray-400 leading-normal mt-1 font-normal">
+                    <p className="text-[10px] text-slate-700 dark:text-gray-400 leading-tight mt-1 font-normal">
                       {passion.desc}
                     </p>
                   </div>
