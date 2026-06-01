@@ -121,7 +121,7 @@ const Portfolio = () => {
               className="group rounded-3xl glass-card border border-black/10 dark:border-white/5 overflow-hidden flex flex-col justify-between"
             >
               {/* Project Image */}
-              <div className="relative overflow-hidden aspect-video">
+              <div className="relative overflow-hidden h-[200px] md:h-[260px]">
                 {/* Overlay index */}
                 <div className="absolute top-6 left-6 z-25 font-heading font-extrabold text-lg text-white/50 py-1.5 px-3 rounded-xl bg-black/40 backdrop-blur-md">
                   0{idx + 1}
