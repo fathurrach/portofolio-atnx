@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ArrowUpRight, FolderGit2 } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface Project {
   id: number;
@@ -14,6 +18,33 @@ interface Project {
 
 const Portfolio = () => {
   const [activeCategory, setActiveCategory] = useState<string>("All");
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const images = containerRef.current?.querySelectorAll(".project-parallax-img");
+    if (!images || images.length === 0) return;
+
+    const ctx = gsap.context(() => {
+      images.forEach((img) => {
+        gsap.fromTo(
+          img,
+          { yPercent: -10 },
+          {
+            yPercent: 10,
+            ease: "none",
+            scrollTrigger: {
+              trigger: img.parentElement,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+            },
+          }
+        );
+      });
+    });
+
+    return () => ctx.revert();
+  }, [activeCategory]);
 
   const categories = ["All", "Creative", "Apps", "UI/UX"];
 
@@ -83,7 +114,7 @@ const Portfolio = () => {
         </div>
 
         {/* Project Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {filteredProjects.map((project, idx) => (
             <div
               key={project.id}
@@ -99,13 +130,17 @@ const Portfolio = () => {
                 <div className="absolute top-6 right-6 z-25 font-mono text-xs tracking-wider text-brand-secondary py-1.5 px-3.5 rounded-xl bg-brand-secondary/15 backdrop-blur-md border border-brand-secondary/20 uppercase font-medium">
                   {project.category}
                 </div>
-                {/* Image element with zoom */}
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  loading="lazy"
-                />
+                
+                {/* Parallax Container */}
+                <div className="absolute inset-0 overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="absolute top-[-10%] left-0 w-full h-[120%] object-cover project-parallax-img"
+                    loading="lazy"
+                  />
+                </div>
+                
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none opacity-90" />
               </div>
 

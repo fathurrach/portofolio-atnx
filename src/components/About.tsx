@@ -1,5 +1,9 @@
 import { useEffect, useRef } from "react";
 import { Code2, Compass, Layers, Zap, Camera, Palette, Sparkles } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
   const cardsRef = useRef<HTMLDivElement>(null);
@@ -20,7 +24,36 @@ const About = () => {
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+
+    // Staggered bento cards scroll reveal using GSAP ScrollTrigger
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        cards,
+        {
+          opacity: 0,
+          y: 60,
+          scale: 0.96,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: cardsRef.current,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    }, cardsRef);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      ctx.revert();
+    };
   }, []);
 
   const skills = [

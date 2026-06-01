@@ -1,4 +1,9 @@
+import { useEffect, useRef } from "react";
 import { Calendar, Briefcase, Award, GraduationCap } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface Milestone {
   id: number;
@@ -12,6 +17,80 @@ interface Milestone {
 }
 
 const Journey = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const timeline = timelineRef.current;
+    const line = lineRef.current;
+    if (!section || !timeline || !line) return;
+
+    const cards = timeline.querySelectorAll(".journey-card");
+    const bullets = timeline.querySelectorAll(".journey-bullet");
+
+    const ctx = gsap.context(() => {
+      // 1. Timeline vertical line draw-in (scaleY from 0 to 1)
+      gsap.fromTo(
+        line,
+        { scaleY: 0 },
+        {
+          scaleY: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: timeline,
+            start: "top 80%",
+            end: "bottom 60%",
+            scrub: 0.5,
+          },
+        }
+      );
+
+      // 2. Staggered milestone cards reveal
+      cards.forEach((card, i) => {
+        gsap.fromTo(
+          card,
+          { opacity: 0, y: 50, scale: 0.97 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.9,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 88%",
+              toggleActions: "play none none none",
+            },
+            delay: i * 0.05,
+          }
+        );
+      });
+
+      // 3. Glowing bullet dot pulse on scroll
+      bullets.forEach((bullet) => {
+        gsap.fromTo(
+          bullet,
+          { scale: 0, opacity: 0 },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.5,
+            ease: "back.out(2)",
+            scrollTrigger: {
+              trigger: bullet,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      });
+    }, section);
+
+    return () => ctx.revert();
+  }, []);
+
   const milestones: Milestone[] = [
     {
       id: 1,
@@ -48,6 +127,7 @@ const Journey = () => {
   return (
     <section
       id="journey"
+      ref={sectionRef}
       className="relative min-h-screen w-full py-28 px-6 bg-transparent overflow-hidden"
     >
       {/* Background radial gradient */}
@@ -67,9 +147,15 @@ const Journey = () => {
         </div>
 
         {/* Timeline Layout */}
-        <div className="relative border-l border-black/10 dark:border-l-white/10 ml-4 md:ml-32 pl-8 md:pl-16 space-y-12">
+        <div ref={timelineRef} className="relative ml-4 md:ml-32 pl-8 md:pl-16 space-y-12">
+          {/* Animated draw-in timeline line */}
+          <div
+            ref={lineRef}
+            className="absolute left-0 top-0 bottom-0 w-px bg-black/10 dark:bg-white/10"
+            style={{ transformOrigin: "top" }}
+          />
           {milestones.map((item) => (
-            <div key={item.id} className="relative group">
+            <div key={item.id} className="relative group journey-card">
               
               {/* Chronological year on the left (desktop only) */}
               <div className="hidden md:block absolute -left-[240px] top-1.5 w-44 text-right font-heading font-extrabold text-lg text-slate-700 dark:text-gray-400 transition-colors duration-300 group-hover:text-brand-primary">
@@ -77,7 +163,7 @@ const Journey = () => {
               </div>
 
               {/* Dynamic glowing bullet indicator */}
-              <span className="absolute -left-[41px] md:-left-[73px] top-1.5 w-6 h-6 rounded-full border-2 border-brand-primary bg-[#f8fafc] dark:bg-[#0a0a0c] flex items-center justify-center transition-all duration-500 group-hover:scale-125 group-hover:shadow-[0_0_15px_rgba(9,9,11,0.2)] dark:group-hover:shadow-[0_0_15px_rgba(255,255,255,0.4)] z-25">
+              <span className="journey-bullet absolute -left-[41px] md:-left-[73px] top-1.5 w-6 h-6 rounded-full border-2 border-brand-primary bg-[#f8fafc] dark:bg-[#0a0a0c] flex items-center justify-center transition-all duration-500 group-hover:scale-125 group-hover:shadow-[0_0_15px_rgba(9,9,11,0.2)] dark:group-hover:shadow-[0_0_15px_rgba(255,255,255,0.4)] z-25">
                 <span className="w-2 h-2 rounded-full bg-brand-primary group-hover:bg-brand-secondary transition-colors duration-300" />
               </span>
 
