@@ -25,7 +25,7 @@ const Portfolio = () => {
       description:
         "A community report and complaint management platform designed to streamline communication and monitor issue resolution.",
       tags: ["Next.js", "React", "Tailwind CSS", "Vercel"],
-      image: "/images/portfolio/laporfm.png",
+      image: "/images/portfolio/laporfm.webp",
       demoUrl: "https://laporfm.web.id",
       githubUrl: "https://github.com/fathurrach/LAPOR_FM_DDP",
     },
