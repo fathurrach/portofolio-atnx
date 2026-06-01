@@ -72,7 +72,7 @@ const Portfolio = () => {
   return (
     <section
       id="portfolio"
-      className="relative min-h-screen w-full py-28 px-6 bg-[#0a0a0c] dark:bg-[#0a0a0c] light:bg-[#f8fafc] overflow-hidden"
+      className="relative min-h-screen w-full py-28 px-6 bg-transparent overflow-hidden"
     >
       <div className="max-w-7xl mx-auto w-full relative z-20">
         
@@ -82,7 +82,7 @@ const Portfolio = () => {
             <span className="font-mono text-xs tracking-widest text-brand-primary uppercase block mb-3">
               02 &bull; Showcase
             </span>
-            <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-gray-100 dark:text-gray-100 light:text-gray-900 leading-tight">
+            <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-gray-900 dark:text-gray-100 leading-tight">
               Selected Creations.
             </h2>
             <div className="w-16 h-[2px] bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full mt-4" />
@@ -96,7 +96,7 @@ const Portfolio = () => {
                 onClick={() => setActiveCategory(cat)}
                 className={`py-2 px-6 rounded-xl font-mono text-xs tracking-wider transition-all duration-300 interactive ${
                   activeCategory === cat
-                    ? "bg-brand-primary text-[#0a0a0c] dark:text-[#0a0a0c] light:text-[#ffffff] shadow-md font-medium"
+                    ? "bg-brand-primary text-white dark:text-[#0a0a0c] shadow-md font-medium"
                     : "text-gray-400 hover:text-gray-200"
                 }`}
               >
@@ -136,11 +136,11 @@ const Portfolio = () => {
               {/* Project info */}
               <div className="p-8 flex-grow flex flex-col justify-between">
                 <div>
-                  <h3 className="font-heading font-extrabold text-2xl text-gray-100 dark:text-gray-100 light:text-gray-900 group-hover:text-brand-primary transition-colors duration-300 mb-4 flex items-center justify-between">
+                  <h3 className="font-heading font-extrabold text-2xl text-gray-900 dark:text-gray-100 group-hover:text-brand-primary transition-colors duration-300 mb-4 flex items-center justify-between">
                     {project.title}
                     <FolderGit2 className="opacity-30 group-hover:opacity-75 group-hover:text-brand-primary transition-all duration-300" size={20} />
                   </h3>
-                  <p className="text-gray-400 dark:text-gray-400 light:text-gray-600 font-light text-sm leading-relaxed mb-6">
+                  <p className="text-gray-600 dark:text-gray-400 font-light text-sm leading-relaxed mb-6">
                     {project.description}
                   </p>
                 </div>
@@ -151,25 +151,25 @@ const Portfolio = () => {
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="py-1 px-2.5 rounded-lg border border-white/5 dark:border-white/5 light:border-black/5 bg-white/5 dark:bg-white/5 light:bg-black/5 font-mono text-[10px] text-gray-400 dark:text-gray-400 light:text-gray-600"
+                        className="py-1 px-2.5 rounded-lg border border-black/5 dark:border-white/5 bg-black/5 dark:bg-white/5 font-mono text-[10px] text-gray-600 dark:text-gray-400"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
-
+ 
                   {/* Actions */}
-                  <div className="flex items-center gap-4 border-t border-white/5 dark:border-white/5 light:border-black/5 pt-6">
+                  <div className="flex items-center gap-4 border-t border-black/5 dark:border-white/5 pt-6">
                     <a
                       href={project.demoUrl}
                       className="flex items-center gap-2 text-brand-primary font-mono text-xs tracking-widest uppercase hover:underline interactive font-bold"
                     >
                       Live Demo <ArrowUpRight size={14} />
                     </a>
-                    <span className="text-white/10 dark:text-white/10 light:text-black/10">|</span>
+                    <span className="text-black/10 dark:text-white/10">|</span>
                     <a
                       href={project.githubUrl}
-                      className="text-gray-400 hover:text-white font-mono text-xs tracking-widest uppercase interactive"
+                      className="text-gray-600 dark:text-gray-400 hover:text-white font-mono text-xs tracking-widest uppercase interactive"
                     >
                       Github
                     </a>

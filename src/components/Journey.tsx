@@ -56,7 +56,7 @@ const Journey = () => {
   return (
     <section
       id="journey"
-      className="relative min-h-screen w-full py-28 px-6 bg-[#0a0a0c] dark:bg-[#0a0a0c] light:bg-[#f8fafc] overflow-hidden"
+      className="relative min-h-screen w-full py-28 px-6 bg-transparent overflow-hidden"
     >
       {/* Background radial gradient */}
       <div className="absolute top-1/4 right-0 w-96 h-96 bg-brand-primary/5 rounded-full filter blur-3xl pointer-events-none" />
@@ -68,7 +68,7 @@ const Journey = () => {
           <span className="font-mono text-xs tracking-widest text-brand-primary uppercase block mb-3">
             03 &bull; Milestones
           </span>
-          <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-gray-100 dark:text-gray-100 light:text-gray-900 leading-tight">
+          <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-gray-900 dark:text-gray-100 leading-tight">
             My Creative Path.
           </h2>
           <div className="w-16 h-[2px] bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full mt-4" />
@@ -80,7 +80,7 @@ const Journey = () => {
             <div key={item.id} className="relative group">
               
               {/* Chronological year on the left (desktop only) */}
-              <div className="hidden md:block absolute -left-[240px] top-1.5 w-44 text-right font-heading font-extrabold text-lg text-gray-400 dark:text-gray-400 light:text-gray-600 transition-colors duration-300 group-hover:text-brand-primary">
+              <div className="hidden md:block absolute -left-[240px] top-1.5 w-44 text-right font-heading font-extrabold text-lg text-gray-600 dark:text-gray-400 transition-colors duration-300 group-hover:text-brand-primary">
                 {item.year}
               </div>
 
@@ -107,7 +107,7 @@ const Journey = () => {
                 </div>
 
                 <div className="mb-4">
-                  <h3 className="font-heading font-extrabold text-xl text-gray-100 dark:text-gray-100 light:text-gray-900 group-hover:text-brand-primary transition-colors duration-300">
+                  <h3 className="font-heading font-extrabold text-xl text-gray-900 dark:text-gray-100 group-hover:text-brand-primary transition-colors duration-300">
                     {item.role}
                   </h3>
                   <div className="font-mono text-xs text-brand-secondary tracking-widest uppercase mt-1">
@@ -115,16 +115,16 @@ const Journey = () => {
                   </div>
                 </div>
 
-                <p className="text-gray-400 dark:text-gray-400 light:text-gray-600 font-light text-sm leading-relaxed mb-6">
+                <p className="text-gray-600 dark:text-gray-400 font-light text-sm leading-relaxed mb-6">
                   {item.description}
                 </p>
 
                 {/* Highlights bullet points */}
-                <ul className="space-y-2 border-t border-white/5 dark:border-white/5 light:border-black/5 pt-6">
+                <ul className="space-y-2 border-t border-black/5 dark:border-white/5 pt-6">
                   {item.highlights.map((h, i) => (
                     <li
                       key={i}
-                      className="flex items-start gap-2.5 text-xs text-gray-400 dark:text-gray-400 light:text-gray-600 font-light leading-relaxed"
+                      className="flex items-start gap-2.5 text-xs text-gray-600 dark:text-gray-400 font-light leading-relaxed"
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-brand-primary mt-1.5 flex-shrink-0" />
                       <span>{h}</span>

@@ -91,7 +91,7 @@ const Contact = () => {
   return (
     <section
       id="contact"
-      className="relative min-h-screen w-full py-28 px-6 bg-[#0a0a0c] dark:bg-[#0a0a0c] light:bg-[#f8fafc] overflow-hidden flex items-center"
+      className="relative min-h-screen w-full py-28 px-6 bg-transparent overflow-hidden flex items-center"
     >
       {/* Background radial gradient */}
       <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-brand-secondary/5 rounded-full filter blur-3xl pointer-events-none" />
@@ -103,7 +103,7 @@ const Contact = () => {
           <span className="font-mono text-xs tracking-widest text-brand-primary uppercase block mb-3">
             04 &bull; Let's Connect
           </span>
-          <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-gray-100 dark:text-gray-100 light:text-gray-900 leading-tight">
+          <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-gray-900 dark:text-gray-100 leading-tight">
             Start a Conversation.
           </h2>
           <div className="w-16 h-[2px] bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full mt-4" />
@@ -114,7 +114,7 @@ const Contact = () => {
           {/* Contact Details & Info */}
           <div className="lg:col-span-2 space-y-8">
             <div className="max-w-md">
-              <p className="text-gray-300 dark:text-gray-300 light:text-gray-700 text-lg font-light leading-relaxed mb-6">
+              <p className="text-gray-700 dark:text-gray-300 text-lg font-light leading-relaxed mb-6">
                 Have a project idea, a job opportunity, or just want to chat about creative coding? Drop me a line! I am always open to exploring fresh concepts and collaborating on premium web environments.
               </p>
             </div>
@@ -124,24 +124,24 @@ const Contact = () => {
               {contactDetails.map((detail) => (
                 <div
                   key={detail.label}
-                  className="flex items-center gap-4 p-4 rounded-2xl glass-card border border-white/5"
+                  className="flex items-center gap-4 p-4 rounded-2xl glass-card border border-black/5 dark:border-white/5"
                 >
-                  <div className="p-3 rounded-xl bg-white/5 dark:bg-white/5 light:bg-black/5 flex-shrink-0">
+                  <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5 flex-shrink-0">
                     {detail.icon}
                   </div>
                   <div>
-                    <div className="text-[10px] font-mono uppercase text-gray-400 dark:text-gray-400 light:text-gray-600 tracking-widest">
+                    <div className="text-[10px] font-mono uppercase text-gray-600 dark:text-gray-400 tracking-widest">
                       {detail.label}
                     </div>
                     {detail.href ? (
                       <a
                         href={detail.href}
-                        className="text-sm font-sans text-gray-200 dark:text-gray-200 light:text-gray-800 hover:text-brand-primary transition-colors duration-300 interactive font-medium"
+                        className="text-sm font-sans text-gray-800 dark:text-gray-200 hover:text-brand-primary transition-colors duration-300 interactive font-medium"
                       >
                         {detail.value}
                       </a>
                     ) : (
-                      <div className="text-sm font-sans text-gray-300 dark:text-gray-300 light:text-gray-700 font-medium">
+                      <div className="text-sm font-sans text-gray-700 dark:text-gray-300 font-medium">
                         {detail.value}
                       </div>
                     )}
@@ -152,7 +152,7 @@ const Contact = () => {
 
             {/* Social Rings */}
             <div>
-              <div className="text-xs font-mono uppercase text-gray-400 dark:text-gray-400 light:text-gray-600 tracking-widest mb-4">
+              <div className="text-xs font-mono uppercase text-gray-600 dark:text-gray-400 tracking-widest mb-4">
                 FOLLOW MY ENDEAVORS
               </div>
               <div className="flex items-center gap-3">
@@ -162,7 +162,7 @@ const Contact = () => {
                     href={social.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="p-3 rounded-full border border-white/10 dark:border-white/10 light:border-black/10 glass-panel hover:bg-brand-primary/10 hover:border-brand-primary/30 hover:scale-110 transition-all duration-300 text-gray-300 dark:text-gray-300 light:text-gray-700 interactive"
+                    className="p-3 rounded-full border border-black/10 dark:border-white/10 glass-panel hover:bg-brand-primary/10 hover:border-brand-primary/30 hover:scale-110 transition-all duration-300 text-gray-700 dark:text-gray-300 interactive"
                     aria-label={`Visit my ${social.name}`}
                   >
                     {social.icon}
@@ -174,7 +174,7 @@ const Contact = () => {
 
           {/* Contact Form */}
           <div className="lg:col-span-3">
-            <div className="rounded-3xl glass-card border border-white/5 p-8 md:p-10">
+            <div className="rounded-3xl glass-card border border-black/5 dark:border-white/5 p-8 md:p-10">
               <form onSubmit={handleSubmit} className="space-y-6">
                 
                 {/* Name field */}
@@ -186,12 +186,12 @@ const Contact = () => {
                     required
                     value={formState.name}
                     onChange={handleChange}
-                    className="w-full bg-white/5 dark:bg-white/5 light:bg-black/5 border border-white/10 dark:border-white/10 light:border-black/10 rounded-2xl py-4 px-5 text-sm text-gray-100 dark:text-gray-100 light:text-gray-900 placeholder-transparent focus:outline-none focus:border-brand-primary transition-all duration-300 peer"
+                    className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 px-5 text-sm text-gray-900 dark:text-gray-100 placeholder-transparent focus:outline-none focus:border-brand-primary transition-all duration-300 peer"
                     placeholder="Your Name"
                   />
                   <label
                     htmlFor="name"
-                    className="absolute left-5 top-4 text-xs font-mono text-gray-400 dark:text-gray-400 light:text-gray-600 transition-all duration-300 pointer-events-none peer-placeholder-shown:text-sm peer-placeholder-shown:top-4.5 peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:text-brand-primary peer-[&:not(:placeholder-shown)]:top-1.5 peer-[&:not(:placeholder-shown)]:text-[10px]"
+                    className="absolute left-5 top-4 text-xs font-mono text-gray-600 dark:text-gray-400 transition-all duration-300 pointer-events-none peer-placeholder-shown:text-sm peer-placeholder-shown:top-4.5 peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:text-brand-primary peer-[&:not(:placeholder-shown)]:top-1.5 peer-[&:not(:placeholder-shown)]:text-[10px]"
                   >
                     YOUR NAME
                   </label>
@@ -206,12 +206,12 @@ const Contact = () => {
                     required
                     value={formState.email}
                     onChange={handleChange}
-                    className="w-full bg-white/5 dark:bg-white/5 light:bg-black/5 border border-white/10 dark:border-white/10 light:border-black/10 rounded-2xl py-4 px-5 text-sm text-gray-100 dark:text-gray-100 light:text-gray-900 placeholder-transparent focus:outline-none focus:border-brand-primary transition-all duration-300 peer"
+                    className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 px-5 text-sm text-gray-900 dark:text-gray-100 placeholder-transparent focus:outline-none focus:border-brand-primary transition-all duration-300 peer"
                     placeholder="Your Email"
                   />
                   <label
                     htmlFor="email"
-                    className="absolute left-5 top-4 text-xs font-mono text-gray-400 dark:text-gray-400 light:text-gray-600 transition-all duration-300 pointer-events-none peer-placeholder-shown:text-sm peer-placeholder-shown:top-4.5 peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:text-brand-primary peer-[&:not(:placeholder-shown)]:top-1.5 peer-[&:not(:placeholder-shown)]:text-[10px]"
+                    className="absolute left-5 top-4 text-xs font-mono text-gray-600 dark:text-gray-400 transition-all duration-300 pointer-events-none peer-placeholder-shown:text-sm peer-placeholder-shown:top-4.5 peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:text-brand-primary peer-[&:not(:placeholder-shown)]:top-1.5 peer-[&:not(:placeholder-shown)]:text-[10px]"
                   >
                     EMAIL ADDRESS
                   </label>
@@ -226,12 +226,12 @@ const Contact = () => {
                     rows={5}
                     value={formState.message}
                     onChange={handleChange}
-                    className="w-full bg-white/5 dark:bg-white/5 light:bg-black/5 border border-white/10 dark:border-white/10 light:border-black/10 rounded-2xl py-4 px-5 text-sm text-gray-100 dark:text-gray-100 light:text-gray-900 placeholder-transparent focus:outline-none focus:border-brand-primary transition-all duration-300 peer resize-none"
+                    className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 px-5 text-sm text-gray-900 dark:text-gray-100 placeholder-transparent focus:outline-none focus:border-brand-primary transition-all duration-300 peer resize-none"
                     placeholder="Your Message"
                   />
                   <label
                     htmlFor="message"
-                    className="absolute left-5 top-4 text-xs font-mono text-gray-400 dark:text-gray-400 light:text-gray-600 transition-all duration-300 pointer-events-none peer-placeholder-shown:text-sm peer-placeholder-shown:top-4.5 peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:text-brand-primary peer-[&:not(:placeholder-shown)]:top-1.5 peer-[&:not(:placeholder-shown)]:text-[10px]"
+                    className="absolute left-5 top-4 text-xs font-mono text-gray-600 dark:text-gray-400 transition-all duration-300 pointer-events-none peer-placeholder-shown:text-sm peer-placeholder-shown:top-4.5 peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:text-brand-primary peer-[&:not(:placeholder-shown)]:top-1.5 peer-[&:not(:placeholder-shown)]:text-[10px]"
                   >
                     PROJECT BRIEF / MESSAGE
                   </label>
@@ -241,10 +241,10 @@ const Contact = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-4 px-8 rounded-2xl bg-gradient-to-r from-brand-primary to-brand-secondary text-[#0a0a0c] dark:text-[#0a0a0c] light:text-[#ffffff] font-mono text-sm tracking-widest uppercase font-bold shadow-lg hover:shadow-brand-primary/25 hover:scale-[1.02] transition-all duration-300 interactive flex items-center justify-center gap-2.5 disabled:opacity-50 disabled:pointer-events-none"
+                  className="w-full py-4 px-8 rounded-2xl bg-gradient-to-r from-brand-primary to-brand-secondary text-white dark:text-[#0a0a0c] font-mono text-sm tracking-widest uppercase font-bold shadow-lg hover:shadow-brand-primary/25 hover:scale-[1.02] transition-all duration-300 interactive flex items-center justify-center gap-2.5 disabled:opacity-50 disabled:pointer-events-none"
                 >
                   {isSubmitting ? (
-                    <span className="w-5 h-5 border-2 border-[#0a0a0c] dark:border-[#0a0a0c] light:border-[#ffffff] border-t-transparent rounded-full animate-spin" />
+                    <span className="w-5 h-5 border-2 border-white dark:border-[#0a0a0c] border-t-transparent rounded-full animate-spin" />
                   ) : (
                     <>
                       Send Message <Send size={15} />

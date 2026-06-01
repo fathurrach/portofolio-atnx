@@ -45,7 +45,7 @@ const Hero = () => {
     <section
       id="home"
       ref={containerRef}
-      className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#0a0a0c] dark:bg-[#0a0a0c] light:bg-[#f8fafc] px-6 pt-20"
+      className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-transparent px-6 pt-20"
     >
       {/* Background grids */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.05),transparent_50%)] dark:bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.05),transparent_50%)] light:bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.02),transparent_50%)] pointer-events-none" />
@@ -62,7 +62,7 @@ const Hero = () => {
             stagger={0.08}
             split="letter"
             trigger="mount"
-            className={blurDone ? "shiny-title" : "text-white dark:text-white light:text-slate-900"}
+            className={blurDone ? "shiny-title" : "text-slate-900 dark:text-white"}
             onComplete={() => setBlurDone(true)}
           />
         </h1>
@@ -70,7 +70,7 @@ const Hero = () => {
         {/* Dynamic Tagline using TextType */}
         <p
           ref={subtitleRef}
-          className="opacity-0 text-base md:text-xl font-mono tracking-wide max-w-2xl text-gray-300 dark:text-gray-300 light:text-gray-700 font-light mb-8 leading-relaxed min-h-[3.5em] sm:min-h-[2.5em] flex items-center justify-center"
+          className="opacity-0 text-base md:text-xl font-mono tracking-wide max-w-2xl text-gray-700 dark:text-gray-300 font-light mb-8 leading-relaxed min-h-[3.5em] sm:min-h-[2.5em] flex items-center justify-center"
         >
           {showTypewriter && (
             <TextType
@@ -93,13 +93,13 @@ const Hero = () => {
         <div ref={ctaRef} className="opacity-0 flex flex-col sm:flex-row items-center gap-4">
           <a
             href="#portfolio"
-            className="w-full sm:w-auto flex items-center justify-center gap-2 py-3.5 px-8 rounded-full bg-gradient-to-r from-brand-primary to-brand-secondary text-[#0a0a0c] dark:text-[#0a0a0c] light:text-[#ffffff] font-mono text-sm tracking-wider shadow-lg hover:shadow-brand-primary/20 hover:scale-105 transition-all duration-300 interactive font-bold"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 py-3.5 px-8 rounded-full bg-gradient-to-r from-brand-primary to-brand-secondary text-white dark:text-[#0a0a0c] font-mono text-sm tracking-wider shadow-lg hover:shadow-brand-primary/20 hover:scale-105 transition-all duration-300 interactive font-bold"
           >
             Explore Projects <ArrowUpRight size={16} />
           </a>
           <a
             href="#contact"
-            className="w-full sm:w-auto flex items-center justify-center gap-2 py-3.5 px-8 rounded-full border border-white/10 dark:border-white/10 light:border-black/10 glass-panel hover:bg-white/5 hover:border-white/20 transition-all duration-300 interactive font-mono text-sm tracking-wider text-gray-300 dark:text-gray-300 light:text-gray-700"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 py-3.5 px-8 rounded-full border border-black/10 dark:border-white/10 glass-panel hover:bg-black/5 dark:hover:bg-white/5 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300 interactive font-mono text-sm tracking-wider text-gray-700 dark:text-gray-300"
           >
             Let's Talk
           </a>
@@ -116,7 +116,7 @@ const Hero = () => {
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-35 hidden md:block">
         <a
           href="#about"
-          className="flex flex-col items-center gap-2 text-gray-400 dark:text-gray-400 light:text-gray-600 hover:text-brand-primary transition-colors duration-300 font-mono text-xs tracking-widest uppercase interactive"
+          className="flex flex-col items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-brand-primary transition-colors duration-300 font-mono text-xs tracking-widest uppercase interactive"
         >
           Scroll Down
           <ArrowDown size={14} className="animate-bounce text-brand-primary" />

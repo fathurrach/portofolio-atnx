@@ -36,7 +36,7 @@ function App() {
       <Navbar theme={theme} toggleTheme={toggleTheme} />
 
       {/* App Main Layout Structure */}
-      <main className="w-full bg-[#0a0a0c] dark:bg-[#0a0a0c] light:bg-[#f8fafc] min-h-screen transition-colors duration-500 overflow-x-hidden">
+      <main className="w-full bg-transparent min-h-screen transition-colors duration-500 overflow-x-hidden">
         
         {/* Section 00: Home / Hero */}
         <Hero />
