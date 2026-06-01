@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Code2, Compass, Layers, Zap } from "lucide-react";
+import { Code2, Compass, Layers, Zap, Camera, Palette, Sparkles } from "lucide-react";
 
 const About = () => {
   const cardsRef = useRef<HTMLDivElement>(null);
@@ -32,6 +32,24 @@ const About = () => {
     { name: "Node.js", category: "backend" },
     { name: "REST / GraphQL", category: "backend" },
     { name: "Git / CI/CD", category: "tools" },
+  ];
+
+  const passions = [
+    {
+      icon: <Sparkles size={16} className="text-brand-primary animate-pulse" />,
+      title: "Vibe Coding",
+      desc: "Flowing with code, modern music, and aesthetic dark modes.",
+    },
+    {
+      icon: <Palette size={16} className="text-brand-secondary" />,
+      title: "Creative Design",
+      desc: "Crafting beautiful grids, micro-interactions, and visual layouts.",
+    },
+    {
+      icon: <Camera size={16} className="text-brand-accent" />,
+      title: "Photography",
+      desc: "Capturing architecture, streets, and human moments.",
+    },
   ];
 
   return (
@@ -72,7 +90,7 @@ const About = () => {
                 I am a passionate digital designer and developer focused on bringing stunning interface designs to life. I believe that websites should not just be functional tools, but immersive digital realms that invite exploration, drive interaction, and deliver lasting impressions.
               </p>
               <p className="text-slate-700 dark:text-gray-400 font-normal leading-relaxed">
-                By combining highly-optimized Canvas scripts, responsive flex modules, and micro-animated spring components, I bridge the gap between creative visual designs and high-performing production engineering.
+                By combining highly-optimized Canvas scripts, responsive layouts, and micro-animated elements, I bridge the gap between creative visual designs and clean frontend engineering. Off the keyboard, I'm usually vibe coding to modern beats, exploring photography through the lens, and experimenting with visual aesthetics.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-6 mt-6 border-t border-black/10 dark:border-t-white/5 pt-6 text-sm font-mono text-slate-700 dark:text-gray-400">
@@ -133,28 +151,57 @@ const About = () => {
           </div>
 
           {/* Tech Stack Card */}
-          <div className="md:col-span-3 rounded-3xl glass-card glow-card p-8 flex flex-col justify-between">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 rounded-xl bg-brand-primary/10 text-brand-primary">
-                <Code2 size={20} />
+          <div className="md:col-span-2 rounded-3xl glass-card glow-card p-8 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 rounded-xl bg-brand-primary/10 text-brand-primary">
+                  <Code2 size={20} />
+                </div>
+                <h3 className="font-heading font-bold text-lg text-black dark:text-white">
+                  Core Stack
+                </h3>
+              </div>
+              <div className="flex flex-wrap gap-2.5">
+                {skills.map((skill) => (
+                  <span
+                    key={skill.name}
+                    className="py-2 px-4 rounded-xl border border-black/10 dark:border-white/5 bg-black/5 dark:bg-white/5 font-mono text-xs text-slate-700 dark:text-gray-300 hover:border-brand-primary/30 hover:bg-brand-primary/5 transition-all duration-300 interactive"
+                  >
+                    {skill.name}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <p className="text-[10px] text-slate-600 dark:text-gray-400 mt-6 font-mono tracking-wide uppercase">
+              * Aligned with modern ECMAScript standards and optimized Vite infrastructures.
+            </p>
+          </div>
+
+          {/* Passions Card */}
+          <div className="rounded-3xl glass-card glow-card p-8 flex flex-col justify-between">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 rounded-xl bg-brand-secondary/10 text-brand-secondary">
+                <Compass size={20} />
               </div>
               <h3 className="font-heading font-bold text-lg text-black dark:text-white">
-                Core Stack
+                Passions
               </h3>
             </div>
-            <div className="flex flex-wrap gap-2.5">
-              {skills.map((skill) => (
-                <span
-                  key={skill.name}
-                  className="py-2 px-4 rounded-xl border border-black/10 dark:border-white/5 bg-black/5 dark:bg-white/5 font-mono text-xs text-slate-700 dark:text-gray-300 hover:border-brand-primary/30 hover:bg-brand-primary/5 transition-all duration-300 interactive"
-                >
-                  {skill.name}
-                </span>
+            <div className="space-y-3.5 my-auto">
+              {passions.map((passion, idx) => (
+                <div key={idx} className="flex gap-3 items-start">
+                  <div className="mt-0.5 flex-shrink-0">{passion.icon}</div>
+                  <div>
+                    <h4 className="text-xs font-mono font-bold uppercase text-black dark:text-white leading-none">
+                      {passion.title}
+                    </h4>
+                    <p className="text-[11px] text-slate-700 dark:text-gray-400 leading-normal mt-1 font-normal">
+                      {passion.desc}
+                    </p>
+                  </div>
+                </div>
               ))}
             </div>
-            <p className="text-xs text-slate-600 dark:text-gray-400 mt-6 font-mono tracking-wide">
-              * ALIGNED WITH MODERN ECMASCRIPT STANDARDS AND OPTIMIZED VITE INFRASTRUCTURES.
-            </p>
           </div>
         </div>
       </div>
