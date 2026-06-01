@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import CrowdCanvas from "./CrowdCanvas";
 import { BlurInText } from "./ui/blur-in-text";
 import { TextType } from "./ui/text-type";
@@ -112,16 +112,8 @@ const Hero = () => {
       {/* Bottom overlay for fading canvas and scroll indicator */}
       <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#f8fafc] dark:from-[#0a0a0c] to-transparent pointer-events-none z-20" />
 
-      {/* Scroll Down Button */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-35 hidden md:block">
-        <a
-          href="#about"
-          className="flex flex-col items-center gap-2 text-slate-700 dark:text-gray-400 hover:text-brand-primary transition-colors duration-300 font-mono text-xs tracking-widest uppercase interactive"
-        >
-          Scroll Down
-          <ArrowDown size={14} className="animate-bounce text-brand-primary" />
-        </a>
-      </div>
+
+
     </section>
   );
 };
