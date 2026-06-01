@@ -38,16 +38,6 @@ const Portfolio = () => {
       image: "/images/portfolio/jelajahbersama.webp",
       demoUrl: "https://jelajahbersama.atnx.my.id",
     },
-    {
-      id: 3,
-      title: "InstaCrop",
-      category: "Creative",
-      description:
-        "A React + TypeScript image cropping tool with AI caption generation.",
-      tags: ["React", "TypeScript", "AI Captioning", "Canvas API"],
-      image: "/images/portfolio/instacrop.webp",
-      demoUrl: "https://instacrop.atnx.my.id",
-    },
   ];
 
   const filteredProjects =
