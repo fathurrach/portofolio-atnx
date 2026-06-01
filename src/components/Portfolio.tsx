@@ -20,7 +20,7 @@ const Portfolio = () => {
   const projects: Project[] = [
     {
       id: 1,
-      title: "Lapor FM DDP",
+      title: "LAPOR FM DDP",
       category: "Apps",
       description:
         "A community report and complaint management platform designed to streamline communication and monitor issue resolution.",
