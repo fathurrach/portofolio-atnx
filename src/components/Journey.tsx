@@ -75,7 +75,7 @@ const Journey = () => {
         </div>
 
         {/* Timeline Layout */}
-        <div className="relative border-l border-white/10 dark:border-white/10 light:border-black/10 ml-4 md:ml-32 pl-8 md:pl-16 space-y-12">
+        <div className="relative border-l border-black/10 dark:border-l-white/10 ml-4 md:ml-32 pl-8 md:pl-16 space-y-12">
           {milestones.map((item) => (
             <div key={item.id} className="relative group">
               
@@ -85,7 +85,7 @@ const Journey = () => {
               </div>
 
               {/* Dynamic glowing bullet indicator */}
-              <span className="absolute -left-[41px] md:-left-[73px] top-1.5 w-6 h-6 rounded-full border-2 border-brand-primary bg-[#0a0a0c] dark:bg-[#0a0a0c] light:bg-[#f8fafc] flex items-center justify-center transition-all duration-500 group-hover:scale-125 group-hover:shadow-[0_0_15px_rgba(255,255,255,0.4)] z-25">
+              <span className="absolute -left-[41px] md:-left-[73px] top-1.5 w-6 h-6 rounded-full border-2 border-brand-primary bg-[#f8fafc] dark:bg-[#0a0a0c] flex items-center justify-center transition-all duration-500 group-hover:scale-125 group-hover:shadow-[0_0_15px_rgba(9,9,11,0.2)] dark:group-hover:shadow-[0_0_15px_rgba(255,255,255,0.4)] z-25">
                 <span className="w-2 h-2 rounded-full bg-brand-primary group-hover:bg-brand-secondary transition-colors duration-300" />
               </span>
 

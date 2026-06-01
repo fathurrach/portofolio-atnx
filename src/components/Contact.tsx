@@ -264,7 +264,7 @@ const Contact = () => {
         </div>
 
         {/* Footer info */}
-        <div className="mt-28 pt-8 border-t border-white/5 dark:border-white/5 light:border-black/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-gray-500">
+        <div className="mt-28 pt-8 border-t border-black/5 dark:border-t-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-gray-500">
           <div>&copy; {new Date().getFullYear()} ATNX. ALL RIGHTS RESERVED.</div>
           <div className="flex items-center gap-4">
             <a href="#home" className="hover:text-brand-primary transition-colors duration-300 interactive">BACK TO TOP</a>

@@ -48,8 +48,8 @@ const Hero = () => {
       className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-transparent px-6 pt-20"
     >
       {/* Background grids */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.05),transparent_50%)] dark:bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.05),transparent_50%)] light:bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.02),transparent_50%)] pointer-events-none" />
-      <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] light:bg-[linear-gradient(to_right,rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.02),transparent_50%)] dark:bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.05),transparent_50%)] pointer-events-none" />
+      <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
 
       {/* Main Hero Contents */}
       <div className="relative z-20 flex flex-col items-center justify-center text-center max-w-4xl mx-auto -translate-y-8">
@@ -110,7 +110,7 @@ const Hero = () => {
       <CrowdCanvas src="/images/peeps/all-peeps.png" rows={15} cols={7} />
 
       {/* Bottom overlay for fading canvas and scroll indicator */}
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#0a0a0c] to-transparent dark:from-[#0a0a0c] light:from-[#f8fafc] pointer-events-none z-20" />
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#f8fafc] dark:from-[#0a0a0c] to-transparent pointer-events-none z-20" />
 
       {/* Scroll Down Button */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-35 hidden md:block">

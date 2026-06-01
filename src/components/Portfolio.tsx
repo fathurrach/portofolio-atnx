@@ -97,7 +97,7 @@ const Portfolio = () => {
                 className={`py-2 px-6 rounded-xl font-mono text-xs tracking-wider transition-all duration-300 interactive ${
                   activeCategory === cat
                     ? "bg-brand-primary text-white dark:text-[#0a0a0c] shadow-md font-medium"
-                    : "text-gray-400 hover:text-gray-200"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
                 }`}
               >
                 {cat}
@@ -169,7 +169,7 @@ const Portfolio = () => {
                     <span className="text-black/10 dark:text-white/10">|</span>
                     <a
                       href={project.githubUrl}
-                      className="text-gray-600 dark:text-gray-400 hover:text-white font-mono text-xs tracking-widest uppercase interactive"
+                      className="text-gray-600 dark:text-gray-400 hover:text-brand-primary font-mono text-xs tracking-widest uppercase interactive"
                     >
                       Github
                     </a>

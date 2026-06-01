@@ -66,7 +66,7 @@ export const ThemeToggleButton1 = ({
       <button
         type="button"
         className={cn(
-          "rounded-full bg-black text-white dark:bg-black dark:text-white light:bg-gray-200 light:text-black transition-all duration-300 active:scale-95 w-10 h-10 p-2 flex items-center justify-center border border-white/10 dark:border-white/10 light:border-black/15 shadow-sm interactive cursor-pointer hover:border-brand-primary/30",
+          "rounded-full bg-gray-200 text-black border border-black/15 dark:bg-black dark:text-white dark:border-white/10 transition-all duration-300 active:scale-95 w-10 h-10 p-2 flex items-center justify-center shadow-sm interactive cursor-pointer hover:border-brand-primary/30",
           className,
         )}
         onClick={handleToggle}
