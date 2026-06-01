@@ -4,6 +4,7 @@ import Hero from "./components/Hero";
 import About from "./components/About";
 import Portfolio from "./components/Portfolio";
 import Journey from "./components/Journey";
+import Photography from "./components/Photography";
 import Contact from "./components/Contact";
 
 function App() {
@@ -55,7 +56,10 @@ function App() {
         {/* Section 03: Experience Timeline */}
         <Journey />
 
-        {/* Section 04: Futuristic Connect Form */}
+        {/* Section 04: Photography Gallery */}
+        <Photography />
+
+        {/* Section 05: Futuristic Connect Form */}
         <Contact />
 
       </main>

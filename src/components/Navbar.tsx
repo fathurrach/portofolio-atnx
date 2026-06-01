@@ -17,6 +17,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
     { name: "About", href: "#about" },
     { name: "Portfolio", href: "#portfolio" },
     { name: "Journey", href: "#journey" },
+    { name: "Photography", href: "#photography" },
     { name: "Contact", href: "#contact" },
   ];
 
