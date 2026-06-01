@@ -20,23 +20,33 @@ const Portfolio = () => {
   const projects: Project[] = [
     {
       id: 1,
-      title: "LAPOR FM DDP",
+      title: "LAPOR FM",
       category: "Apps",
       description:
-        "A community report and complaint management platform designed to streamline communication and monitor issue resolution.",
-      tags: ["Next.js", "React", "Tailwind CSS", "Vercel"],
+        "A full-stack facility management platform with real-time incident reporting, room booking, and admin oversight.",
+      tags: ["NestJS", "SvelteKit", "Supabase", "Socket.io"],
       image: "/images/portfolio/laporfm.webp",
       demoUrl: "https://laporfm.web.id",
     },
     {
       id: 2,
-      title: "Jelajah Bersama",
+      title: "JelajahBersama",
       category: "Apps",
       description:
-        "A collaborative travel itinerary and tour booking platform designed to connect adventurers and map out group journeys.",
-      tags: ["React", "Vite", "Tailwind CSS", "Framer Motion"],
+        "An AI-powered travel app with Gemini fallback chains and real-time trip planning.",
+      tags: ["SvelteKit", "NestJS", "Gemini AI"],
       image: "/images/portfolio/jelajahbersama.webp",
       demoUrl: "https://jelajahbersama.atnx.my.id",
+    },
+    {
+      id: 3,
+      title: "InstaCrop",
+      category: "Creative",
+      description:
+        "A React + TypeScript image cropping tool with AI caption generation.",
+      tags: ["React", "TypeScript", "AI Captioning", "Canvas API"],
+      image: "/images/portfolio/instacrop.webp",
+      demoUrl: "https://instacrop.atnx.my.id",
     },
   ];
 

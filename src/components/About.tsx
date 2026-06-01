@@ -24,31 +24,31 @@ const About = () => {
   }, []);
 
   const skills = [
-    { name: "React / Next.js", category: "frontend" },
-    { name: "TypeScript", category: "language" },
-    { name: "GSAP Animation", category: "creative" },
-    { name: "Tailwind CSS v4", category: "styling" },
-    { name: "HTML5 / Canvas", category: "creative" },
-    { name: "Node.js", category: "backend" },
-    { name: "REST / GraphQL", category: "backend" },
-    { name: "Git / CI/CD", category: "tools" },
+    { name: "Network Engineering", category: "network" },
+    { name: "Artificial Intelligence (AI)", category: "ai" },
+    { name: "Google Cloud Platform (GCP)", category: "cloud" },
+    { name: "AIOps", category: "ops" },
+    { name: "Technical Support", category: "support" },
+    { name: "React / SvelteKit", category: "frontend" },
+    { name: "TypeScript / Python", category: "languages" },
+    { name: "NestJS / Supabase", category: "backend" },
   ];
 
   const passions = [
     {
       icon: <Sparkles size={16} className="text-brand-primary animate-pulse" />,
       title: "Vibe Coding",
-      desc: "Flowing with code, modern music, and aesthetic dark modes.",
+      desc: "Flowing with code, modern music, and clean workspace layouts. Building tools to make work smarter.",
     },
     {
       icon: <Palette size={16} className="text-brand-secondary" />,
       title: "Creative Design",
-      desc: "Crafting beautiful grids, micro-interactions, and visual layouts.",
+      desc: "Crafting beautiful layouts and responsive modules. Making sure every detail is polished.",
     },
     {
       icon: <Camera size={16} className="text-brand-accent" />,
       title: "Photography",
-      desc: "Capturing architecture, streets, and human moments.",
+      desc: "Shooting photos taught me how to slow down, frame properly, and pay attention to detail.",
     },
   ];
 
@@ -87,15 +87,15 @@ const About = () => {
                 </h3>
               </div>
               <p className="text-slate-800 dark:text-gray-300 text-lg font-light leading-relaxed mb-6">
-                I am a passionate digital designer and developer focused on bringing stunning interface designs to life. I believe that websites should not just be functional tools, but immersive digital realms that invite exploration, drive interaction, and deliver lasting impressions.
+                I'm the person who gets called when the network goes down — and then stays up late building a dashboard to make sure it never happens again.
               </p>
               <p className="text-slate-700 dark:text-gray-400 font-normal leading-relaxed">
-                By combining highly-optimized Canvas scripts, responsive layouts, and micro-animated elements, I bridge the gap between creative visual designs and clean frontend engineering. Off the keyboard, I'm usually vibe coding to modern beats, exploring photography through the lens, and experimenting with visual aesthetics.
+                By day, I work in Technical Digital Support, managing network infrastructure across multiple sites using UniFi. But I rarely stop at just "fixing things." I build internal tools, write Python scripts, and automate whatever I can to make the job smarter — not just faster. I believe the best support engineers aren't just troubleshooters. They're builders.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-6 mt-6 border-t border-black/10 dark:border-t-white/5 pt-6 text-sm font-mono text-slate-700 dark:text-gray-400">
               <div>LOCATION: INDONESIA</div>
-              <div>SPECIALTY: CREATIVE FRONTEND</div>
+              <div>SPECIALTY: NETWORK & TOOLING</div>
             </div>
           </div>
 
@@ -110,10 +110,10 @@ const About = () => {
               </h3>
             </div>
             <p className="text-slate-700 dark:text-gray-400 text-sm font-normal leading-relaxed">
-              Performance is just as important as visual beauty. 60 FPS frame rates, native semantic markups, and structural accessibility are core values integrated into every single line of my codebase.
+              Every project starts with a problem I actually want to solve — and ends with something I'm not embarrassed to ship.
             </p>
             <span className="text-xs font-mono text-brand-secondary uppercase tracking-widest">
-              Pixel Perfect
+              Core Principles
             </span>
           </div>
 
@@ -130,10 +130,10 @@ const About = () => {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <div className="text-3xl font-heading font-extrabold text-brand-primary">
-                  4+
+                  6+
                 </div>
                 <div className="text-xs text-slate-700 dark:text-gray-400 font-mono mt-1">
-                  YEARS CODING
+                  YEARS WORKED
                 </div>
               </div>
               <div>
@@ -158,7 +158,7 @@ const About = () => {
                   <Code2 size={20} />
                 </div>
                 <h3 className="font-heading font-bold text-lg text-black dark:text-white">
-                  Core Stack
+                  Top Skills & Tech
                 </h3>
               </div>
               <div className="flex flex-wrap gap-2.5">
@@ -173,7 +173,7 @@ const About = () => {
               </div>
             </div>
             <p className="text-[10px] text-slate-600 dark:text-gray-400 mt-6 font-mono tracking-wide uppercase">
-              * Aligned with modern ECMAScript standards and optimized Vite infrastructures.
+              * Aligned with modern industry standards and automated workflow architectures.
             </p>
           </div>
 
