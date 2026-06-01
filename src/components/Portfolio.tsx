@@ -20,17 +20,6 @@ const Portfolio = () => {
   const projects: Project[] = [
     {
       id: 1,
-      title: "ATNX Interactive Portfolio",
-      category: "Creative",
-      description:
-        "A premium developer portfolio featuring a custom HTML5 canvas crowd simulation, GSAP spring animations, and smooth theme transitions.",
-      tags: ["React", "HTML5 Canvas", "GSAP", "Tailwind CSS v4"],
-      image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80",
-      demoUrl: "https://portofolio-atnx.vercel.app",
-      githubUrl: "https://github.com/fathurrach/portofolio-atnx",
-    },
-    {
-      id: 2,
       title: "Lapor FM DDP",
       category: "Apps",
       description:
@@ -41,7 +30,7 @@ const Portfolio = () => {
       githubUrl: "https://github.com/fathurrach/LAPOR_FM_DDP",
     },
     {
-      id: 3,
+      id: 2,
       title: "Jelajah Bersama",
       category: "Apps",
       description:
@@ -50,28 +39,6 @@ const Portfolio = () => {
       image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
       demoUrl: "https://jelajahbersama.atnx.my.id",
       githubUrl: "https://github.com/fathurrach/JelajahBersama",
-    },
-    {
-      id: 4,
-      title: "Jira Commands",
-      category: "Apps",
-      description:
-        "A command-line toolkit and API provider for Jira, designed for terminal users, automation scripts, and custom AI bots.",
-      tags: ["Node.js", "Jira API", "CLI", "TypeScript"],
-      image: "https://images.unsplash.com/photo-1618401471353-b98aedd07871?auto=format&fit=crop&w=800&q=80",
-      demoUrl: "http://jirac.keton.id/",
-      githubUrl: "https://github.com/fathurrach/jira-commands",
-    },
-    {
-      id: 5,
-      title: "Kimshie AI",
-      category: "UI/UX",
-      description:
-        "An intelligent personal assistant chatbot designed to handle tasks, manage routines, and track conversational context.",
-      tags: ["React", "AI API", "Tailwind CSS", "Vite"],
-      image: "https://images.unsplash.com/photo-1531747118685-ca8fa6e08806?auto=format&fit=crop&w=800&q=80",
-      demoUrl: "https://github.com/fathurrach/Kimshie",
-      githubUrl: "https://github.com/fathurrach/Kimshie",
     },
   ];
 
