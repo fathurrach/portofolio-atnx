@@ -1,0 +1,187 @@
+import { useState } from "react";
+import { ArrowUpRight, FolderGit2 } from "lucide-react";
+
+interface Project {
+  id: number;
+  title: string;
+  category: "Creative" | "Apps" | "UI/UX";
+  description: string;
+  tags: string[];
+  image: string;
+  demoUrl: string;
+  githubUrl: string;
+}
+
+const Portfolio = () => {
+  const [activeCategory, setActiveCategory] = useState<string>("All");
+
+  const categories = ["All", "Creative", "Apps", "UI/UX"];
+
+  const projects: Project[] = [
+    {
+      id: 1,
+      title: "Crowd Canvas Simulator",
+      category: "Creative",
+      description:
+        "An advanced HTML5 Canvas crowd simulation using GSAP timeline tweens, custom sprite grids, and interactive mouse-tracking fields.",
+      tags: ["React", "HTML5 Canvas", "GSAP", "TypeScript"],
+      image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80",
+      demoUrl: "#home",
+      githubUrl: "https://github.com",
+    },
+    {
+      id: 2,
+      title: "Aura Spatial UI",
+      category: "UI/UX",
+      description:
+        "A futuristic glassmorphic spatial dashboard integrating Web Audio API nodes, custom physics nodes, and CSS Grid layout parameters.",
+      tags: ["Next.js", "Web Audio API", "Tailwind CSS v4"],
+      image: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=800&q=80",
+      demoUrl: "https://github.com",
+      githubUrl: "https://github.com",
+    },
+    {
+      id: 3,
+      title: "Metamorphosis 3D Shaders",
+      category: "Creative",
+      description:
+        "An immersive WebGL experience animating interactive particle clouds and shape morphing custom vertex/fragment shaders.",
+      tags: ["WebGL", "Three.js", "GLSL", "Vite"],
+      image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
+      demoUrl: "https://github.com",
+      githubUrl: "https://github.com",
+    },
+    {
+      id: 4,
+      title: "Quantum Commerce",
+      category: "Apps",
+      description:
+        "A highly scalable headless e-commerce store with high performance metrics, micro-interaction transitions, and structured checkout schemas.",
+      tags: ["React", "GraphQL", "Node.js", "Stripe"],
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+      demoUrl: "https://github.com",
+      githubUrl: "https://github.com",
+    },
+  ];
+
+  const filteredProjects =
+    activeCategory === "All"
+      ? projects
+      : projects.filter((p) => p.category === activeCategory);
+
+  return (
+    <section
+      id="portfolio"
+      className="relative min-h-screen w-full py-28 px-6 bg-[#0a0a0c] dark:bg-[#0a0a0c] light:bg-[#f8fafc] overflow-hidden"
+    >
+      <div className="max-w-7xl mx-auto w-full relative z-20">
+        
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <div className="max-w-xl">
+            <span className="font-mono text-xs tracking-widest text-brand-primary uppercase block mb-3">
+              02 &bull; Showcase
+            </span>
+            <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-gray-100 dark:text-gray-100 light:text-gray-900 leading-tight">
+              Selected Creations.
+            </h2>
+            <div className="w-16 h-[2px] bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full mt-4" />
+          </div>
+
+          {/* Filters */}
+          <div className="flex flex-wrap gap-2.5 p-1 rounded-2xl glass-panel self-start md:self-auto border border-white/5">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`py-2 px-6 rounded-xl font-mono text-xs tracking-wider transition-all duration-300 interactive ${
+                  activeCategory === cat
+                    ? "bg-brand-primary text-[#0a0a0c] dark:text-[#0a0a0c] light:text-[#ffffff] shadow-md font-medium"
+                    : "text-gray-400 hover:text-gray-200"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Project Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {filteredProjects.map((project, idx) => (
+            <div
+              key={project.id}
+              className="group rounded-3xl glass-card border border-white/5 overflow-hidden flex flex-col justify-between"
+            >
+              {/* Project Image */}
+              <div className="relative overflow-hidden aspect-video">
+                {/* Overlay index */}
+                <div className="absolute top-6 left-6 z-25 font-heading font-extrabold text-lg text-white/50 py-1.5 px-3 rounded-xl bg-black/40 backdrop-blur-md">
+                  0{idx + 1}
+                </div>
+                {/* Category label */}
+                <div className="absolute top-6 right-6 z-25 font-mono text-xs tracking-wider text-brand-secondary py-1.5 px-3.5 rounded-xl bg-brand-secondary/15 backdrop-blur-md border border-brand-secondary/20 uppercase font-medium">
+                  {project.category}
+                </div>
+                {/* Image element with zoom */}
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none opacity-90" />
+              </div>
+
+              {/* Project info */}
+              <div className="p-8 flex-grow flex flex-col justify-between">
+                <div>
+                  <h3 className="font-heading font-extrabold text-2xl text-gray-100 dark:text-gray-100 light:text-gray-900 group-hover:text-brand-primary transition-colors duration-300 mb-4 flex items-center justify-between">
+                    {project.title}
+                    <FolderGit2 className="opacity-30 group-hover:opacity-75 group-hover:text-brand-primary transition-all duration-300" size={20} />
+                  </h3>
+                  <p className="text-gray-400 dark:text-gray-400 light:text-gray-600 font-light text-sm leading-relaxed mb-6">
+                    {project.description}
+                  </p>
+                </div>
+
+                <div>
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="py-1 px-2.5 rounded-lg border border-white/5 dark:border-white/5 light:border-black/5 bg-white/5 dark:bg-white/5 light:bg-black/5 font-mono text-[10px] text-gray-400 dark:text-gray-400 light:text-gray-600"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex items-center gap-4 border-t border-white/5 dark:border-white/5 light:border-black/5 pt-6">
+                    <a
+                      href={project.demoUrl}
+                      className="flex items-center gap-2 text-brand-primary font-mono text-xs tracking-widest uppercase hover:underline interactive font-bold"
+                    >
+                      Live Demo <ArrowUpRight size={14} />
+                    </a>
+                    <span className="text-white/10 dark:text-white/10 light:text-black/10">|</span>
+                    <a
+                      href={project.githubUrl}
+                      className="text-gray-400 hover:text-white font-mono text-xs tracking-widest uppercase interactive"
+                    >
+                      Github
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Portfolio;
