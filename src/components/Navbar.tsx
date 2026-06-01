@@ -21,12 +21,12 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
   const hamburgerRef = useRef<HTMLButtonElement>(null);
 
   const navLinks = [
-    { name: "Home", href: "#home", num: "01" },
-    { name: "About", href: "#about", num: "02" },
-    { name: "Portfolio", href: "#portfolio", num: "03" },
-    { name: "Journey", href: "#journey", num: "04" },
-    { name: "Gallery", href: "#photography", num: "05" },
-    { name: "Contact", href: "#contact", num: "06" },
+    { name: "Home", href: "#home" },
+    { name: "About", href: "#about" },
+    { name: "Portfolio", href: "#portfolio" },
+    { name: "Journey", href: "#journey" },
+    { name: "Gallery", href: "#photography" },
+    { name: "Contact", href: "#contact" },
   ];
 
   // Move pill indicator to the active link
@@ -224,21 +224,12 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                   data-section={id}
                   onMouseMove={handleLinkMouseMove}
                   onMouseLeave={handleLinkMouseLeave}
-                  className={`nav-link relative z-10 flex items-center gap-1.5 py-2 px-4 rounded-xl font-mono text-xs tracking-wider transition-all duration-300 interactive opacity-0 ${
+                  className={`nav-link relative z-10 py-2 px-4 rounded-xl font-mono text-xs tracking-wider transition-all duration-300 interactive opacity-0 ${
                     isActive
                       ? "text-brand-primary font-bold"
                       : "text-slate-600 dark:text-gray-400 hover:text-brand-primary"
                   }`}
                 >
-                  <span
-                    className={`text-[9px] font-mono transition-colors duration-300 ${
-                      isActive
-                        ? "text-brand-primary"
-                        : "text-slate-400 dark:text-gray-500"
-                    }`}
-                  >
-                    {link.num}
-                  </span>
                   {link.name}
                 </a>
               );
@@ -306,19 +297,8 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                 key={link.name}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className={`mobile-link flex items-center gap-4 py-4 border-b border-black/5 dark:border-white/5 transition-all duration-300 group ${
-                  isActive ? "" : ""
-                }`}
+                className={`mobile-link flex items-center gap-4 py-4 border-b border-black/5 dark:border-white/5 transition-all duration-300 group`}
               >
-                <span
-                  className={`font-mono text-xs tracking-widest transition-colors duration-300 w-8 ${
-                    isActive
-                      ? "text-brand-primary"
-                      : "text-slate-400 dark:text-gray-600 group-hover:text-brand-primary"
-                  }`}
-                >
-                  {link.num}
-                </span>
                 <span
                   className={`font-heading text-2xl md:text-3xl tracking-wide transition-all duration-300 ${
                     isActive
