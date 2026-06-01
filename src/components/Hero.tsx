@@ -54,7 +54,7 @@ const Hero = () => {
       {/* Main Hero Contents */}
       <div className="relative z-20 flex flex-col items-center justify-center text-center max-w-4xl mx-auto -translate-y-8">
         
-        <h1 className="relative text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-heading font-extrabold tracking-wider leading-none mb-8 uppercase select-none whitespace-nowrap drop-shadow-[0_2px_10px_rgba(255,255,255,0.05)]">
+        <h1 className="relative text-[5.2vw] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-heading font-extrabold tracking-wider leading-none mb-8 uppercase select-none whitespace-nowrap drop-shadow-[0_2px_10px_rgba(255,255,255,0.05)]">
           <BlurInText
             text="ATNX in your area"
             blurAmount={12}
