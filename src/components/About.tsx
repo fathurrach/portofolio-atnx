@@ -25,13 +25,15 @@ const About = () => {
 
   const skills = [
     { name: "Network Engineering", category: "network" },
-    { name: "Artificial Intelligence (AI)", category: "ai" },
     { name: "Google Cloud Platform (GCP)", category: "cloud" },
+    { name: "Artificial Intelligence (AI)", category: "ai" },
     { name: "AIOps", category: "ops" },
     { name: "Technical Support", category: "support" },
-    { name: "React / SvelteKit", category: "frontend" },
-    { name: "TypeScript / Python", category: "languages" },
-    { name: "NestJS / Supabase", category: "backend" },
+    { name: "Web Development", category: "web" },
+    { name: "Front-End Design", category: "design" },
+    { name: "Responsive Web Design", category: "design" },
+    { name: "Database Development", category: "database" },
+    { name: "Vibe Coding", category: "creative" },
   ];
 
   const passions = [

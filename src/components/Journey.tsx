@@ -27,7 +27,7 @@ const Journey = () => {
         "Identify and resolve issues like offline APs, elevated TX retry rates, and WAN connectivity drops",
         "Bridge the gap between network engineering and tooling — if the data exists, it should be visible"
       ],
-      skills: ["Network Engineering", "Technical Support", "UniFi Infrastructure", "Python Dashboards", "Network Monitoring", "Troubleshooting"]
+      skills: ["Network Engineering", "Technical Support", "AIOps", "Google Cloud Platform (GCP)", "Artificial Intelligence (AI)"]
     },
     {
       id: 2,
