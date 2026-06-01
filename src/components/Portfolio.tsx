@@ -87,7 +87,7 @@ const Portfolio = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div className="max-w-xl">
             <span className="font-mono text-xs tracking-widest text-brand-primary uppercase block mb-3">
-              02 &bull; Showcase
+              Showcase
             </span>
             <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-black dark:text-white leading-tight">
               Selected Creations.

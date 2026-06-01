@@ -138,7 +138,7 @@ const Journey = () => {
         {/* Section Header */}
         <div className="mb-20 max-w-xl">
           <span className="font-mono text-xs tracking-widest text-brand-primary uppercase block mb-3">
-            03 &bull; Milestones
+            Milestones
           </span>
           <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-black dark:text-white leading-tight">
             My Creative Path.
