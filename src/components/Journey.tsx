@@ -1,4 +1,4 @@
-import { Calendar, Briefcase, Award } from "lucide-react";
+import { Calendar, Briefcase, Award, GraduationCap } from "lucide-react";
 
 interface Milestone {
   id: number;
@@ -8,48 +8,40 @@ interface Milestone {
   description: string;
   type: "job" | "award" | "education";
   highlights: string[];
+  skills?: string[];
 }
 
 const Journey = () => {
   const milestones: Milestone[] = [
     {
       id: 1,
-      year: "2024 - Present",
-      role: "Creative Frontend Developer",
-      company: "Aetherial Labs",
+      year: "Feb 2020 - Present",
+      role: "Digital Technical Support",
+      company: "Telkom Indonesia",
       description:
-        "Leading interactive design implementations and crafting high-fidelity marketing experiences utilizing WebGL frameworks, GSAP, and reactive modules.",
+        "Managing and maintaining network infrastructure across multiple sites — from keeping access points online to making sure every connection performs at its best.\n\nDay-to-day, I handle technical support operations, monitor network health across 13+ sites using UniFi infrastructure, and troubleshoot issues before they become outages. But I don't stop at fixing — I build tools to make the work smarter.",
       type: "job",
       highlights: [
-        "Rebuilt the primary interactive crowd simulation pipeline for brand assets, optimizing render cycles by 40%.",
-        "Orchestrated cross-functional UI component systems based on modern TypeScript architectures.",
+        "Manage and optimize UniFi network infrastructure across multiple locations",
+        "Built an internal Python dashboard to monitor real-time network status across all sites",
+        "Identify and resolve issues like offline APs, elevated TX retry rates, and WAN connectivity drops",
+        "Bridge the gap between network engineering and tooling — if the data exists, it should be visible"
       ],
+      skills: ["Network Engineering", "Technical Support", "UniFi Infrastructure", "Python Dashboards", "Network Monitoring", "Troubleshooting"]
     },
     {
       id: 2,
-      year: "2022 - 2024",
-      role: "Interaction Developer",
-      company: "Neom Studio",
+      year: "Jun 2014 - Jun 2017",
+      role: "Vocational High School Student",
+      company: "SMK Satya Bhakti 1",
       description:
-        "Developed custom creative web apps, particle animations, and web-based canvas assets. Designed core animations using CSS Scroll-driven timelines and SVG morphs.",
-      type: "job",
+        "Completed vocational education with a focus on computer science and technical systems, gaining hands-on hardware and networking fundamentals.",
+      type: "education",
       highlights: [
-        "Crafted robust micro-interactions for high-traffic financial applications.",
-        "Built responsive landing structures featuring glassmorphic animations and clean layout systems.",
+        "Studied computer systems assembly, peripheral installation, and standard network setups.",
+        "Acquired foundational training in operating systems configuration and hardware troubleshooting."
       ],
-    },
-    {
-      id: 3,
-      year: "2021",
-      role: "Best Creative Web Experience",
-      company: "CSS Design Awards",
-      description:
-        "Recognized globally for the immersive spatial showcase site 'Metamorphosis' combining GLSL pixel shader distortions and smooth layouts.",
-      type: "award",
-      highlights: [
-        "Honored with Special Kudos, Best UI Design, and Best Innovation.",
-        "Featured on Awwwards as one of the curated creative works of the month.",
-      ],
+      skills: ["Computer Systems", "Network Setup", "Hardware Troubleshooting", "Operating Systems"]
     },
   ];
 
@@ -101,6 +93,8 @@ const Journey = () => {
                 <div className="absolute top-8 right-8 text-gray-500 group-hover:text-brand-primary transition-colors duration-300">
                   {item.type === "job" ? (
                     <Briefcase size={18} />
+                  ) : item.type === "education" ? (
+                    <GraduationCap size={18} />
                   ) : (
                     <Award size={18} />
                   )}
@@ -115,7 +109,7 @@ const Journey = () => {
                   </div>
                 </div>
 
-                <p className="text-slate-700 dark:text-gray-400 font-normal text-sm leading-relaxed mb-6">
+                <p className="text-slate-700 dark:text-gray-400 font-normal text-sm leading-relaxed mb-6 whitespace-pre-line">
                   {item.description}
                 </p>
 
@@ -131,6 +125,22 @@ const Journey = () => {
                     </li>
                   ))}
                 </ul>
+
+                {/* Skills badges */}
+                {item.skills && (
+                  <div className="mt-6 pt-4 border-t border-black/10 dark:border-white/5">
+                    <div className="flex flex-wrap gap-2">
+                      {item.skills.map((skill, index) => (
+                        <span
+                          key={index}
+                          className="px-2.5 py-1 rounded-full text-[10px] font-mono font-medium bg-black/[0.05] dark:bg-white/[0.05] text-slate-800 dark:text-zinc-300 border border-black/5 dark:border-white/5 uppercase tracking-wider"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           ))}
