@@ -42,7 +42,7 @@ const SmoothScroll = () => {
         const href = anchor.getAttribute("href");
         if (href && href.startsWith("#") && href.length > 1) {
           e.preventDefault();
-          const targetEl = document.querySelector(href);
+          const targetEl = document.querySelector(href) as HTMLElement | null;
           if (targetEl) {
             // Apply slight offset if navbar is fixed
             const offset = href === "#home" ? 0 : -80;

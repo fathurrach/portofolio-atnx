@@ -37,7 +37,7 @@ export const TextReveal = ({
       rotate: 0,
       transition: {
         duration: duration,
-        ease: [0.16, 1, 0.3, 1], // Custom ultra-smooth cubic-bezier (out-expo style)
+        ease: [0.16, 1, 0.3, 1] as any, // Custom ultra-smooth cubic-bezier (out-expo style)
       },
     },
   };
