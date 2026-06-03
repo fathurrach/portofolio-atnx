@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -6,8 +6,19 @@ import Portfolio from "./components/Portfolio";
 import Journey from "./components/Journey";
 import Photography from "./components/Photography";
 import Contact from "./components/Contact";
+import LoadingScreen from "./components/LoadingScreen";
+import SmoothScroll from "./components/SmoothScroll";
+
 
 function App() {
+  const [isLoading, setIsLoading] = useState(() => {
+    // Show loader only once per session
+    if (typeof window !== "undefined") {
+      const hasLoaded = sessionStorage.getItem("hasLoadedBefore");
+      return hasLoaded !== "true";
+    }
+    return true;
+  });
   const [theme, setTheme] = useState<"dark" | "light">(() => {
     const saved = localStorage.getItem("theme");
     if (saved === "dark" || saved === "light") return saved;
@@ -36,8 +47,19 @@ function App() {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
+  const handleLoadingComplete = useCallback(() => {
+    setIsLoading(false);
+    sessionStorage.setItem("hasLoadedBefore", "true");
+  }, []);
+
   return (
     <>
+      {/* Smooth Scroll Integration */}
+      <SmoothScroll />
+
+      {/* Loading Screen */}
+      {isLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
+
       {/* Floating glassmorphic header */}
       <Navbar theme={theme} toggleTheme={toggleTheme} />
 

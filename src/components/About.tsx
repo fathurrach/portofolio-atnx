@@ -2,11 +2,14 @@ import { useEffect, useRef } from "react";
 import { Code2, Compass, Layers, Zap, Camera, Palette, Sparkles } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import TextReveal from "./ui/text-reveal";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
   const cardsRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const cards = cardsRef.current?.querySelectorAll(".glow-card");
@@ -56,6 +59,32 @@ const About = () => {
     };
   }, []);
 
+  // Header scroll reveal
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      if (headerRef.current) {
+        gsap.fromTo(
+          headerRef.current.children,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: headerRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   const skills = [
     { name: "Network Engineering", category: "network" },
     { name: "Google Cloud Platform (GCP)", category: "cloud" },
@@ -90,17 +119,18 @@ const About = () => {
   return (
     <section
       id="about"
+      ref={sectionRef}
       className="relative min-h-screen w-full py-28 px-6 bg-transparent overflow-hidden flex flex-col justify-center"
     >
       <div className="max-w-7xl mx-auto w-full relative z-20">
         
         {/* Section Header */}
-        <div className="mb-16 max-w-xl">
+        <div ref={headerRef} className="mb-16 max-w-xl">
           <span className="font-mono text-xs tracking-widest text-brand-primary uppercase block mb-3">
             Biography
           </span>
           <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-black dark:text-white leading-tight">
-            Crafting the interactive web.
+            <TextReveal text="Crafting the interactive web." />
           </h2>
           <div className="w-16 h-[2px] bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full mt-4" />
         </div>

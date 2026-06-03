@@ -1,5 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Send, Mail, MapPin, Clock } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import TextReveal from "./ui/text-reveal";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Contact = () => {
   const [formState, setFormState] = useState({
@@ -113,10 +118,102 @@ const Contact = () => {
     },
   ];
 
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const leftColRef = useRef<HTMLDivElement>(null);
+  const formColRef = useRef<HTMLDivElement>(null);
+  const footerLogoRef = useRef<HTMLDivElement>(null);
+
+  // GSAP ScrollTrigger animations
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Header stagger
+      if (headerRef.current) {
+        gsap.fromTo(
+          headerRef.current.children,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: headerRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+
+      // Left column - slide from left
+      if (leftColRef.current) {
+        gsap.fromTo(
+          leftColRef.current.children,
+          { opacity: 0, x: -40 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.7,
+            stagger: 0.12,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: leftColRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+
+      // Form column - slide from right
+      if (formColRef.current) {
+        gsap.fromTo(
+          formColRef.current,
+          { opacity: 0, x: 40, scale: 0.97 },
+          {
+            opacity: 1,
+            x: 0,
+            scale: 1,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: formColRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+
+      // Footer logo - fade up
+      if (footerLogoRef.current) {
+        gsap.fromTo(
+          footerLogoRef.current,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: footerLogoRef.current,
+              start: "top 95%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section
       id="contact"
+      ref={sectionRef}
       className="relative min-h-screen w-full py-28 px-6 bg-transparent overflow-hidden flex items-center"
     >
       {/* Background radial gradient */}
@@ -125,12 +222,12 @@ const Contact = () => {
       <div className="max-w-7xl mx-auto w-full relative z-20">
         
         {/* Section Header */}
-        <div className="mb-20 max-w-xl">
+        <div ref={headerRef} className="mb-20 max-w-xl">
           <span className="font-mono text-xs tracking-widest text-brand-primary uppercase block mb-3">
             Let's Connect
           </span>
           <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-black dark:text-white leading-tight">
-            Start a Conversation.
+            <TextReveal text="Start a Conversation." />
           </h2>
           <div className="w-16 h-[2px] bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full mt-4" />
         </div>
@@ -138,7 +235,7 @@ const Contact = () => {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
           
           {/* Contact Details & Info */}
-          <div className="lg:col-span-2 space-y-8">
+          <div ref={leftColRef} className="lg:col-span-2 space-y-8">
             <div className="max-w-md">
               <p className="text-slate-800 dark:text-gray-300 text-lg font-light leading-relaxed mb-6">
                 Have a project idea, a job opportunity, or just want to chat about creative coding? Drop me a line! I am always open to exploring fresh concepts and collaborating on premium web environments.
@@ -199,7 +296,7 @@ const Contact = () => {
           </div>
 
           {/* Contact Form */}
-          <div className="lg:col-span-3">
+          <div ref={formColRef} className="lg:col-span-3">
             <div className="rounded-3xl glass-card border border-black/5 dark:border-white/5 p-8 md:p-10">
               <form onSubmit={handleSubmit} className="space-y-6">
                 
@@ -296,8 +393,35 @@ const Contact = () => {
           </div>
         </div>
 
+        {/* 3D Spinning Logo */}
+        <div ref={footerLogoRef} className="mt-28 flex flex-col items-center">
+          <div
+            className="relative w-32 h-32 md:w-40 md:h-40"
+            style={{ perspective: "800px" }}
+          >
+            <img
+              src="/images/logo/logo.png"
+              alt="ATNX Logo"
+              className="w-full h-full object-contain invert dark:invert-0 drop-shadow-[0_0_25px_rgba(var(--color-brand-primary-rgb,99,102,241),0.3)]"
+              style={{
+                animation: "spin3d 4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite",
+              }}
+            />
+          </div>
+          <style>{`
+            @keyframes spin3d {
+              0% {
+                transform: rotateY(0deg);
+              }
+              100% {
+                transform: rotateY(360deg);
+              }
+            }
+          `}</style>
+        </div>
+
         {/* Footer info */}
-        <div className="mt-28 pt-8 border-t border-black/10 dark:border-t-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-600">
+        <div className="mt-12 pt-8 border-t border-black/10 dark:border-t-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-600">
           <div>&copy; {new Date().getFullYear()} ATNX. ALL RIGHTS RESERVED.</div>
           <div className="flex items-center gap-4">
             <a href="#home" className="hover:text-brand-primary transition-colors duration-300 interactive">BACK TO TOP</a>

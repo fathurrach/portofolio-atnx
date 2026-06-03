@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { ArrowUpRight, FolderGit2 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import TextReveal from "./ui/text-reveal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,6 +20,9 @@ interface Project {
 const Portfolio = () => {
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const containerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const filtersRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const images = containerRef.current?.querySelectorAll(".project-parallax-img");
@@ -45,6 +49,74 @@ const Portfolio = () => {
 
     return () => ctx.revert();
   }, [activeCategory]);
+
+  // ScrollTrigger animations for header, filters, and cards
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Header stagger reveal
+      if (headerRef.current) {
+        gsap.fromTo(
+          headerRef.current.children,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: headerRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+
+      // Filters slide in
+      if (filtersRef.current) {
+        gsap.fromTo(
+          filtersRef.current,
+          { opacity: 0, x: 30 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.7,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: filtersRef.current,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+
+      // Project cards stagger reveal
+      if (containerRef.current) {
+        const cards = containerRef.current.querySelectorAll(".project-card");
+        gsap.fromTo(
+          cards,
+          { opacity: 0, y: 60, scale: 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const categories = ["All", "Creative", "Apps", "UI/UX"];
 
@@ -79,24 +151,25 @@ const Portfolio = () => {
   return (
     <section
       id="portfolio"
+      ref={sectionRef}
       className="relative min-h-screen w-full py-28 px-6 bg-transparent overflow-hidden"
     >
       <div className="max-w-7xl mx-auto w-full relative z-20">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-          <div className="max-w-xl">
+          <div ref={headerRef} className="max-w-xl">
             <span className="font-mono text-xs tracking-widest text-brand-primary uppercase block mb-3">
               Showcase
             </span>
             <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-black dark:text-white leading-tight">
-              Selected Creations.
+              <TextReveal text="Selected Creations." />
             </h2>
             <div className="w-16 h-[2px] bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full mt-4" />
           </div>
 
           {/* Filters */}
-          <div className="flex flex-wrap gap-2.5 p-1 rounded-2xl glass-panel self-start md:self-auto border border-black/10 dark:border-white/5">
+          <div ref={filtersRef} className="flex flex-wrap gap-2.5 p-1 rounded-2xl glass-panel self-start md:self-auto border border-black/10 dark:border-white/5">
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -118,7 +191,7 @@ const Portfolio = () => {
           {filteredProjects.map((project, idx) => (
             <div
               key={project.id}
-              className="group rounded-3xl glass-card border border-black/10 dark:border-white/5 overflow-hidden flex flex-col justify-between"
+              className="project-card group rounded-3xl glass-card border border-black/10 dark:border-white/5 overflow-hidden flex flex-col justify-between"
             >
               {/* Project Image */}
               <div className="relative overflow-hidden h-[200px] md:h-[260px]">

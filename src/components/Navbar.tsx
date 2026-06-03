@@ -184,7 +184,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
       ref={navRef}
       className={`fixed top-0 left-0 w-full z-40 transition-all duration-500 ${
         scrolled
-          ? "py-3 glass-panel shadow-lg border-b border-black/5 dark:border-white/5"
+          ? "py-3 glass-navbar shadow-lg"
           : "py-5 bg-transparent"
       }`}
     >
@@ -193,7 +193,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
         <a
           ref={logoRef}
           href="#home"
-          className="h-9 flex items-center hover:scale-[1.05] transition-transform duration-300 interactive select-none opacity-0"
+          className="h-12 flex items-center hover:scale-[1.05] transition-transform duration-300 interactive select-none opacity-0"
         >
           <img
             src="/images/logo/logo.png"

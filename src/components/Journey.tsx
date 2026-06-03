@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Calendar, Briefcase, Award, GraduationCap } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import TextReveal from "./ui/text-reveal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,6 +21,7 @@ const Journey = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -91,6 +93,32 @@ const Journey = () => {
     return () => ctx.revert();
   }, []);
 
+  // Header scroll reveal
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      if (headerRef.current) {
+        gsap.fromTo(
+          headerRef.current.children,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: headerRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   const milestones: Milestone[] = [
     {
       id: 1,
@@ -136,12 +164,12 @@ const Journey = () => {
       <div className="max-w-7xl mx-auto w-full relative z-20">
         
         {/* Section Header */}
-        <div className="mb-20 max-w-xl">
+        <div ref={headerRef} className="mb-20 max-w-xl">
           <span className="font-mono text-xs tracking-widest text-brand-primary uppercase block mb-3">
             Milestones
           </span>
           <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-black dark:text-white leading-tight">
-            My Creative Path.
+            <TextReveal text="My Creative Path." />
           </h2>
           <div className="w-16 h-[2px] bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full mt-4" />
         </div>

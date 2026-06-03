@@ -1,4 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import TextReveal from "./ui/text-reveal";
+
+gsap.registerPlugin(ScrollTrigger);
 import { Camera, MapPin, Calendar, X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 
 interface Photo {
@@ -14,6 +19,10 @@ interface Photo {
 const Photography = () => {
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const filtersRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const categories = ["All", "Street", "Architecture", "Minimal"];
 
@@ -80,6 +89,74 @@ const Photography = () => {
       ? photos
       : photos.filter((p) => p.category === activeCategory);
 
+  // ScrollTrigger animations for section header and filters
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Header reveal
+      if (headerRef.current) {
+        const headerEls = headerRef.current.children;
+        gsap.fromTo(
+          headerEls,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: headerRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+
+      // Filters slide in
+      if (filtersRef.current) {
+        gsap.fromTo(
+          filtersRef.current,
+          { opacity: 0, x: 30 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.7,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: filtersRef.current,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  // Animate gallery cards on filter change & initial load
+  useEffect(() => {
+    if (!gridRef.current) return;
+    const cards = gridRef.current.querySelectorAll(".photo-card");
+    if (!cards.length) return;
+
+    gsap.fromTo(
+      cards,
+      { opacity: 0, y: 50, scale: 0.92 },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.6,
+        stagger: 0.08,
+        ease: "power2.out",
+        clearProps: "transform",
+      }
+    );
+  }, [activeCategory]);
+
   // Handle keyboard navigation for Lightbox
   useEffect(() => {
     if (lightboxIndex === null) return;
@@ -111,6 +188,7 @@ const Photography = () => {
   return (
     <section
       id="photography"
+      ref={sectionRef}
       className="relative min-h-screen w-full py-28 px-6 bg-transparent overflow-hidden"
     >
       <div className="absolute top-1/3 left-0 w-96 h-96 bg-brand-primary/5 rounded-full filter blur-3xl pointer-events-none" />
@@ -119,18 +197,18 @@ const Photography = () => {
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-          <div className="max-w-xl">
+          <div ref={headerRef} className="max-w-xl">
             <span className="font-mono text-xs tracking-widest text-brand-primary uppercase block mb-3">
               Photography
             </span>
             <h2 className="text-4xl md:text-5xl font-heading font-extrabold tracking-tight text-black dark:text-white leading-tight">
-              Frames & Focus.
+              <TextReveal text="Frames & Focus." />
             </h2>
             <div className="w-16 h-[2px] bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full mt-4" />
           </div>
 
           {/* Filters */}
-          <div className="flex flex-wrap gap-2.5 p-1 rounded-2xl glass-panel self-start md:self-auto border border-black/10 dark:border-white/5">
+          <div ref={filtersRef} className="flex flex-wrap gap-2.5 p-1 rounded-2xl glass-panel self-start md:self-auto border border-black/10 dark:border-white/5">
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -148,12 +226,12 @@ const Photography = () => {
         </div>
 
         {/* Gallery Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPhotos.map((photo, index) => (
             <div
               key={photo.id}
               onClick={() => setLightboxIndex(index)}
-              className="group relative rounded-3xl overflow-hidden glass-card border border-black/10 dark:border-white/5 aspect-[4/5] cursor-pointer hover:shadow-xl transition-all duration-500 interactive"
+              className="photo-card group relative rounded-3xl overflow-hidden glass-card border border-black/10 dark:border-white/5 aspect-[4/5] cursor-pointer hover:shadow-xl transition-all duration-500 interactive"
             >
               {/* Photo Image */}
               <img

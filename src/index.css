@@ -54,10 +54,28 @@
   color: #000000;
 }
 
-/* Smooth Scrolling */
-html {
-  scroll-behavior: smooth;
+/* Lenis Smooth Scroll Integration */
+html.lenis,
+html.lenis body {
+  height: auto;
 }
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
 
 /* Glassmorphism Classes */
 .glass-panel {
@@ -72,18 +90,47 @@ html {
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
+.glass-navbar {
+  background: rgba(10, 10, 12, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.light .glass-navbar {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+
 .glass-card {
   background: rgba(18, 18, 24, 0.4);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.03);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  /* GPU Acceleration */
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .light .glass-card {
   background: rgba(255, 255, 255, 0.6);
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
+
+/* GPU Accelerated Cards and Animations */
+.journey-card,
+.project-card,
+.photo-card {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+.project-parallax-img,
+.photo-card img {
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
 
 .glass-card:hover {
   border-color: rgba(255, 255, 255, 0.15);
