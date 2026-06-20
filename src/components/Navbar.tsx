@@ -318,7 +318,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
           {/* Mini footer in mobile drawer */}
           <div className="mt-12 pt-6 border-t border-black/5 dark:border-white/5">
             <p className="font-mono text-[10px] tracking-widest text-slate-400 dark:text-gray-600 uppercase">
-              © 2025 ATNX — All rights reserved.
+              © 2026 ATNX — All rights reserved.
             </p>
           </div>
         </div>
