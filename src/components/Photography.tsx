@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import TextReveal from "./ui/text-reveal";
@@ -157,6 +157,20 @@ const Photography = () => {
     );
   }, [activeCategory]);
 
+  const handleNext = useCallback(() => {
+    setLightboxIndex((prev) => {
+      if (prev === null) return null;
+      return prev === filteredPhotos.length - 1 ? 0 : prev + 1;
+    });
+  }, [filteredPhotos.length]);
+
+  const handlePrev = useCallback(() => {
+    setLightboxIndex((prev) => {
+      if (prev === null) return null;
+      return prev === 0 ? filteredPhotos.length - 1 : prev - 1;
+    });
+  }, [filteredPhotos.length]);
+
   // Handle keyboard navigation for Lightbox
   useEffect(() => {
     if (lightboxIndex === null) return;
@@ -169,21 +183,7 @@ const Photography = () => {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [lightboxIndex]);
-
-  const handleNext = () => {
-    setLightboxIndex((prev) => {
-      if (prev === null) return null;
-      return prev === filteredPhotos.length - 1 ? 0 : prev + 1;
-    });
-  };
-
-  const handlePrev = () => {
-    setLightboxIndex((prev) => {
-      if (prev === null) return null;
-      return prev === 0 ? filteredPhotos.length - 1 : prev - 1;
-    });
-  };
+  }, [lightboxIndex, handleNext, handlePrev]);
 
   return (
     <section

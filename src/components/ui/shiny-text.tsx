@@ -19,11 +19,7 @@ export const ShinyText = ({
 }: ShinyTextProps) => {
   const containerRef = useRef<HTMLSpanElement>(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const [isMounted] = useState(true);
 
   const shouldAnimate =
     trigger === "loop" ||
