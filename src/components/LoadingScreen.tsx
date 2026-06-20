@@ -20,34 +20,10 @@ interface Particle {
 const LoadingScreen = ({ onComplete, minDuration = 2200 }: LoadingScreenProps) => {
   const [progress, setProgress] = useState(0);
   const [fadeOut, setFadeOut] = useState(false);
-  const [particles, setParticles] = useState<Particle[]>([]);
-
-  useEffect(() => {
-    const startTime = Date.now();
-    let animFrame: number;
-
-    const tick = () => {
-      const elapsed = Date.now() - startTime;
-      const raw = Math.min(elapsed / minDuration, 1);
-      // Ease-out curve for smooth progress
-      const eased = 1 - Math.pow(1 - raw, 3);
-      setProgress(eased * 100);
-
-      if (raw < 1) {
-        animFrame = requestAnimationFrame(tick);
-      } else {
-        // Start fade-out
-        setFadeOut(true);
-        setTimeout(() => {
-          onComplete();
-        }, 600);
-      }
-    };
-
-    animFrame = requestAnimationFrame(tick);
-
-    // Generate 40 sprinkles/particles with random positions, animations and colors
-    const generated: Particle[] = Array.from({ length: 40 }).map((_, i) => {
+  
+  // Generate 40 sprinkles/particles as initial state to avoid cascading render within useEffect
+  const [particles] = useState<Particle[]>(() => {
+    return Array.from({ length: 40 }).map((_, i) => {
       const types: Array<"dot" | "star" | "plus"> = ["dot", "dot", "star", "plus"];
       const opacity = Math.random() * 0.45 + 0.15; // 0.15 to 0.6
       
@@ -72,7 +48,31 @@ const LoadingScreen = ({ onComplete, minDuration = 2200 }: LoadingScreenProps) =
         color,
       };
     });
-    setParticles(generated);
+  });
+
+  useEffect(() => {
+    const startTime = Date.now();
+    let animFrame: number;
+
+    const tick = () => {
+      const elapsed = Date.now() - startTime;
+      const raw = Math.min(elapsed / minDuration, 1);
+      // Ease-out curve for smooth progress
+      const eased = 1 - Math.pow(1 - raw, 3);
+      setProgress(eased * 100);
+
+      if (raw < 1) {
+        animFrame = requestAnimationFrame(tick);
+      } else {
+        // Start fade-out
+        setFadeOut(true);
+        setTimeout(() => {
+          onComplete();
+        }, 600);
+      }
+    };
+
+    animFrame = requestAnimationFrame(tick);
 
     return () => cancelAnimationFrame(animFrame);
   }, [minDuration, onComplete]);
