@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { ArrowUpRight, FolderGit2 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import TextReveal from "./ui/text-reveal";
+import StackingCards, { type StackCard } from "./ui/stacking-cards";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,42 +19,12 @@ interface Project {
 }
 
 const Portfolio = () => {
-  const [activeCategory, setActiveCategory] = useState<string>("All");
-  const containerRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  const filtersRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const images = containerRef.current?.querySelectorAll(".project-parallax-img");
-    if (!images || images.length === 0) return;
-
-    const ctx = gsap.context(() => {
-      images.forEach((img) => {
-        gsap.fromTo(
-          img,
-          { yPercent: -10 },
-          {
-            yPercent: 10,
-            ease: "none",
-            scrollTrigger: {
-              trigger: img.parentElement,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: true,
-            },
-          }
-        );
-      });
-    });
-
-    return () => ctx.revert();
-  }, [activeCategory]);
-
-  // ScrollTrigger animations for header, filters, and cards
+  // ScrollTrigger animations for header
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Header stagger reveal
       if (headerRef.current) {
         gsap.fromTo(
           headerRef.current.children,
@@ -72,53 +43,10 @@ const Portfolio = () => {
           }
         );
       }
-
-      // Filters slide in
-      if (filtersRef.current) {
-        gsap.fromTo(
-          filtersRef.current,
-          { opacity: 0, x: 30 },
-          {
-            opacity: 1,
-            x: 0,
-            duration: 0.7,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: filtersRef.current,
-              start: "top 90%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      }
-
-      // Project cards stagger reveal
-      if (containerRef.current) {
-        const cards = containerRef.current.querySelectorAll(".project-card");
-        gsap.fromTo(
-          cards,
-          { opacity: 0, y: 60, scale: 0.95 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.8,
-            stagger: 0.15,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: "top 85%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      }
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
-
-  const categories = ["All", "Creative", "Apps", "UI/UX"];
 
   const projects: Project[] = [
     {
@@ -138,26 +66,102 @@ const Portfolio = () => {
       description:
         "An AI-powered travel app with Gemini fallback chains and real-time trip planning.",
       tags: ["SvelteKit", "NestJS", "Gemini AI"],
-      image: "/images/portfolio/jelajahbersama.webp",
+      image: "/images/portfolio/jelajahbersama.png",
       demoUrl: "https://jelajahbersama.atnx.my.id",
     },
   ];
 
-  const filteredProjects =
-    activeCategory === "All"
-      ? projects
-      : projects.filter((p) => p.category === activeCategory);
+  // Build stack cards from projects
+  const stackCards: StackCard[] = projects.map((project, idx) => ({
+    id: project.id,
+    content: (
+      <div className="grid grid-cols-1 md:grid-cols-12 w-full h-full bg-slate-900/90 dark:bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl md:rounded-3xl overflow-hidden">
+        {/* Left Column: Details */}
+        <div className="order-2 md:order-1 col-span-1 md:col-span-5 flex flex-col justify-between p-5 sm:p-6 md:p-8 h-[300px] md:h-full bg-slate-900/90 dark:bg-black/60 backdrop-blur-xl">
+          {/* Top Bar */}
+          <div className="flex items-center justify-between">
+            <span className="font-heading font-extrabold text-xl text-white/20 select-none">
+              0{idx + 1}
+            </span>
+            <span className="font-mono text-[10px] md:text-xs tracking-widest text-brand-primary py-1 px-3 rounded-full bg-brand-primary/10 border border-brand-primary/20 uppercase font-semibold">
+              {project.category}
+            </span>
+          </div>
+
+          {/* Details */}
+          <div className="flex-grow flex flex-col justify-center">
+            <h3 className="font-heading font-extrabold text-2xl sm:text-3xl text-white mb-2 leading-tight flex items-center gap-3">
+              {project.title}
+              <FolderGit2 className="text-white/25 flex-shrink-0 animate-pulse" size={20} />
+            </h3>
+            <p className="text-white/60 text-xs sm:text-sm leading-relaxed mb-4 max-w-md">
+              {project.description}
+            </p>
+            {/* Tags */}
+            <div className="flex flex-wrap gap-1.5 mb-2">
+              {project.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="py-0.5 px-2.5 rounded-lg border border-white/5 bg-white/5 font-mono text-[9px] sm:text-[10px] text-white/50"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex items-center gap-4 pt-4 border-t border-white/5">
+            <a
+              href={project.demoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-brand-primary font-mono text-xs tracking-widest uppercase hover:text-white transition-colors font-bold group/link"
+            >
+              Live Demo{" "}
+              <ArrowUpRight
+                size={14}
+                className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"
+              />
+            </a>
+            {project.githubUrl && (
+              <>
+                <span className="text-white/10">|</span>
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/40 hover:text-white font-mono text-xs tracking-widest uppercase transition-colors"
+                >
+                  Github
+                </a>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Right Column: Project Showcase Image */}
+        <div className="order-1 md:order-2 col-span-1 md:col-span-7 relative h-[220px] md:h-full overflow-hidden bg-slate-950/20 border-b md:border-b-0 md:border-l border-white/10">
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover transition-transform duration-700 hover:scale-103"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    ),
+  }));
 
   return (
     <section
       id="portfolio"
       ref={sectionRef}
-      className="relative min-h-screen w-full py-28 px-6 bg-transparent overflow-hidden"
+      className="relative w-full pt-28 pb-12 px-6 bg-transparent overflow-hidden"
     >
       <div className="max-w-7xl mx-auto w-full relative z-20">
-        
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div ref={headerRef} className="max-w-xl">
             <span className="font-mono text-xs tracking-widest text-brand-primary uppercase block mb-3">
               Showcase
@@ -167,107 +171,15 @@ const Portfolio = () => {
             </h2>
             <div className="w-16 h-[2px] bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full mt-4" />
           </div>
-
-          {/* Filters */}
-          <div ref={filtersRef} className="flex flex-wrap gap-2.5 p-1 rounded-2xl glass-panel self-start md:self-auto border border-black/10 dark:border-white/5">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`py-2 px-6 rounded-xl font-mono text-xs tracking-wider transition-all duration-300 interactive ${
-                  activeCategory === cat
-                    ? "bg-brand-primary text-white dark:text-[#0a0a0c] shadow-md font-medium"
-                    : "text-slate-700 dark:text-gray-400 hover:text-black dark:hover:text-gray-200"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Project Grid */}
-        <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {filteredProjects.map((project, idx) => (
-            <div
-              key={project.id}
-              className="project-card group rounded-3xl glass-card border border-black/10 dark:border-white/5 overflow-hidden flex flex-col justify-between"
-            >
-              {/* Project Image */}
-              <div className="relative overflow-hidden h-[200px] md:h-[260px]">
-                {/* Overlay index */}
-                <div className="absolute top-6 left-6 z-25 font-heading font-extrabold text-lg text-white/50 py-1.5 px-3 rounded-xl bg-black/40 backdrop-blur-md">
-                  0{idx + 1}
-                </div>
-                {/* Category label */}
-                <div className="absolute top-6 right-6 z-25 font-mono text-xs tracking-wider text-brand-secondary py-1.5 px-3.5 rounded-xl bg-brand-secondary/15 backdrop-blur-md border border-brand-secondary/20 uppercase font-medium">
-                  {project.category}
-                </div>
-                
-                {/* Parallax Container */}
-                <div className="absolute inset-0 overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="absolute top-[-10%] left-0 w-full h-[120%] object-cover project-parallax-img"
-                    loading="lazy"
-                  />
-                </div>
-                
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none opacity-90" />
-              </div>
-
-              {/* Project info */}
-              <div className="p-8 flex-grow flex flex-col justify-between">
-                <div>
-                  <h3 className="font-heading font-extrabold text-2xl text-black dark:text-white group-hover:text-brand-primary transition-colors duration-300 mb-4 flex items-center justify-between">
-                    {project.title}
-                    <FolderGit2 className="opacity-30 group-hover:opacity-75 group-hover:text-brand-primary transition-all duration-300" size={20} />
-                  </h3>
-                  <p className="text-slate-700 dark:text-gray-400 font-normal text-sm leading-relaxed mb-6">
-                    {project.description}
-                  </p>
-                </div>
-
-                <div>
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="py-1 px-2.5 rounded-lg border border-black/10 dark:border-white/5 bg-black/5 dark:bg-white/5 font-mono text-[10px] text-slate-700 dark:text-gray-400"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
- 
-                  {/* Actions */}
-                  <div className="flex items-center gap-4 border-t border-black/10 dark:border-white/5 pt-6">
-                    <a
-                      href={project.demoUrl}
-                      className="flex items-center gap-2 text-brand-primary font-mono text-xs tracking-widest uppercase hover:underline interactive font-bold"
-                    >
-                      Live Demo <ArrowUpRight size={14} />
-                    </a>
-                    {project.githubUrl && (
-                      <>
-                        <span className="text-black/10 dark:text-white/10">|</span>
-                        <a
-                          href={project.githubUrl}
-                          className="text-slate-700 dark:text-gray-400 hover:text-brand-primary font-mono text-xs tracking-widest uppercase interactive"
-                        >
-                          Github
-                        </a>
-                      </>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
+
+      {/* Stacking Cards */}
+      <StackingCards
+        cards={stackCards}
+        cardHeight={520}
+        scrollPerCard={400}
+      />
     </section>
   );
 };
