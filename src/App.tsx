@@ -1,13 +1,15 @@
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, lazy, useCallback, useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import Portfolio from "./components/Portfolio";
-import Journey from "./components/Journey";
-import Photography from "./components/Photography";
-import Contact from "./components/Contact";
 import LoadingScreen from "./components/LoadingScreen";
 import SmoothScroll from "./components/SmoothScroll";
+
+// Lazy load below-the-fold components for better FCP & TBT
+const Journey = lazy(() => import("./components/Journey"));
+const Photography = lazy(() => import("./components/Photography"));
+const Contact = lazy(() => import("./components/Contact"));
 
 
 function App() {
@@ -75,14 +77,12 @@ function App() {
         {/* Section 02: Selected Portfolio Works */}
         <Portfolio />
 
-        {/* Section 03: Experience Timeline */}
-        <Journey />
-
-        {/* Section 04: Photography Gallery */}
-        <Photography />
-
-        {/* Section 05: Futuristic Connect Form */}
-        <Contact />
+        {/* Section 03-05: Lazy loaded below-the-fold */}
+        <Suspense fallback={null}>
+          <Journey />
+          <Photography />
+          <Contact />
+        </Suspense>
 
       </main>
     </>

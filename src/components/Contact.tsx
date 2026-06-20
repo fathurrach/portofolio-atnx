@@ -402,6 +402,8 @@ const Contact = () => {
             <img
               src="/images/logo/logo.png"
               alt="ATNX Logo"
+              width={160}
+              height={160}
               className="w-full h-full object-contain invert dark:invert-0 drop-shadow-[0_0_25px_rgba(var(--color-brand-primary-rgb,99,102,241),0.3)]"
               style={{
                 animation: "spin3d 4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite",
@@ -421,7 +423,7 @@ const Contact = () => {
         </div>
 
         {/* Footer info */}
-        <div className="mt-12 pt-8 border-t border-black/10 dark:border-t-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-600">
+        <div className="mt-12 pt-8 border-t border-black/10 dark:border-t-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-500 dark:text-zinc-400">
           <div>&copy; {new Date().getFullYear()} ATNX. ALL RIGHTS RESERVED.</div>
           <div className="flex items-center gap-4">
             <a href="#home" className="hover:text-brand-primary transition-colors duration-300 interactive">BACK TO TOP</a>

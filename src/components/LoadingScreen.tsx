@@ -142,6 +142,8 @@ const LoadingScreen = ({ onComplete, minDuration = 2200 }: LoadingScreenProps) =
           <img
             src="/images/logo/logo.png"
             alt="ATNX Logo Loading"
+            width={112}
+            height={112}
             className="w-24 h-24 md:w-28 md:h-28 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]"
             style={{
               animation: "loaderSpin3D 2.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite",

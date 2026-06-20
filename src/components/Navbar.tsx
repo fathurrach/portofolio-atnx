@@ -198,6 +198,8 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
           <img
             src="/images/logo/logo.png"
             alt="ATNX Logo"
+            width={48}
+            height={48}
             className="h-full object-contain invert dark:invert-0"
           />
         </a>
