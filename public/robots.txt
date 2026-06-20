@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://atnx.my.id/sitemap.xml
