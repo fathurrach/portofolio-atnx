@@ -77,7 +77,7 @@ const Portfolio = () => {
     content: (
       <div className="grid grid-cols-1 md:grid-cols-12 w-full h-full bg-slate-900/90 dark:bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl md:rounded-3xl overflow-hidden">
         {/* Left Column: Details */}
-        <div className="order-2 md:order-1 col-span-1 md:col-span-5 flex flex-col justify-between p-4 sm:p-5 md:p-8 h-[260px] md:h-full bg-slate-900/90 dark:bg-black/60 backdrop-blur-xl">
+        <div className="order-2 md:order-1 col-span-1 md:col-span-5 flex flex-col justify-between p-6 md:p-8 h-auto min-h-[280px] bg-slate-900/90 dark:bg-black/60 backdrop-blur-xl">
           {/* Top Bar */}
           <div className="flex items-center justify-between">
             <span className="font-heading font-extrabold text-xl text-white/20 select-none">
@@ -141,11 +141,11 @@ const Portfolio = () => {
         </div>
 
         {/* Right Column: Project Showcase Image */}
-        <div className="order-1 md:order-2 col-span-1 md:col-span-7 relative h-[180px] md:h-full overflow-hidden bg-slate-950/20 border-b md:border-b-0 md:border-l border-white/10">
+        <div className="order-1 md:order-2 col-span-1 md:col-span-7 relative h-[200px] md:h-full overflow-hidden bg-slate-950/20 border-b md:border-b-0 md:border-l border-white/10">
           <img
             src={project.image}
             alt={project.title}
-            className="w-full h-full object-cover transition-transform duration-700 hover:scale-103"
+            className="w-full h-full object-cover transition-transform duration-700 hover:scale-103 absolute inset-0"
             loading="lazy"
           />
         </div>
@@ -177,7 +177,7 @@ const Portfolio = () => {
       {/* Stacking Cards */}
       <StackingCards
         cards={stackCards}
-        cardHeight={520}
+        cardHeight={560}
         scrollPerCard={400}
       />
     </section>

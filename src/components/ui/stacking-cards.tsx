@@ -32,9 +32,9 @@ const StackingCards = ({
   const N = cards.length;
   const totalScrollZone = N * scrollPerCard;
 
-  // Dynamic card height: taller on mobile to prevent content clipping
+  // Dynamic card height: adapt to viewport for both mobile and desktop
   const effectiveCardHeight = isMobile
-    ? Math.max(cardHeight, Math.min(vpH * 0.85, 700))
+    ? Math.max(cardHeight, Math.min(vpH * 0.82, 680))
     : cardHeight;
 
   useEffect(() => {
@@ -123,7 +123,7 @@ const StackingCards = ({
             maxWidth: "72rem",
             margin: "0 auto",
             padding: "0 1.5rem",
-            height: effectiveCardHeight,
+            minHeight: effectiveCardHeight,
           }}
         >
           {cards.map((card, index) => {
