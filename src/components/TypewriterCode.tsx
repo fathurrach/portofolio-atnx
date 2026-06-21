@@ -1,151 +1,143 @@
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef, useState, useCallback } from "react";
 
-gsap.registerPlugin(ScrollTrigger);
+interface CodeToken {
+  value: string;
+  color: string;
+}
 
 interface CodeLine {
   text: string;
-  tokens: { value: string; color: string }[];
+  tokens: CodeToken[];
 }
 
-const SYNTAX_COLORS = {
+const C = {
   keyword: "text-purple-400",
   string: "text-emerald-400",
   property: "text-sky-300",
   type: "text-amber-300",
   punctuation: "text-gray-500",
-  comment: "text-gray-600 italic",
-  method: "text-blue-300",
+  comment: "text-gray-500 italic",
   default: "text-gray-300",
 };
 
-// Tokenized code lines — manual for crisp control
 const CODE_LINES: CodeLine[] = [
   {
     text: "// who is ATNX?",
-    tokens: [
-      { value: "// who is ATNX?", color: SYNTAX_COLORS.comment },
-    ],
+    tokens: [{ value: "// who is ATNX?", color: C.comment }],
   },
-  {
-    text: "",
-    tokens: [],
-  },
+  { text: "", tokens: [] },
   {
     text: "const atnx: Developer = {",
     tokens: [
-      { value: "const", color: SYNTAX_COLORS.keyword },
-      { value: " atnx", color: SYNTAX_COLORS.default },
-      { value: ": ", color: SYNTAX_COLORS.punctuation },
-      { value: "Developer", color: SYNTAX_COLORS.type },
-      { value: " = ", color: SYNTAX_COLORS.punctuation },
-      { value: "{", color: SYNTAX_COLORS.punctuation },
+      { value: "const", color: C.keyword },
+      { value: " atnx", color: C.default },
+      { value: ": ", color: C.punctuation },
+      { value: "Developer", color: C.type },
+      { value: " = ", color: C.punctuation },
+      { value: "{", color: C.punctuation },
     ],
   },
   {
     text: '  role: "Network Engineer & Builder",',
     tokens: [
-      { value: "  role", color: SYNTAX_COLORS.property },
-      { value: ": ", color: SYNTAX_COLORS.punctuation },
-      { value: '"Network Engineer & Builder"', color: SYNTAX_COLORS.string },
-      { value: ",", color: SYNTAX_COLORS.punctuation },
+      { value: "  role", color: C.property },
+      { value: ": ", color: C.punctuation },
+      { value: '"Network Engineer & Builder"', color: C.string },
+      { value: ",", color: C.punctuation },
     ],
   },
   {
     text: '  stack: ["React", "Python", "Docker"],',
     tokens: [
-      { value: "  stack", color: SYNTAX_COLORS.property },
-      { value: ": ", color: SYNTAX_COLORS.punctuation },
-      { value: '["React", "Python", "Docker"]', color: SYNTAX_COLORS.string },
-      { value: ",", color: SYNTAX_COLORS.punctuation },
+      { value: "  stack", color: C.property },
+      { value: ": ", color: C.punctuation },
+      { value: '["React", "Python", "Docker"]', color: C.string },
+      { value: ",", color: C.punctuation },
     ],
   },
   {
-    text: "  philosophy: \"fix it, then automate it\",",
+    text: '  philosophy: "fix it, then automate it",',
     tokens: [
-      { value: "  philosophy", color: SYNTAX_COLORS.property },
-      { value: ": ", color: SYNTAX_COLORS.punctuation },
-      { value: '"fix it, then automate it"', color: SYNTAX_COLORS.string },
-      { value: ",", color: SYNTAX_COLORS.punctuation },
+      { value: "  philosophy", color: C.property },
+      { value: ": ", color: C.punctuation },
+      { value: '"fix it, then automate it"', color: C.string },
+      { value: ",", color: C.punctuation },
     ],
   },
   {
     text: "};",
-    tokens: [
-      { value: "};", color: SYNTAX_COLORS.punctuation },
-    ],
+    tokens: [{ value: "};", color: C.punctuation }],
   },
 ];
 
 const TypewriterCode = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const [displayLines, setDisplayLines] = useState<CodeLine[]>([]);
-  const [showCursor, setShowCursor] = useState(true);
-  const [hasAnimated, setHasAnimated] = useState(false);
-  const cursorIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [cursorVisible, setCursorVisible] = useState(true);
+  const startedRef = useRef(false);
 
+  // Blinking cursor
   useEffect(() => {
-    // Blinking cursor
-    cursorIntervalRef.current = setInterval(() => {
-      setShowCursor((prev) => !prev);
-    }, 530);
-    return () => {
-      if (cursorIntervalRef.current) clearInterval(cursorIntervalRef.current);
-    };
+    const id = setInterval(() => setCursorVisible((v) => !v), 530);
+    return () => clearInterval(id);
   }, []);
 
+  const runTypewriter = useCallback(() => {
+    if (startedRef.current) return;
+    startedRef.current = true;
+
+    let lineIdx = 0;
+
+    const typeLine = () => {
+      if (lineIdx >= CODE_LINES.length) return;
+
+      const line = CODE_LINES[lineIdx];
+      let tokenIdx = 0;
+      const tokens: CodeToken[] = [];
+
+      const typeToken = () => {
+        if (tokenIdx < line.tokens.length) {
+          tokens.push(line.tokens[tokenIdx]);
+          tokenIdx++;
+          setDisplayLines((prev) => {
+            const next = [...prev];
+            next[lineIdx] = { text: line.text, tokens: [...tokens] };
+            return next;
+          });
+          setTimeout(typeToken, 60);
+        } else {
+          lineIdx++;
+          setTimeout(typeLine, line.text === "" ? 100 : 280);
+        }
+      };
+
+      typeToken();
+    };
+
+    typeLine();
+  }, []);
+
+  // IntersectionObserver — fires when card scrolls into view
   useEffect(() => {
-    if (hasAnimated) return;
+    const el = wrapperRef.current;
+    if (!el) return;
 
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: "top 80%",
-        once: true,
-        onEnter: () => {
-          setHasAnimated(true);
-          let lineIndex = 0;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          runTypewriter();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
 
-          const typeNextLine = () => {
-            if (lineIndex >= CODE_LINES.length) return;
-
-            const line = CODE_LINES[lineIndex];
-            let charIndex = 0;
-            const typedTokens: CodeLine["tokens"] = [];
-
-            const typeChar = () => {
-              if (charIndex < line.tokens.length) {
-                const token = line.tokens[charIndex];
-                typedTokens.push(token);
-                charIndex++;
-                setDisplayLines((prev) => {
-                  const next = [...prev];
-                  next[lineIndex] = { text: line.text, tokens: typedTokens };
-                  return next;
-                });
-                // Next token after small delay
-                gsap.delayedCall(0.06, typeChar);
-              } else {
-                // Line done, next line
-                lineIndex++;
-                gsap.delayedCall(line.text === "" ? 0.15 : 0.3, typeNextLine);
-              }
-            };
-
-            typeChar();
-          };
-
-          gsap.delayedCall(0.4, typeNextLine);
-        },
-      });
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, [hasAnimated]);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [runTypewriter]);
 
   return (
-    <div ref={containerRef} className="w-full h-full flex flex-col">
+    <div ref={wrapperRef} className="w-full h-full flex flex-col">
       {/* Window Chrome */}
       <div className="flex items-center gap-2 px-4 py-3 rounded-t-2xl bg-black/40 dark:bg-white/5 border-b border-white/5">
         <div className="w-3 h-3 rounded-full bg-red-400/80" />
@@ -157,9 +149,9 @@ const TypewriterCode = () => {
       </div>
 
       {/* Code Body */}
-      <div className="flex-1 px-4 py-4 font-mono text-[11px] sm:text-xs leading-relaxed overflow-hidden">
+      <div className="flex-1 px-4 py-4 font-mono text-[11px] sm:text-xs leading-relaxed overflow-hidden min-h-0">
         {displayLines.map((line, i) => (
-          <div key={i} className="flex">
+          <div key={i} className="flex whitespace-pre">
             <span className="w-6 text-right mr-3 text-gray-600 dark:text-gray-600 select-none shrink-0 text-[10px]">
               {line.tokens.length > 0 ? i + 1 : ""}
             </span>
@@ -169,12 +161,15 @@ const TypewriterCode = () => {
                   {token.value}
                 </span>
               ))}
-              {i === displayLines.length - 1 && showCursor && (
-                <span className="inline-block w-[2px] h-[14px] bg-brand-primary ml-[1px] align-middle animate-pulse" />
+              {i === displayLines.length - 1 && cursorVisible && (
+                <span className="inline-block w-[2px] h-[14px] bg-brand-primary ml-[1px] align-middle" />
               )}
             </span>
           </div>
         ))}
+        {displayLines.length === 0 && (
+          <span className="inline-block w-[2px] h-[14px] bg-brand-primary animate-pulse" />
+        )}
       </div>
     </div>
   );
