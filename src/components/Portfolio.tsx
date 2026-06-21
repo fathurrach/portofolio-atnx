@@ -83,7 +83,7 @@ const Portfolio = () => {
             <span className="font-heading font-extrabold text-xl text-white/20 select-none">
               0{idx + 1}
             </span>
-            <span className="font-mono text-[10px] md:text-xs tracking-widest text-brand-primary py-1 px-3 rounded-full bg-brand-primary/10 border border-brand-primary/20 uppercase font-semibold">
+            <span className="font-mono text-[10px] md:text-xs tracking-widest text-white py-1 px-3 rounded-full bg-white/10 border border-white/20 uppercase font-semibold">
               {project.category}
             </span>
           </div>
@@ -116,7 +116,7 @@ const Portfolio = () => {
               href={project.demoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-brand-primary font-mono text-xs tracking-widest uppercase hover:text-white transition-colors font-bold group/link"
+              className="flex items-center gap-1.5 text-white font-mono text-xs tracking-widest uppercase hover:text-brand-accent transition-colors font-bold group/link"
             >
               Live Demo{" "}
               <ArrowUpRight
