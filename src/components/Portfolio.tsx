@@ -72,7 +72,7 @@ const Portfolio = () => {
   ];
 
   // Build stack cards from projects
-  const stackCards: StackCard[] = projects.map((project, idx) => ({
+  const stackCards: StackCard[] = projects.map((project) => ({
     id: project.id,
     content: (
       <div className="relative w-full h-full rounded-2xl md:rounded-3xl overflow-hidden group">
