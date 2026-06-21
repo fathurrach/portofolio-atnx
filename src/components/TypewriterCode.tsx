@@ -25,7 +25,6 @@ const CODE_LINES: CodeLine[] = [
     text: "// who is ATNX?",
     tokens: [{ value: "// who is ATNX?", color: C.comment }],
   },
-  { text: "", tokens: [] },
   {
     text: "const atnx: Developer = {",
     tokens: [
@@ -96,6 +95,17 @@ const TypewriterCode = () => {
       const tokens: CodeToken[] = [];
 
       const typeToken = () => {
+        if (line.tokens.length === 0) {
+          setDisplayLines((prev) => {
+            const next = [...prev];
+            next[lineIdx] = { text: "", tokens: [] };
+            return next;
+          });
+          lineIdx++;
+          setTimeout(typeLine, 150);
+          return;
+        }
+
         if (tokenIdx < line.tokens.length) {
           tokens.push(line.tokens[tokenIdx]);
           tokenIdx++;
@@ -149,11 +159,11 @@ const TypewriterCode = () => {
       </div>
 
       {/* Code Body */}
-      <div className="flex-1 px-4 py-4 font-mono text-[11px] sm:text-xs leading-relaxed overflow-hidden min-h-0">
+      <div className="flex-1 px-4 py-4 font-mono text-[11px] sm:text-xs leading-relaxed overflow-hidden min-h-[160px]">
         {displayLines.map((line, i) => (
-          <div key={i} className="flex whitespace-pre">
+          <div key={i} className="flex whitespace-pre min-h-[18px]">
             <span className="w-6 text-right mr-3 text-gray-600 dark:text-gray-600 select-none shrink-0 text-[10px]">
-              {line.tokens.length > 0 ? i + 1 : ""}
+              {line.tokens.length > 0 || line.text !== undefined ? i + 1 : ""}
             </span>
             <span>
               {line.tokens.map((token, j) => (
