@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Code2, Compass, Layers, Zap, Camera, Palette, Sparkles } from "lucide-react";
+import TypewriterCode from "./TypewriterCode";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import TextReveal from "./ui/text-reveal";
@@ -272,6 +273,11 @@ const About = () => {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Typewriter Code Card */}
+          <div className="md:col-span-2 rounded-3xl glass-card glow-card overflow-hidden flex flex-col">
+            <TypewriterCode />
           </div>
         </div>
       </div>
