@@ -12,26 +12,30 @@ const About = () => {
   const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const cards = cardsRef.current?.querySelectorAll(".glow-card");
-    if (!cards) return;
+    const grid = cardsRef.current;
+    if (!grid) return;
 
+    let rafId = 0;
     const handleMouseMove = (e: MouseEvent) => {
-      cards.forEach((card) => {
-        const rect = (card as HTMLElement).getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        (card as HTMLElement).style.setProperty("--mouse-x", `${x}px`);
-        (card as HTMLElement).style.setProperty("--mouse-y", `${y}px`);
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        const cards = grid.querySelectorAll(".glow-card");
+        cards.forEach((card) => {
+          const rect = (card as HTMLElement).getBoundingClientRect();
+          (card as HTMLElement).style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
+          (card as HTMLElement).style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
+        });
+        rafId = 0;
       });
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    grid.addEventListener("mousemove", handleMouseMove, { passive: true });
 
     // Staggered bento cards scroll reveal using GSAP ScrollTrigger
+    const glowCards = grid.querySelectorAll(".glow-card");
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        cards,
+        glowCards,
         {
           opacity: 0,
           y: 60,
@@ -54,7 +58,8 @@ const About = () => {
     }, cardsRef);
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      grid.removeEventListener("mousemove", handleMouseMove);
+      if (rafId) cancelAnimationFrame(rafId);
       ctx.revert();
     };
   }, []);
