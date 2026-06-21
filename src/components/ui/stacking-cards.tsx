@@ -25,11 +25,17 @@ const StackingCards = ({
   const stickyPanelRef = useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = useState(0);
   const [vpH, setVpH] = useState(600);
+  const [isMobile, setIsMobile] = useState(false);
 
   const containerOffsetRef = useRef(0);
 
   const N = cards.length;
   const totalScrollZone = N * scrollPerCard;
+
+  // Dynamic card height: taller on mobile to prevent content clipping
+  const effectiveCardHeight = isMobile
+    ? Math.max(cardHeight, Math.min(vpH * 0.85, 700))
+    : cardHeight;
 
   useEffect(() => {
     const el = containerRef.current;
@@ -39,6 +45,7 @@ const StackingCards = ({
       const elRect = el.getBoundingClientRect();
       containerOffsetRef.current = elRect.top + window.scrollY;
       setVpH(window.innerHeight);
+      setIsMobile(window.innerWidth < 768);
     };
 
     const measureTimer = setTimeout(measure, 150);
@@ -116,7 +123,7 @@ const StackingCards = ({
             maxWidth: "72rem",
             margin: "0 auto",
             padding: "0 1.5rem",
-            height: cardHeight,
+            height: effectiveCardHeight,
           }}
         >
           {cards.map((card, index) => {
@@ -147,7 +154,7 @@ const StackingCards = ({
                 key={card.id}
                 className="absolute inset-x-0 overflow-hidden rounded-2xl md:rounded-3xl"
                 style={{
-                  height: cardHeight,
+                  height: effectiveCardHeight,
                   top: 0,
                   zIndex: 10 + index,
                   transform: `translateY(${entryY - pushY}px) scale(${scale})`,
