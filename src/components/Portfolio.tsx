@@ -75,7 +75,7 @@ const Portfolio = () => {
   const stackCards: StackCard[] = projects.map((project, idx) => ({
     id: project.id,
     content: (
-      <div className="grid grid-cols-1 md:grid-cols-12 w-full h-full bg-slate-900/90 dark:bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl md:rounded-3xl overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-12 w-full h-full border border-white/10 rounded-2xl md:rounded-3xl overflow-hidden">
         {/* Left Column: Details */}
         <div className="order-2 md:order-1 col-span-1 md:col-span-5 flex flex-col justify-between p-6 md:p-8 h-auto min-h-[280px] bg-slate-900/90 dark:bg-black/60 backdrop-blur-xl">
           {/* Top Bar */}
