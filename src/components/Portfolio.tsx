@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { ArrowUpRight, FolderGit2 } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import TextReveal from "./ui/text-reveal";
@@ -75,79 +75,45 @@ const Portfolio = () => {
   const stackCards: StackCard[] = projects.map((project, idx) => ({
     id: project.id,
     content: (
-      <div className="grid grid-cols-1 md:grid-cols-12 w-full h-full border border-white/10 rounded-2xl md:rounded-3xl overflow-hidden">
-        {/* Left Column: Details */}
-        <div className="order-2 md:order-1 col-span-1 md:col-span-5 flex flex-col justify-between p-6 md:p-8 h-auto min-h-[280px] bg-slate-900/90 dark:bg-black/60 backdrop-blur-xl">
-          {/* Top Bar */}
-          <div className="flex items-center justify-between">
-            <span className="font-heading font-extrabold text-xl text-white/20 select-none">
-              0{idx + 1}
-            </span>
-            <span className="font-mono text-[10px] md:text-xs tracking-widest text-white py-1 px-3 rounded-full bg-white/10 border border-white/20 uppercase font-semibold">
+      <div className="relative w-full h-full rounded-2xl md:rounded-3xl overflow-hidden group">
+        {/* Full Project Image */}
+        <img
+          src={project.image}
+          alt={project.title}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          loading="lazy"
+        />
+
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent pointer-events-none" />
+
+        {/* Info Overlay Bottom */}
+        <div className="absolute bottom-0 inset-x-0 p-6 md:p-8 flex items-end justify-between">
+          <div>
+            <span className="font-mono text-[10px] md:text-xs tracking-widest text-brand-primary bg-black/40 backdrop-blur-sm py-1 px-3 rounded-full border border-white/10 uppercase font-semibold mb-3 inline-block">
               {project.category}
             </span>
-          </div>
-
-          {/* Details */}
-          <div className="flex-grow flex flex-col justify-center">
-            <h3 className="font-heading font-extrabold text-2xl sm:text-3xl text-white mb-2 leading-tight flex items-center gap-3">
+            <h3 className="font-heading font-extrabold text-2xl md:text-3xl text-white mb-2 leading-tight">
               {project.title}
-              <FolderGit2 className="text-white/25 flex-shrink-0 animate-pulse" size={20} />
             </h3>
-            <p className="text-white/60 text-xs sm:text-sm leading-relaxed mb-4 max-w-md">
-              {project.description}
-            </p>
-            {/* Tags */}
-            <div className="flex flex-wrap gap-1.5 mb-2">
+            <div className="flex flex-wrap gap-1.5">
               {project.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="py-0.5 px-2.5 rounded-lg border border-white/5 bg-white/5 font-mono text-[9px] sm:text-[10px] text-white/50"
-                >
+                <span key={tag} className="py-0.5 px-2 rounded-md bg-white/10 backdrop-blur-sm font-mono text-[9px] md:text-[10px] text-white/70">
                   {tag}
                 </span>
               ))}
             </div>
           </div>
 
-          {/* Actions */}
-          <div className="flex items-center gap-4 pt-4 border-t border-white/5">
-            <a
-              href={project.demoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-white font-mono text-xs tracking-widest uppercase hover:text-brand-accent transition-colors font-bold group/link"
-            >
-              Live Demo{" "}
-              <ArrowUpRight
-                size={14}
-                className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"
-              />
-            </a>
-            {project.githubUrl && (
-              <>
-                <span className="text-white/10">|</span>
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white/40 hover:text-white font-mono text-xs tracking-widest uppercase transition-colors"
-                >
-                  Github
-                </a>
-              </>
-            )}
-          </div>
-        </div>
-
-        {/* Right Column: Project Showcase Image */}
-        <div className="order-1 md:order-2 col-span-1 md:col-span-7 relative h-[200px] md:h-full overflow-hidden bg-slate-950/20 border-b md:border-b-0 md:border-l border-white/10">
-          <img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-full object-cover transition-transform duration-700 hover:scale-103 absolute inset-0"
-            loading="lazy"
-          />
+          <a
+            href={project.demoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-white bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-colors py-2 px-4 rounded-full font-mono text-xs tracking-widest uppercase font-bold shrink-0 ml-4"
+          >
+            Live Demo
+            <ArrowUpRight size={14} />
+          </a>
         </div>
       </div>
     ),
@@ -177,7 +143,7 @@ const Portfolio = () => {
       {/* Stacking Cards */}
       <StackingCards
         cards={stackCards}
-        cardHeight={560}
+        cardHeight={600}
         scrollPerCard={400}
       />
     </section>
