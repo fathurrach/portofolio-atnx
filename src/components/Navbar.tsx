@@ -231,7 +231,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
       <div className="absolute top-0 left-0 w-full h-[2px] bg-transparent overflow-hidden">
         <div
           ref={progressRef}
-          className="h-full bg-gradient-to-r from-brand-primary via-purple-500 to-brand-secondary origin-left"
+          className="h-full bg-gradient-to-r from-brand-accent via-brand-secondary to-brand-primary origin-left"
           style={{ transform: "scaleX(0)" }}
         />
       </div>
