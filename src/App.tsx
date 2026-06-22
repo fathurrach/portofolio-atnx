@@ -5,6 +5,7 @@ import About from "./components/About";
 import Portfolio from "./components/Portfolio";
 import LoadingScreen from "./components/LoadingScreen";
 import SmoothScroll from "./components/SmoothScroll";
+import SectionReveal from "./components/ui/section-reveal";
 
 // Lazy load below-the-fold components for better FCP & TBT
 const Journey = lazy(() => import("./components/Journey"));
@@ -72,16 +73,26 @@ function App() {
         <Hero />
 
         {/* Section 01: Bento About Profile */}
-        <About />
+        <SectionReveal>
+          <About />
+        </SectionReveal>
 
         {/* Section 02: Selected Portfolio Works */}
-        <Portfolio />
+        <SectionReveal parallax parallaxStrength={30}>
+          <Portfolio />
+        </SectionReveal>
 
         {/* Section 03-05: Lazy loaded below-the-fold */}
         <Suspense fallback={null}>
-          <Journey />
-          <Photography />
-          <Contact />
+          <SectionReveal>
+            <Journey />
+          </SectionReveal>
+          <SectionReveal parallax parallaxStrength={20}>
+            <Photography />
+          </SectionReveal>
+          <SectionReveal>
+            <Contact />
+          </SectionReveal>
         </Suspense>
 
       </main>

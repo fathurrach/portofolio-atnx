@@ -1,21 +1,28 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Menu, X } from "lucide-react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ThemeToggleButton1 from "./ThemeToggleButton";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface NavbarProps {
   theme: "dark" | "light";
   toggleTheme: () => void;
 }
 
+const SECTION_IDS = ["home", "about", "portfolio", "journey", "photography", "contact"];
+
 const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const navRef = useRef<HTMLElement>(null);
   const linksContainerRef = useRef<HTMLDivElement>(null);
   const pillRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLAnchorElement>(null);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
@@ -53,26 +60,47 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
     }
   }, [activeSection]);
 
-  // Scroll handler: update scrolled state and active section
+  // IntersectionObserver for accurate section detection
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+
+    SECTION_IDS.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
+              setActiveSection(id);
+            }
+          });
+        },
+        {
+          threshold: [0.3, 0.5],
+          rootMargin: "-80px 0px -40% 0px",
+        }
+      );
+
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
+  // Scroll handler: update scrolled state and scroll progress
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      const scrollPosition = window.scrollY + 150;
-      for (const link of navLinks) {
-        const id = link.href.substring(1);
-        const el = document.getElementById(id);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(id);
-          }
-        }
-      }
+      // Calculate scroll progress (0 to 1)
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? Math.min(window.scrollY / docHeight, 1) : 0;
+      setScrollProgress(progress);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -87,6 +115,17 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [movePill]);
+
+  // Animate scroll progress bar
+  useEffect(() => {
+    if (progressRef.current) {
+      gsap.to(progressRef.current, {
+        scaleX: scrollProgress,
+        duration: 0.15,
+        ease: "none",
+      });
+    }
+  }, [scrollProgress]);
 
   // GSAP stagger entrance animation on mount
   useEffect(() => {
@@ -184,10 +223,19 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
       ref={navRef}
       className={`fixed top-0 left-0 w-full z-40 transition-all duration-500 ${
         scrolled
-          ? "py-3 glass-navbar shadow-lg"
+          ? "py-3 glass-navbar shadow-lg shadow-black/5 dark:shadow-black/20"
           : "py-5 bg-transparent"
       }`}
     >
+      {/* Scroll Progress Bar */}
+      <div className="absolute top-0 left-0 w-full h-[2px] bg-transparent overflow-hidden">
+        <div
+          ref={progressRef}
+          className="h-full bg-gradient-to-r from-brand-primary via-purple-500 to-brand-secondary origin-left"
+          style={{ transform: "scaleX(0)" }}
+        />
+      </div>
+
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
         <a
