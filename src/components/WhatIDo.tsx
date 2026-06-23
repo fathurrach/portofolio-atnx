@@ -7,7 +7,7 @@ import {
   Workflow,
   Palette,
   Server,
-  Smartphone,
+  Network,
   Sparkles,
   type LucideIcon,
 } from "lucide-react";
@@ -30,8 +30,8 @@ const services: ServiceCard[] = [
     icon: Code2,
     title: "Web Development",
     description:
-      "Building performant, scalable web apps with modern stacks — from SvelteKit to React, NestJS to Supabase.",
-    tags: ["React", "Svelte", "TypeScript", "Node.js"],
+      "I design the vision, AI helps me code it, and I ship it — fast. Full-stack apps built with modern frameworks and vibe coding workflow.",
+    tags: ["SvelteKit", "React", "NestJS", "Supabase"],
     span: "wide",
   },
   {
@@ -39,44 +39,44 @@ const services: ServiceCard[] = [
     icon: Workflow,
     title: "Automation",
     description:
-      "Scripting and orchestrating workflows that save hours — bots, pipelines, and intelligent integrations.",
+      "If I have to do it twice, I script it. Python bots, bash pipelines, and intelligent integrations that save hours.",
     tags: ["Python", "Bash", "Docker", "CI/CD"],
     span: "normal",
   },
   {
     id: 3,
     icon: Palette,
-    title: "UI/UX Design",
+    title: "Creative Frontend",
     description:
-      "Crafting interfaces that feel premium — motion design, glassmorphism, and pixel-level attention to detail.",
-    tags: ["Figma", "Tailwind", "Framer Motion", "GSAP"],
+      "Premium interfaces with motion design, glassmorphism, and pixel-level attention. The web should feel alive.",
+    tags: ["Tailwind", "GSAP", "Framer Motion", "Vite"],
     span: "normal",
   },
   {
     id: 4,
     icon: Server,
-    title: "DevOps & Infra",
+    title: "Self-Hosted Infra",
     description:
-      "Self-hosting, container orchestration, reverse proxies, and zero-downtime deployments. Keeping things alive 24/7.",
-    tags: ["Docker", "Coolify", "Nginx", "PostgreSQL"],
+      "Running my own servers, containers, and reverse proxies. If it can be self-hosted, I'll find a way.",
+    tags: ["Docker", "Coolify", "Nginx", "Vercel"],
     span: "normal",
   },
   {
     id: 5,
-    icon: Smartphone,
-    title: "Mobile-First",
+    icon: Network,
+    title: "Network Engineering",
     description:
-      "Responsive experiences that feel native on every device. No compromise on performance or aesthetics.",
-    tags: ["PWA", "Responsive", "Touch UI"],
+      "Managing UniFi infrastructure across 13+ sites. Monitoring, troubleshooting, and keeping connections alive 24/7.",
+    tags: ["UniFi", "GCP", "AIOps", "Technical Support"],
     span: "normal",
   },
   {
     id: 6,
     icon: Sparkles,
-    title: "Creative Coding",
+    title: "Vibe Coding",
     description:
-      "Generative art, canvas simulations, and experimental interactions that push the boundaries of what the web can do.",
-    tags: ["Canvas", "WebGL", "Shaders", "Three.js"],
+      "Where design meets AI-assisted development. Ambient beats, dark aesthetics, and shipping code that feels right.",
+    tags: ["Cursor", "Claude", "ChatGPT", "Gemini"],
     span: "wide",
   },
 ];
@@ -216,8 +216,7 @@ const WhatIDo = () => {
           </h2>
           <div className="w-16 h-[2px] bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full mt-4" />
           <p className="mt-6 text-base md:text-lg text-brand-secondary dark:text-zinc-400 font-light leading-relaxed max-w-xl">
-            From concept to deployment — I design, build, and ship digital
-            experiences that matter.
+            I design, vibe code, and ship digital experiences that matter.
           </p>
         </div>
 

@@ -28,14 +28,14 @@ const toolkitData: ToolkitCategory[] = [
     title: "AI & Workflow",
     icon: Cpu,
     description: "The pair-programming copilots and vibe coding assistants.",
-    tools: ["Cursor", "Claude 3.5 Sonnet", "ChatGPT", "GitHub Copilot"],
+    tools: ["Cursor", "Claude", "ChatGPT", "Gemini AI"],
   },
   {
     id: "frontend",
     title: "Frontend Engineering",
     icon: MonitorPlay,
     description: "Building responsive, declarative, and high-fidelity UIs.",
-    tools: ["React", "SvelteKit", "Vite", "Tailwind CSS", "GSAP", "Framer Motion"],
+    tools: ["SvelteKit", "React", "Vite", "Tailwind CSS", "GSAP", "Framer Motion"],
   },
   {
     id: "backend",
@@ -49,21 +49,21 @@ const toolkitData: ToolkitCategory[] = [
     title: "Infra & Deployment",
     icon: Box,
     description: "Containerizing apps and managing self-hosted infrastructure.",
-    tools: ["Docker", "Coolify", "Nginx", "Linux", "Vercel"],
+    tools: ["Docker", "Coolify", "Nginx", "Vercel", "Linux"],
   },
   {
     id: "languages",
     title: "Core Languages",
     icon: Code,
     description: "The syntaxes I speak daily to talk to machines.",
-    tools: ["TypeScript", "JavaScript", "Python", "Bash/Shell"],
+    tools: ["TypeScript", "JavaScript", "Python", "Bash"],
   },
   {
     id: "network",
-    title: "Network & SysAdmin",
+    title: "Network & Infra",
     icon: TerminalSquare,
-    description: "Managing access points, subnets, and routing tables.",
-    tools: ["UniFi Network", "MikroTik", "Cisco", "GCP", "AIOps"],
+    description: "Managing network infrastructure across multiple sites.",
+    tools: ["UniFi Network", "GCP", "AIOps"],
   },
 ];
 
