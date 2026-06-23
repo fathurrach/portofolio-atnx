@@ -2,6 +2,7 @@ import { Suspense, lazy, useCallback, useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
+import WhatIDo from "./components/WhatIDo";
 import Portfolio from "./components/Portfolio";
 import LoadingScreen from "./components/LoadingScreen";
 import SmoothScroll from "./components/SmoothScroll";
@@ -77,7 +78,12 @@ function App() {
           <About />
         </SectionReveal>
 
-        {/* Section 02: Selected Portfolio Works */}
+        {/* Section 02: What I Do — Interactive Bento Grid */}
+        <SectionReveal>
+          <WhatIDo />
+        </SectionReveal>
+
+        {/* Section 03: Selected Portfolio Works */}
         <SectionReveal parallax parallaxStrength={30}>
           <Portfolio />
         </SectionReveal>
