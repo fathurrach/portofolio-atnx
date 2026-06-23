@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Code2, Compass, Layers, Zap, Camera, Palette, Sparkles } from "lucide-react";
+import { Compass, Zap, Camera, Palette, Sparkles } from "lucide-react";
 import TypewriterCode from "./TypewriterCode";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -91,19 +91,6 @@ const About = () => {
     return () => ctx.revert();
   }, []);
 
-  const skills = [
-    { name: "Network Engineering", category: "network" },
-    { name: "Google Cloud Platform (GCP)", category: "cloud" },
-    { name: "Artificial Intelligence (AI)", category: "ai" },
-    { name: "AIOps", category: "ops" },
-    { name: "Technical Support", category: "support" },
-    { name: "Web Development", category: "web" },
-    { name: "Front-End Design", category: "design" },
-    { name: "Responsive Web Design", category: "design" },
-    { name: "Database Development", category: "database" },
-    { name: "Vibe Coding", category: "creative" },
-  ];
-
   const passions = [
     {
       icon: <Sparkles size={16} className="text-brand-primary animate-pulse" />,
@@ -186,66 +173,6 @@ const About = () => {
             <span className="text-xs font-mono text-brand-secondary uppercase tracking-widest">
               Core Principles
             </span>
-          </div>
-
-          {/* Stats Card */}
-          <div className="rounded-3xl glass-card glow-card p-6 md:p-8 flex flex-col justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-brand-accent/10 text-brand-accent">
-                <Layers size={20} />
-              </div>
-              <h3 className="font-heading font-bold text-lg text-black dark:text-white">
-                Credentials
-              </h3>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <div className="text-3xl font-heading font-extrabold text-brand-primary">
-                  6+
-                </div>
-                <div className="text-xs text-slate-700 dark:text-gray-400 font-mono mt-1">
-                  YEARS WORKED
-                </div>
-              </div>
-              <div>
-                <div className="text-3xl font-heading font-extrabold text-brand-secondary">
-                  2+
-                </div>
-                <div className="text-xs text-slate-700 dark:text-gray-400 font-mono mt-1">
-                  PROJECTS SHIPPED
-                </div>
-              </div>
-            </div>
-            <span className="text-xs font-mono text-brand-accent uppercase tracking-widest">
-              Verified Experience
-            </span>
-          </div>
-
-          {/* Tech Stack Card */}
-          <div className="md:col-span-2 rounded-3xl glass-card glow-card p-6 md:p-8 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 rounded-xl bg-brand-primary/10 text-brand-primary">
-                  <Code2 size={20} />
-                </div>
-                <h3 className="font-heading font-bold text-lg text-black dark:text-white">
-                  Top Skills & Tech
-                </h3>
-              </div>
-              <div className="flex flex-wrap gap-2.5">
-                {skills.map((skill) => (
-                  <span
-                    key={skill.name}
-                    className="py-2 px-4 rounded-xl border border-black/10 dark:border-white/5 bg-black/5 dark:bg-white/5 font-mono text-xs text-slate-700 dark:text-gray-300 hover:border-brand-primary/30 hover:bg-brand-primary/5 transition-all duration-300 interactive"
-                  >
-                    {skill.name}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <p className="text-[10px] text-slate-600 dark:text-gray-400 mt-6 font-mono tracking-wide uppercase">
-              * Aligned with modern industry standards and automated workflow architectures.
-            </p>
           </div>
 
           {/* Passions Card */}
