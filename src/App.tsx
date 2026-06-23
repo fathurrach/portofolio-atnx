@@ -3,6 +3,8 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import WhatIDo from "./components/WhatIDo";
+import StatsCounter from "./components/StatsCounter";
+import MyToolkit from "./components/MyToolkit";
 import Portfolio from "./components/Portfolio";
 import LoadingScreen from "./components/LoadingScreen";
 import SmoothScroll from "./components/SmoothScroll";
@@ -83,7 +85,17 @@ function App() {
           <WhatIDo />
         </SectionReveal>
 
-        {/* Section 03: Selected Portfolio Works */}
+        {/* Section 03: By The Numbers — Stats Counter */}
+        <SectionReveal>
+          <StatsCounter />
+        </SectionReveal>
+
+        {/* Section 04: My Toolkit — Tools & Technologies */}
+        <SectionReveal>
+          <MyToolkit />
+        </SectionReveal>
+
+        {/* Section 05: Selected Portfolio Works */}
         <SectionReveal parallax parallaxStrength={30}>
           <Portfolio />
         </SectionReveal>

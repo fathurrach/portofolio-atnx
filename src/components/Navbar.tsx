@@ -11,7 +11,7 @@ interface NavbarProps {
   toggleTheme: () => void;
 }
 
-const SECTION_IDS = ["home", "about", "what-i-do", "portfolio", "journey", "photography", "contact"];
+const SECTION_IDS = ["home", "about", "what-i-do", "stats", "toolkit", "portfolio", "journey", "photography", "contact"];
 
 const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,6 +31,8 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
     { name: "Home", href: "#home" },
     { name: "About", href: "#about" },
     { name: "Services", href: "#what-i-do" },
+    { name: "Stats", href: "#stats" },
+    { name: "Toolkit", href: "#toolkit" },
     { name: "Portfolio", href: "#portfolio" },
     { name: "Journey", href: "#journey" },
     { name: "Gallery", href: "#photography" },
