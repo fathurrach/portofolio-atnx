@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { PORTFOLIO_DATA, BOT_NAME, BOT_TAGLINE } from "../src/data/portfolio";
+import { PORTFOLIO_DATA, BOT_NAME, BOT_TAGLINE } from "../src/data/portfolio.js";
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 

@@ -399,7 +399,8 @@ export default function ChatWidget() {
             {/* ─── Messages ─── */}
             <div
               ref={messagesContainerRef}
-              className="flex-1 min-h-0 overflow-y-auto px-3.5 py-3.5 bg-transparent [&::-webkit-scrollbar]:w-[3px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-300 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-700 [&::-webkit-scrollbar-thumb]:rounded-full"
+              data-lenis-prevent
+              className="flex-1 min-h-0 overflow-y-auto overscroll-contain touch-pan-y px-3.5 py-3.5 bg-transparent [&::-webkit-scrollbar]:w-[3px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-300 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-700 [&::-webkit-scrollbar-thumb]:rounded-full"
             >
               <AnimatePresence initial={false}>
                 {messages.map((msg) => (
