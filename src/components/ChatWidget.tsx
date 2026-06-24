@@ -229,10 +229,34 @@ export default function ChatWidget() {
         setChipContext("general");
       }
 
-      const botResponse = getBotResponse(trimmed);
-      const delay = getTypingDelay(botResponse);
+      // Try calling Gemini serverless API first
+      const callGeminiAPI = async () => {
+        try {
+          const res = await fetch("/api/chat", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              message: trimmed,
+              history: messages.slice(-6), // Send last 6 messages as context
+            }),
+          });
 
-      setTimeout(() => {
+          if (!res.ok) throw new Error("API call failed");
+
+          const data = await res.json();
+          if (data.text) {
+            return data.text;
+          }
+          throw new Error("Invalid response");
+        } catch (err) {
+          // Fallback to local rule-based engine
+          return getBotResponse(trimmed);
+        }
+      };
+
+      callGeminiAPI().then((botResponse) => {
         const botMsg: ChatMessage = {
           id: generateId(),
           text: botResponse,
@@ -241,9 +265,9 @@ export default function ChatWidget() {
         };
         setMessages((prev) => [...prev, botMsg]);
         setIsTyping(false);
-      }, delay);
+      });
     },
-    [isTyping]
+    [isTyping, messages]
   );
 
   const handleSubmit = (e: React.FormEvent) => {
