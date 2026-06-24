@@ -1,6 +1,14 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Bot, User, Sparkles, Keyboard } from "lucide-react";
+import {
+  MessageCircle,
+  X,
+  Send,
+  Bot,
+  User,
+  Sparkles,
+  Keyboard,
+} from "lucide-react";
 import {
   getBotResponse,
   generateId,
@@ -15,22 +23,23 @@ function TypingIndicator() {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 8 }}
-      className="flex items-start gap-2 mb-3"
+      className="flex items-end gap-2 mb-3"
     >
-      <div className="w-7 h-7 rounded-full bg-slate-200 dark:bg-zinc-800 text-slate-800 dark:text-zinc-200 border border-slate-300 dark:border-zinc-700 flex items-center justify-center shrink-0 shadow-xs">
+      <div className="w-7 h-7 rounded-full bg-slate-200 dark:bg-zinc-800 text-slate-800 dark:text-zinc-200 border border-slate-300 dark:border-zinc-700 flex items-center justify-center shrink-0">
         <Bot size={14} />
       </div>
-      <div className="bg-slate-100/80 dark:bg-zinc-900/60 backdrop-blur-md border border-slate-200 dark:border-zinc-800/50 rounded-2xl rounded-tl-sm px-4 py-3">
-        <div className="flex gap-1.5 items-center">
+      <div className="bg-slate-100/80 dark:bg-zinc-900/60 backdrop-blur-md border border-slate-200 dark:border-zinc-800/50 rounded-2xl rounded-bl-sm px-4 py-3.5">
+        <div className="flex gap-1 items-center">
           {[0, 1, 2].map((i) => (
             <motion.div
               key={i}
-              className="w-1.5 h-1.5 rounded-full bg-slate-600 dark:bg-zinc-400"
-              animate={{ y: [0, -4, 0], opacity: [0.5, 1, 0.5] }}
+              className="w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-zinc-500"
+              animate={{ y: [0, -3, 0], opacity: [0.4, 1, 0.4] }}
               transition={{
-                duration: 0.8,
+                duration: 0.7,
                 repeat: Infinity,
-                delay: i * 0.15,
+                delay: i * 0.12,
+                ease: "easeInOut",
               }}
             />
           ))}
@@ -44,7 +53,6 @@ function TypingIndicator() {
 function MessageBubble({ message }: { message: ChatMessage }) {
   const isBot = message.sender === "bot";
 
-  // Split by double newline for paragraphs, then by single newline for line breaks
   const formatText = (text: string) => {
     const paragraphs = text.split("\n\n");
 
@@ -52,65 +60,67 @@ function MessageBubble({ message }: { message: ChatMessage }) {
       const lines = para.split("\n");
 
       return (
-        <p key={pIdx} className={pIdx > 0 ? "mt-3" : ""}>
+        <div key={pIdx} className={pIdx > 0 ? "mt-2.5" : ""}>
           {lines.map((line, lIdx) => {
-            // Detect bullet lines for indent
-            const isBullet = /^\s*(•|\d+\.|[\d]️⃣)/.test(line);
-            const isSubBullet = /^\s{2,}•/.test(line);
+            const isBullet = /^\s*(•|\d+\.|[\d]️⃣|[\d]️⃣)/.test(line);
+            const isHeading = /^\*[^*]+\*\s*$/.test(line);
 
-            const formatted = line
-              .replace(/\*([^*]+)\*/g, '<strong class="text-slate-900 dark:text-white font-semibold">$1</strong>')
-              .replace(/•/g, '<span class="text-slate-400 dark:text-zinc-500">•</span>')
-              .replace(/🛠️/g, '<span class="inline-block mt-1">🛠️</span>');
+            let formatted = line
+              .replace(
+                /\*([^*]+)\*/g,
+                isHeading
+                  ? '<span class="text-slate-900 dark:text-white font-semibold text-[13px]">$1</span>'
+                  : '<strong class="text-slate-900 dark:text-white font-semibold">$1</strong>'
+              )
+              .replace(
+                /•/g,
+                '<span class="text-slate-400 dark:text-zinc-500 mr-0.5">•</span>'
+              );
 
             return (
               <span
                 key={lIdx}
-                className={`block ${
-                  isBullet ? "pl-1 mt-0.5" : ""
-                }${
-                  isSubBullet ? "pl-3" : ""
-                }`}
+                className={`block leading-[1.6] ${
+                  isBullet ? "pl-2.5 mt-[3px]" : ""
+                } ${isHeading ? "mt-3 first:mt-0" : ""}`}
                 dangerouslySetInnerHTML={{ __html: formatted }}
               />
             );
           })}
-        </p>
+        </div>
       );
     });
   };
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12, scale: 0.95 }}
+      initial={{ opacity: 0, y: 10, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ type: "spring", stiffness: 300, damping: 25 }}
-      className={`flex items-start gap-2 mb-3 ${isBot ? "" : "flex-row-reverse"}`}
+      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+      className={`flex items-end gap-2 mb-3 ${
+        isBot ? "" : "flex-row-reverse"
+      }`}
     >
+      {/* Avatar */}
       <div
-        className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 border shadow-xs mt-0.5 ${
+        className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 border ${
           isBot
             ? "bg-slate-200 dark:bg-zinc-800 text-slate-800 dark:text-zinc-200 border-slate-300 dark:border-zinc-700"
-            : "bg-black dark:bg-white text-white dark:text-black border-zinc-800 dark:border-zinc-200"
+            : "bg-slate-900 dark:bg-white text-white dark:text-slate-900 border-slate-700 dark:border-zinc-300"
         }`}
       >
-        {isBot ? (
-          <Bot size={14} />
-        ) : (
-          <User size={14} />
-        )}
+        {isBot ? <Bot size={13} /> : <User size={13} />}
       </div>
 
+      {/* Bubble */}
       <div
-        className={`max-w-[290px] px-4 py-3 text-[13px] leading-[1.65] ${
+        className={`max-w-[280px] px-3.5 py-2.5 text-[13px] ${
           isBot
-            ? "bg-slate-100/80 dark:bg-zinc-900/60 border border-slate-200 dark:border-zinc-800/50 rounded-2xl rounded-tl-sm text-slate-700 dark:text-zinc-300"
-            : "bg-slate-900 dark:bg-zinc-100 rounded-2xl rounded-tr-sm text-white dark:text-zinc-900 shadow-md border border-slate-800 dark:border-zinc-200"
+            ? "bg-slate-100/90 dark:bg-zinc-900/70 border border-slate-200/80 dark:border-zinc-800/60 rounded-2xl rounded-bl-sm text-slate-700 dark:text-zinc-300"
+            : "bg-slate-900 dark:bg-white rounded-2xl rounded-br-sm text-white dark:text-slate-900 border border-slate-800 dark:border-zinc-200"
         }`}
       >
-        <div className="break-words">
-          {formatText(message.text)}
-        </div>
+        <div className="break-words">{formatText(message.text)}</div>
       </div>
     </motion.div>
   );
@@ -125,26 +135,27 @@ function SuggestionChips({
   context: "initial" | "after_skill" | "after_project" | "general";
 }) {
   const suggestionsByContext: Record<string, string[]> = {
-    initial: ["Skill apa aja?", "Project apa aja?", "Contact"],
+    initial: ["Skill apa aja?", "Project apa aja?", "Kenalan dulu"],
     after_skill: ["Project apa aja?", "Pengalaman kerja", "Fun fact"],
     after_project: ["Skill apa aja?", "Contact", "Siapa kamu?"],
     general: ["Skill apa aja?", "Project apa aja?", "Help"],
   };
 
-  const suggestions = suggestionsByContext[context] || suggestionsByContext.initial;
+  const suggestions =
+    suggestionsByContext[context] || suggestionsByContext.initial;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
+      initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
-      className="flex flex-wrap gap-2 mb-3 ml-9"
+      transition={{ delay: 0.15, duration: 0.25 }}
+      className="flex flex-wrap gap-1.5 mb-3 ml-9"
     >
       {suggestions.map((s) => (
         <button
           key={s}
           onClick={() => onSelect(s)}
-          className="text-xs px-3 py-1.5 rounded-full bg-slate-100 dark:bg-zinc-800/40 border border-slate-200 dark:border-zinc-700/60 text-slate-600 dark:text-zinc-400 hover:bg-slate-200 dark:hover:bg-zinc-700/55 hover:border-slate-300 dark:hover:border-zinc-500 transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer"
+          className="text-[11px] px-2.5 py-1 rounded-full bg-slate-100 dark:bg-zinc-800/50 border border-slate-200/80 dark:border-zinc-700/50 text-slate-500 dark:text-zinc-400 hover:bg-slate-200 dark:hover:bg-zinc-700/60 hover:text-slate-700 dark:hover:text-zinc-200 hover:border-slate-300 dark:hover:border-zinc-600 transition-all duration-200 cursor-pointer"
         >
           {s}
         </button>
@@ -160,12 +171,17 @@ export default function ChatWidget() {
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [hasGreeted, setHasGreeted] = useState(false);
-  const [chipContext, setChipContext] = useState<"initial" | "after_skill" | "after_project" | "general">("initial");
+  const [chipContext, setChipContext] = useState<
+    "initial" | "after_skill" | "after_project" | "general"
+  >("initial");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const scrollToBottom = useCallback(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   }, []);
 
   useEffect(() => {
@@ -174,7 +190,7 @@ export default function ChatWidget() {
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
-      inputRef.current.focus();
+      setTimeout(() => inputRef.current?.focus(), 100);
     }
   }, [isOpen]);
 
@@ -222,35 +238,41 @@ export default function ChatWidget() {
       const lowerInput = trimmed.toLowerCase();
       if (lowerInput.includes("skill") || lowerInput.includes("tech")) {
         setChipContext("after_skill");
-      } else if (lowerInput.includes("project") || lowerInput.includes("portfolio")) {
+      } else if (
+        lowerInput.includes("project") ||
+        lowerInput.includes("portfolio")
+      ) {
         setChipContext("after_project");
       } else {
         setChipContext("general");
       }
 
-      // Try calling Gemini serverless API first
-      const callGeminiAPI = async () => {
+      // Capture current messages for history context
+      const currentMessages = [...messages, userMsg];
+
+      // Call Gemini serverless API with fallback
+      const callGeminiAPI = async (): Promise<string> => {
         try {
           const res = await fetch("/api/chat", {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               message: trimmed,
-              history: messages.slice(-6), // Send last 6 messages as context
+              history: currentMessages.slice(-6),
             }),
           });
 
-          if (!res.ok) throw new Error("API call failed");
+          if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            console.warn("[ChatWidget] API error:", res.status, errData);
+            throw new Error(`API ${res.status}`);
+          }
 
           const data = await res.json();
-          if (data.text) {
-            return data.text;
-          }
-          throw new Error("Invalid response");
+          if (data.text) return data.text;
+          throw new Error("No text in response");
         } catch (err) {
-          // Fallback to local rule-based engine
+          console.warn("[ChatWidget] Falling back to rule-based:", err);
           return getBotResponse(trimmed);
         }
       };
@@ -274,20 +296,23 @@ export default function ChatWidget() {
     handleSendMessage(inputValue);
   };
 
-  const showChips = !isTyping && messages.length > 0 && messages[messages.length - 1].sender === "bot";
+  const showChips =
+    !isTyping &&
+    messages.length > 0 &&
+    messages[messages.length - 1].sender === "bot";
 
   return (
     <>
       {/* ─── Floating Button ─── */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-xl transition-colors duration-300 border cursor-pointer ${
+        className={`fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 w-[52px] h-[52px] sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-xl transition-colors duration-300 border cursor-pointer ${
           isOpen
-            ? "bg-red-500/90 hover:bg-red-500 shadow-red-500/30 border-red-400/20 text-white"
-            : "bg-slate-900 dark:bg-white text-white dark:text-zinc-950 hover:bg-black dark:hover:bg-zinc-100 shadow-black/10 dark:shadow-white/5 border-slate-800 dark:border-zinc-200"
+            ? "bg-red-500/90 hover:bg-red-500 shadow-red-500/20 border-red-400/20 text-white"
+            : "bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-black dark:hover:bg-zinc-100 shadow-black/10 dark:shadow-white/5 border-slate-700 dark:border-zinc-200"
         }`}
-        whileHover={{ scale: 1.08 }}
-        whileTap={{ scale: 0.92 }}
+        whileHover={{ scale: 1.06 }}
+        whileTap={{ scale: 0.94 }}
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 20, delay: 1.5 }}
@@ -295,35 +320,35 @@ export default function ChatWidget() {
       >
         {!isOpen && (
           <motion.div
-            className="absolute inset-0 rounded-full border-2 border-slate-600/30 dark:border-zinc-300/40"
-            animate={{ scale: [1, 1.3, 1], opacity: [0.6, 0, 0.6] }}
-            transition={{ duration: 2, repeat: Infinity }}
+            className="absolute inset-[-3px] rounded-full border border-slate-500/20 dark:border-zinc-400/30"
+            animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0, 0.5] }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
           />
         )}
         <AnimatePresence mode="wait">
           {isOpen ? (
             <motion.div
               key="close"
-              initial={{ rotate: -90, opacity: 0 }}
+              initial={{ rotate: -60, opacity: 0 }}
               animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              exit={{ rotate: 60, opacity: 0 }}
+              transition={{ duration: 0.15 }}
             >
-              <X size={22} />
+              <X size={20} strokeWidth={2.5} />
             </motion.div>
           ) : (
             <motion.div
               key="open"
-              initial={{ rotate: 90, opacity: 0 }}
+              initial={{ rotate: 60, opacity: 0 }}
               animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: -90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              exit={{ rotate: -60, opacity: 0 }}
+              transition={{ duration: 0.15 }}
               className="relative"
             >
-              <MessageCircle size={22} />
+              <MessageCircle size={20} strokeWidth={2.5} />
               <Sparkles
-                size={10}
-                className="text-amber-500 dark:text-amber-600 absolute -top-1 -right-1"
+                size={9}
+                className="text-amber-500 dark:text-amber-500 absolute -top-0.5 -right-0.5"
               />
             </motion.div>
           )}
@@ -334,62 +359,71 @@ export default function ChatWidget() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            initial={{ opacity: 0, y: 16, scale: 0.92 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            transition={{ type: "spring", stiffness: 300, damping: 28 }}
-            className="fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] h-[520px] max-h-[calc(100vh-8rem)] flex flex-col rounded-2xl overflow-hidden glass-panel shadow-2xl"
+            exit={{ opacity: 0, y: 16, scale: 0.92 }}
+            transition={{ type: "spring", stiffness: 350, damping: 30 }}
+            className="fixed bottom-[72px] right-5 sm:bottom-[80px] sm:right-6 z-50 w-[360px] max-w-[calc(100vw-40px)] flex flex-col rounded-2xl overflow-hidden glass-panel shadow-2xl border border-slate-200/40 dark:border-zinc-800/50"
+            style={{ height: "min(500px, calc(100vh - 120px))" }}
             role="dialog"
             aria-label="Chat dengan Kimshie"
           >
             {/* ─── Header ─── */}
-            <div className="relative px-5 py-4 border-b border-slate-200/50 dark:border-zinc-800/40 bg-slate-50/20 dark:bg-zinc-950/20">
+            <div className="relative px-4 py-3.5 border-b border-slate-200/40 dark:border-zinc-800/50 shrink-0">
               <div className="relative flex items-center gap-3">
                 <div className="relative">
-                  <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-zinc-800 text-slate-800 dark:text-zinc-200 border border-slate-300 dark:border-zinc-700 flex items-center justify-center shadow-xs">
-                    <Bot size={20} />
+                  <div className="w-9 h-9 rounded-full bg-slate-200 dark:bg-zinc-800 text-slate-800 dark:text-zinc-200 border border-slate-300 dark:border-zinc-700 flex items-center justify-center">
+                    <Bot size={18} />
                   </div>
                   <motion.div
-                    className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-[#0a0a0c]"
-                    animate={{ scale: [1, 1.2, 1] }}
+                    className="absolute -bottom-px -right-px w-3 h-3 rounded-full bg-emerald-500 border-2 border-white dark:border-[#0a0a0c]"
+                    animate={{ scale: [1, 1.15, 1] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   />
                 </div>
-                <div>
-                  <h3 className="text-slate-900 dark:text-white font-semibold text-sm">
+                <div className="min-w-0">
+                  <h3 className="text-slate-900 dark:text-white font-semibold text-sm leading-tight">
                     {BOT_NAME}
                   </h3>
-                  <p className="text-slate-500 dark:text-zinc-400 text-xs">
-                    Online • Assistant
+                  <p className="text-slate-400 dark:text-zinc-500 text-[11px] leading-tight mt-0.5">
+                    Online • ATNX Assistant
                   </p>
                 </div>
-                <div className="ml-auto flex items-center gap-1.5 text-[10px] text-slate-400 dark:text-zinc-600">
-                  <Keyboard size={12} />
+                <div className="ml-auto flex items-center gap-1 text-[9px] text-slate-400 dark:text-zinc-600 shrink-0">
+                  <Keyboard size={10} />
                   <span>ESC</span>
                 </div>
               </div>
             </div>
 
             {/* ─── Messages ─── */}
-            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-1 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-slate-300 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-800 [&::-webkit-scrollbar-thumb]:rounded-full bg-transparent">
-              <AnimatePresence>
+            <div
+              ref={messagesContainerRef}
+              className="flex-1 min-h-0 overflow-y-auto px-3.5 py-3.5 bg-transparent [&::-webkit-scrollbar]:w-[3px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-300 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-700 [&::-webkit-scrollbar-thumb]:rounded-full"
+            >
+              <AnimatePresence initial={false}>
                 {messages.map((msg) => (
                   <MessageBubble key={msg.id} message={msg} />
                 ))}
               </AnimatePresence>
-              <AnimatePresence>{isTyping && <TypingIndicator />}</AnimatePresence>
+              <AnimatePresence>
+                {isTyping && <TypingIndicator />}
+              </AnimatePresence>
 
               {showChips && (
-                <SuggestionChips onSelect={handleSendMessage} context={chipContext} />
+                <SuggestionChips
+                  onSelect={handleSendMessage}
+                  context={chipContext}
+                />
               )}
 
-              <div ref={messagesEndRef} />
+              <div ref={messagesEndRef} className="h-px" />
             </div>
 
             {/* ─── Input ─── */}
             <form
               onSubmit={handleSubmit}
-              className="px-4 py-3 border-t border-slate-200/50 dark:border-zinc-800/40 bg-slate-50/50 dark:bg-black/40"
+              className="px-3 py-2.5 border-t border-slate-200/40 dark:border-zinc-800/50 bg-slate-50/30 dark:bg-black/30 shrink-0"
             >
               <div className="flex items-center gap-2">
                 <input
@@ -397,24 +431,27 @@ export default function ChatWidget() {
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  placeholder="Ketik pesan..."
+                  placeholder="Tanya soal Fathur..."
                   disabled={isTyping}
                   aria-label="Ketik pesan"
-                  className="flex-1 bg-white dark:bg-zinc-900/60 border border-slate-200 dark:border-zinc-800/50 rounded-xl px-4 py-2.5 text-sm text-slate-950 dark:text-white placeholder-slate-400 dark:placeholder-zinc-500 focus:outline-none focus:border-slate-400 dark:focus:border-zinc-600 focus:ring-1 focus:ring-slate-300 dark:focus:ring-zinc-800 transition-all duration-200 disabled:opacity-50"
+                  className="flex-1 bg-white dark:bg-zinc-900/70 border border-slate-200 dark:border-zinc-800/60 rounded-xl px-3.5 py-2 text-[13px] text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-zinc-500 focus:outline-none focus:border-slate-400 dark:focus:border-zinc-600 transition-all duration-200 disabled:opacity-40"
                 />
                 <motion.button
                   type="submit"
                   disabled={!inputValue.trim() || isTyping}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-10 h-10 rounded-xl bg-slate-950 dark:bg-white flex items-center justify-center text-white dark:text-slate-950 shadow-md disabled:opacity-40 disabled:shadow-none transition-all duration-200 hover:shadow-slate-800 dark:hover:shadow-zinc-200 cursor-pointer border border-slate-800 dark:border-zinc-200"
+                  className="w-9 h-9 rounded-xl bg-slate-900 dark:bg-white flex items-center justify-center text-white dark:text-slate-900 disabled:opacity-30 transition-all duration-200 cursor-pointer border border-slate-700 dark:border-zinc-300"
                   aria-label="Kirim pesan"
                 >
-                  <Send size={16} />
+                  <Send size={14} />
                 </motion.button>
               </div>
-              <p className="text-center text-[10px] text-slate-400 dark:text-zinc-600 mt-2">
-                Powered by ATNX • Monochrome Smart Assistant
+              <p className="text-center text-[9px] text-slate-400/60 dark:text-zinc-600/60 mt-1.5 tracking-wide">
+                powered by{" "}
+                <span className="font-medium text-slate-500 dark:text-zinc-500">
+                  ATNX
+                </span>
               </p>
             </form>
           </motion.div>
