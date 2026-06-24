@@ -88,46 +88,44 @@ function matchPatterns(text: string, patterns: RegExp[]): boolean {
 
 function getSkillsResponse(): string {
   const { skills } = PORTFOLIO_DATA;
-  let response = "💪 *Skill & Tech Stack Fathur:*\n\n";
+  let response = "💪 *Skill & Tech Stack Fathur:*\n";
 
   skills.forEach((cat) => {
-    response += `*${cat.category}:*\n`;
-    response += cat.items.map((s) => `  • ${s}`).join("\n");
-    response += "\n\n";
+    response += `\n*${cat.category}:*\n`;
+    response += cat.items.map((s) => `• ${s}`).join("\n");
   });
 
-  response += "Mau tau project apa aja yang udah dibikin pakai skill-skill ini? 🎯";
+  response += "\n\nMau tau project apa aja yang udah dibikin pakai skill-skill ini? 🎯";
   return response;
 }
 
 function getExperienceResponse(): string {
   const { experience } = PORTFOLIO_DATA;
-  let response = "💼 *Pengalaman Kerja Fathur:*\n\n";
+  let response = "💼 *Pengalaman Kerja Fathur:*\n";
 
   experience.forEach((exp) => {
-    response += `*${exp.role}* @ ${exp.company}\n`;
+    response += `\n*${exp.role}* @ ${exp.company}\n`;
     response += `📅 ${exp.period}\n`;
     exp.highlights.forEach((h) => {
-      response += `  • ${h}\n`;
+      response += `• ${h}\n`;
     });
-    response += "\n";
   });
 
-  response += "Mau tau project apa aja yang udah dikerjain? Tanya aja! 🚀";
+  response += "\nMau tau project apa aja yang udah dikerjain? Tanya aja! 🚀";
   return response;
 }
 
 function getProjectsResponse(): string {
   const { projects } = PORTFOLIO_DATA;
-  let response = "🚀 *Project Fathur yang udah jalan:*\n\n";
+  let response = "🚀 *Project Fathur yang udah jalan:*\n";
 
   projects.forEach((proj, i) => {
-    response += `${i + 1}. *${proj.name}* [${proj.category}]\n`;
-    response += `   ${proj.description}\n`;
-    response += `   🛠️ Tech: ${proj.techStack.join(", ")}\n\n`;
+    response += `\n${i + 1}. *${proj.name}* [${proj.category}]\n`;
+    response += `${proj.description}\n`;
+    response += `🛠️ Tech: ${proj.techStack.join(", ")}\n`;
   });
 
-  response += "Ada yang mau tau lebih dalam? Tanya aja! 😎";
+  response += "\nAda yang mau tau lebih dalam? Tanya aja! 😎";
   return response;
 }
 
@@ -136,13 +134,13 @@ function getLaporResponse(): string {
     "📋 *Lapor FM DDP*\n\n" +
     "Ini project full-stack Fathur:\n\n" +
     "*Backend API:*\n" +
-    "  • NestJS + TypeScript\n" +
-    "  • PostgreSQL + Supabase\n" +
-    "  • Auto-backup ke Google Sheets\n" +
-    "  • Full Swagger API docs\n\n" +
+    "• NestJS + TypeScript\n" +
+    "• PostgreSQL + Supabase\n" +
+    "• Auto-backup ke Google Sheets\n" +
+    "• Full Swagger API docs\n\n" +
     "*Frontend Client:*\n" +
-    "  • SvelteKit + Tailwind CSS\n" +
-    "  • PWA support\n\n" +
+    "• SvelteKit + Tailwind CSS\n" +
+    "• PWA support\n\n" +
     "Keren kan? Ada yang mau ditanya lagi soal ini? 🛠️"
   );
 }
@@ -151,9 +149,9 @@ function getWhatsAppResponse(): string {
   return (
     "📱 *WhatsApp Automation*\n\n" +
     "Fathur bikin WhatsApp bot pakai:\n" +
-    "  • *whatsapp-web.js* — Node.js library\n" +
-    "  • *qrcode-terminal* — buat scan QR login\n" +
-    "  • *PostgreSQL* — simpan data & log\n\n" +
+    "• *whatsapp-web.js* — Node.js library\n" +
+    "• *qrcode-terminal* — buat scan QR login\n" +
+    "• *PostgreSQL* — simpan data & log\n\n" +
     "Fitur: auto-notification, group moderation, webhook integration.\n\n" +
     "Mau tau lebih detail soal automasi WhatsApp-nya? 🤖"
   );
@@ -163,10 +161,10 @@ function getCoolifyResponse(): string {
   return (
     "🐳 *Coolify Self-Hosting Stack*\n\n" +
     "Fathur pake Coolify buat deploy di VPS pribadi:\n" +
-    "  • Docker + Docker Compose\n" +
-    "  • Nginx reverse proxy\n" +
-    "  • Auto SSL certificates\n" +
-    "  • Git-based CI/CD\n\n" +
+    "• Docker + Docker Compose\n" +
+    "• Nginx reverse proxy\n" +
+    "• Auto SSL certificates\n" +
+    "• Git-based CI/CD\n\n" +
     "Semua di-self-host, gak perlu cloud hosting mahal! 💸"
   );
 }
@@ -185,11 +183,11 @@ function getContactResponse(): string {
 
 function getEducationResponse(): string {
   const { education } = PORTFOLIO_DATA;
-  let response = "🎓 *Pendidikan Fathur:*\n\n";
+  let response = "🎓 *Pendidikan Fathur:*\n";
   education.forEach((edu) => {
-    response += `*${edu.degree}*\n`;
+    response += `\n*${edu.degree}*\n`;
     response += `🏫 ${edu.school}\n`;
-    response += `📅 ${edu.year}\n\n`;
+    response += `📅 ${edu.year}\n`;
   });
   return response;
 }
@@ -218,7 +216,7 @@ function getHelpResponse(): string {
     `4️⃣ *"Lapor FM"* — Detail project Lapor FM DDP\n` +
     `5️⃣ *"WhatsApp bot"* — Detail automasi WhatsApp\n` +
     `6️⃣ *"Coolify"* — Infra self-hosting\n` +
-    `7️⃣ *"Education"* — Latar belakang pendidikan\n` +
+    `7️⃣ *"Education"* — Latar pendidikan\n` +
     `8️⃣ *"Contact"* — Cara hubungi Fathur\n` +
     `9️⃣ *"Fun fact"* — Fakta menarik\n\n` +
     `Tanya apa aja, gw siap bantu! 🚀`
@@ -231,11 +229,11 @@ function getFunFactsResponse(): string {
     .sort(() => Math.random() - 0.5)
     .slice(0, 3);
 
-  let response = "🎲 *Fun Facts about Fathur:*\n\n";
+  let response = "🎲 *Fun Facts about Fathur:*\n";
   randomFacts.forEach((fact, i) => {
-    response += `${i + 1}. ${fact}\n`;
+    response += `\n${i + 1}. ${fact}`;
   });
-  response += "\nKeren kan? 😎 Ada lagi yang mau ditanya?";
+  response += "\n\nKeren kan? 😎 Ada lagi yang mau ditanya?";
   return response;
 }
 

@@ -45,14 +45,38 @@ function TypingIndicator() {
 function MessageBubble({ message }: { message: ChatMessage }) {
   const isBot = message.sender === "bot";
 
+  // Split by double newline for paragraphs, then by single newline for line breaks
   const formatText = (text: string) => {
-    return text.split("\n").map((line, i) => {
-      const formatted = line
-        .replace(/\*([^*]+)\*/g, '<strong class="text-slate-900 dark:text-white font-semibold">$1</strong>')
-        .replace(/•/g, '<span class="text-slate-400 dark:text-zinc-500">•</span>');
+    const paragraphs = text.split("\n\n");
+
+    return paragraphs.map((para, pIdx) => {
+      const lines = para.split("\n");
 
       return (
-        <span key={i} dangerouslySetInnerHTML={{ __html: formatted }} />
+        <p key={pIdx} className={pIdx > 0 ? "mt-3" : ""}>
+          {lines.map((line, lIdx) => {
+            // Detect bullet lines for indent
+            const isBullet = /^\s*(•|\d+\.|[\d]️⃣)/.test(line);
+            const isSubBullet = /^\s{2,}•/.test(line);
+
+            const formatted = line
+              .replace(/\*([^*]+)\*/g, '<strong class="text-slate-900 dark:text-white font-semibold">$1</strong>')
+              .replace(/•/g, '<span class="text-slate-400 dark:text-zinc-500">•</span>')
+              .replace(/🛠️/g, '<span class="inline-block mt-1">🛠️</span>');
+
+            return (
+              <span
+                key={lIdx}
+                className={`block ${
+                  isBullet ? "pl-1 mt-0.5" : ""
+                }${
+                  isSubBullet ? "pl-3" : ""
+                }`}
+                dangerouslySetInnerHTML={{ __html: formatted }}
+              />
+            );
+          })}
+        </p>
       );
     });
   };
@@ -65,7 +89,7 @@ function MessageBubble({ message }: { message: ChatMessage }) {
       className={`flex items-start gap-2 mb-3 ${isBot ? "" : "flex-row-reverse"}`}
     >
       <div
-        className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 border shadow-xs ${
+        className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 border shadow-xs mt-0.5 ${
           isBot
             ? "bg-slate-200 dark:bg-zinc-800 text-slate-800 dark:text-zinc-200 border-slate-300 dark:border-zinc-700"
             : "bg-black dark:bg-white text-white dark:text-black border-zinc-800 dark:border-zinc-200"
@@ -79,13 +103,13 @@ function MessageBubble({ message }: { message: ChatMessage }) {
       </div>
 
       <div
-        className={`max-w-[280px] px-4 py-3 text-sm leading-relaxed ${
+        className={`max-w-[290px] px-4 py-3 text-[13px] leading-[1.65] ${
           isBot
-            ? "bg-slate-100/80 dark:bg-zinc-900/60 border border-slate-200 dark:border-zinc-800/50 rounded-2xl rounded-tl-sm text-slate-800 dark:text-zinc-300"
+            ? "bg-slate-100/80 dark:bg-zinc-900/60 border border-slate-200 dark:border-zinc-800/50 rounded-2xl rounded-tl-sm text-slate-700 dark:text-zinc-300"
             : "bg-slate-900 dark:bg-zinc-100 rounded-2xl rounded-tr-sm text-white dark:text-zinc-900 shadow-md border border-slate-800 dark:border-zinc-200"
         }`}
       >
-        <div className="whitespace-pre-wrap break-words">
+        <div className="break-words">
           {formatText(message.text)}
         </div>
       </div>
