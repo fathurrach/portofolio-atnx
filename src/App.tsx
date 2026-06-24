@@ -9,6 +9,7 @@ import Portfolio from "./components/Portfolio";
 import LoadingScreen from "./components/LoadingScreen";
 import SmoothScroll from "./components/SmoothScroll";
 import SectionReveal from "./components/ui/section-reveal";
+import ChatWidget from "./components/ChatWidget";
 
 // Lazy load below-the-fold components for better FCP & TBT
 const Journey = lazy(() => import("./components/Journey"));
@@ -114,6 +115,9 @@ function App() {
         </Suspense>
 
       </main>
+
+      {/* Floating Chatbot Assistant */}
+      <ChatWidget />
     </>
   );
 }
