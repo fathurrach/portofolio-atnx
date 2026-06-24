@@ -4,7 +4,6 @@ import { MessageCircle, X, Send, Bot, User, Sparkles, Keyboard } from "lucide-re
 import {
   getBotResponse,
   generateId,
-  getTypingDelay,
   type ChatMessage,
 } from "../utils/chatbot";
 import { BOT_NAME, GREETING } from "../data/portfolio";
