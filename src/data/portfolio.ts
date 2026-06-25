@@ -165,8 +165,8 @@ export const PORTFOLIO_DATA: PortfolioData = {
   ],
   contact: {
     email: "hello@atnx.my.id",
-    github: "https://github.com/Abangatungxx",
-    linkedin: "https://linkedin.com/in/fathurrachman",
+    github: "https://github.com/fathurrach",
+    linkedin: "https://www.linkedin.com/in/muhammad-fathurrachman-bb80143b5/",
     website: "https://atnx.my.id",
   },
   funFacts: [

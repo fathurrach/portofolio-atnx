@@ -1,12 +1,50 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Send, Bot, User, Keyboard } from "lucide-react";
+import {
+  X,
+  Send,
+  Bot,
+  User,
+  Keyboard,
+  Copy,
+  Check,
+  Trash2,
+  Heart,
+  ThumbsUp,
+  Sparkles,
+} from "lucide-react";
 import {
   getBotResponse,
   generateId,
   type ChatMessage,
 } from "../utils/chatbot";
 import { BOT_NAME, GREETING } from "../data/portfolio";
+
+/* ─── Helpers ─── */
+function renderLinkedText(text: string): string {
+  // Detect URLs and wrap them in <a> tags
+  let result = text.replace(
+    /(https?:\/\/[^\s<>"')\]]+)/g,
+    '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-blue-500 dark:text-blue-400 underline hover:text-blue-600 dark:hover:text-blue-300 transition-colors">$1</a>'
+  );
+  // Detect bare emails (not already inside mailto:)
+  result = result.replace(
+    /\b([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\b/g,
+    (match, email) => {
+      if (email.includes("class=")) return match; // already wrapped
+      return `<a href="mailto:${email}" class="text-blue-500 dark:text-blue-400 underline hover:text-blue-600 dark:hover:text-blue-300 transition-colors">${email}</a>`;
+    }
+  );
+  return result;
+}
+
+function formatTime(date: Date): string {
+  return date.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+}
 
 /* ─── Simple Chat Icon (clean & minimal) ─── */
 function ChatIcon({ size = 20 }: { size?: number }) {
@@ -60,8 +98,35 @@ function TypingIndicator() {
 }
 
 /* ─── Message Bubble ─── */
-function MessageBubble({ message }: { message: ChatMessage }) {
+function MessageBubble({
+  message,
+  onReact,
+  reactions,
+}: {
+  message: ChatMessage;
+  onReact: (msgId: string, emoji: string) => void;
+  reactions: Record<string, string>;
+}) {
   const isBot = message.sender === "bot";
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(message.text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // fallback
+      const ta = document.createElement("textarea");
+      ta.value = message.text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   const formatText = (text: string) => {
     const paragraphs = text.split("\n\n");
@@ -89,6 +154,8 @@ function MessageBubble({ message }: { message: ChatMessage }) {
                 '<span class="text-slate-400 dark:text-zinc-500 mr-1">•</span>'
               );
 
+            formatted = renderLinkedText(formatted);
+
             return (
               <span
                 key={lIdx}
@@ -103,6 +170,8 @@ function MessageBubble({ message }: { message: ChatMessage }) {
       );
     });
   };
+
+  const reaction = reactions[message.id];
 
   return (
     <motion.div
@@ -124,16 +193,102 @@ function MessageBubble({ message }: { message: ChatMessage }) {
         {isBot ? <Bot size={13} /> : <User size={13} />}
       </div>
 
-      {/* Bubble */}
       <div
-        className={`max-w-[280px] px-3.5 py-2.5 text-[13px] ${
-          isBot
-            ? "bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-2xl rounded-bl-sm text-slate-700 dark:text-zinc-300"
-            : "bg-slate-900 dark:bg-white rounded-2xl rounded-br-sm text-white dark:text-slate-900 border border-slate-800 dark:border-zinc-200"
-        }`}
+        className={`flex flex-col ${isBot ? "items-start" : "items-end"}`}
       >
-        <div className="break-words">{formatText(message.text)}</div>
+        {/* Bubble + Copy Button wrapper */}
+        <div className={`relative group max-w-[280px]`}>
+          <div
+            className={`px-3.5 py-2.5 text-[13px] ${
+              isBot
+                ? "bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-2xl rounded-bl-sm text-slate-700 dark:text-zinc-300"
+                : "bg-slate-900 dark:bg-white rounded-2xl rounded-br-sm text-white dark:text-slate-900 border border-slate-800 dark:border-zinc-200"
+            }`}
+          >
+            <div className="break-words">{formatText(message.text)}</div>
+          </div>
+
+          {/* Copy button — bot only, visible on hover */}
+          {isBot && (
+            <button
+              onClick={handleCopy}
+              className="absolute top-1 right-1 p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-slate-400 hover:text-slate-600 dark:text-zinc-500 dark:hover:text-zinc-300 hover:bg-slate-200/50 dark:hover:bg-zinc-700/50 cursor-pointer"
+              title="Copy pesan"
+            >
+              {copied ? <Check size={12} /> : <Copy size={12} />}
+            </button>
+          )}
+        </div>
+
+        {/* Emoji Reactions — bot only */}
+        {isBot && (
+          <div className="flex gap-1 mt-1 ml-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <button
+              onClick={() =>
+                onReact(message.id, reaction === "👍" ? "" : "👍")
+              }
+              className={`p-0.5 rounded transition-colors cursor-pointer ${
+                reaction === "👍"
+                  ? "text-blue-500 dark:text-blue-400 opacity-100"
+                  : "text-slate-400 dark:text-zinc-600 hover:text-slate-600 dark:hover:text-zinc-400"
+              }`}
+              title="Like"
+            >
+              <ThumbsUp size={11} />
+            </button>
+            <button
+              onClick={() =>
+                onReact(message.id, reaction === "❤️" ? "" : "❤️")
+              }
+              className={`p-0.5 rounded transition-colors cursor-pointer ${
+                reaction === "❤️"
+                  ? "text-red-500 opacity-100"
+                  : "text-slate-400 dark:text-zinc-600 hover:text-red-400 dark:hover:text-red-400"
+              }`}
+              title="Love"
+            >
+              <Heart size={11} />
+            </button>
+          </div>
+        )}
+
+        {/* Timestamp */}
+        <span
+          className={`text-[9px] text-slate-400 dark:text-zinc-600 mt-0.5 ${
+            isBot ? "ml-1" : "mr-1"
+          }`}
+        >
+          {formatTime(message.timestamp)}
+        </span>
       </div>
+    </motion.div>
+  );
+}
+
+/* ─── Welcome Screen ─── */
+function WelcomeScreen({ onStart }: { onStart: () => void }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      className="flex flex-col items-center justify-center h-full px-6 text-center"
+    >
+      <div className="w-14 h-14 rounded-full bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 flex items-center justify-center mb-4">
+        <Sparkles size={24} className="text-slate-600 dark:text-zinc-300" />
+      </div>
+      <h3 className="text-slate-900 dark:text-white font-semibold text-base mb-1">
+        {BOT_NAME}
+      </h3>
+      <p className="text-slate-400 dark:text-zinc-500 text-xs mb-4 leading-relaxed max-w-[260px]">
+        AI assistant yang bisa bantu kamu kenal lebih dekat sama Fathur — skill, project, pengalaman, dan banyak lagi.
+      </p>
+      <button
+        onClick={onStart}
+        className="px-5 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-medium hover:opacity-90 transition-opacity cursor-pointer"
+      >
+        Mulai ngobrol →
+      </button>
     </motion.div>
   );
 }
@@ -176,6 +331,36 @@ function SuggestionChips({
   );
 }
 
+/* ─── Chat Storage Helpers ─── */
+const STORAGE_KEY = "kimshie-chat-history";
+
+function saveChatHistory(messages: ChatMessage[]) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+  } catch {}
+}
+
+function loadChatHistory(): ChatMessage[] | null {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return null;
+    const parsed = JSON.parse(saved);
+    // Restore Date objects from JSON
+    return parsed.map((m: any) => ({
+      ...m,
+      timestamp: new Date(m.timestamp),
+    }));
+  } catch {
+    return null;
+  }
+}
+
+function clearChatHistory() {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {}
+}
+
 /* ─── Main ChatWidget ─── */
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -183,9 +368,12 @@ export default function ChatWidget() {
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [hasGreeted, setHasGreeted] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
   const [chipContext, setChipContext] = useState<
     "initial" | "after_skill" | "after_project" | "general"
   >("initial");
+  const [reactions, setReactions] = useState<Record<string, string>>({});
+  const [lastSentAt, setLastSentAt] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -193,6 +381,16 @@ export default function ChatWidget() {
   const scrollToBottom = useCallback(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
+  // Load saved chat on mount
+  useEffect(() => {
+    const saved = loadChatHistory();
+    if (saved && saved.length > 0) {
+      setMessages(saved);
+      setHasGreeted(true);
+      setShowWelcome(false);
     }
   }, []);
 
@@ -216,6 +414,13 @@ export default function ChatWidget() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen]);
 
+  // Save messages to localStorage when they change
+  useEffect(() => {
+    if (messages.length > 0) {
+      saveChatHistory(messages);
+    }
+  }, [messages]);
+
   useEffect(() => {
     if (isOpen && !hasGreeted) {
       const greetingMsg: ChatMessage = {
@@ -226,13 +431,52 @@ export default function ChatWidget() {
       };
       setMessages([greetingMsg]);
       setHasGreeted(true);
+      setShowWelcome(false);
     }
   }, [isOpen, hasGreeted]);
+
+  const handleReact = useCallback((msgId: string, emoji: string) => {
+    setReactions((prev) => {
+      const next = { ...prev };
+      if (!emoji) {
+        delete next[msgId];
+      } else {
+        next[msgId] = emoji;
+      }
+      return next;
+    });
+  }, []);
+
+  const handleClearChat = useCallback(() => {
+    setMessages([]);
+    setHasGreeted(false);
+    setShowWelcome(true);
+    setReactions({});
+    setChipContext("initial");
+    clearChatHistory();
+  }, []);
+
+  const handleStartChat = useCallback(() => {
+    const greetingMsg: ChatMessage = {
+      id: generateId(),
+      text: GREETING,
+      sender: "bot",
+      timestamp: new Date(),
+    };
+    setMessages([greetingMsg]);
+    setHasGreeted(true);
+    setShowWelcome(false);
+  }, []);
 
   const handleSendMessage = useCallback(
     (text: string) => {
       const trimmed = text.trim();
       if (!trimmed || isTyping) return;
+
+      // Rate limiting: 1.5s cooldown
+      const now = Date.now();
+      if (now - lastSentAt < 1500) return;
+      setLastSentAt(now);
 
       const userMsg: ChatMessage = {
         id: generateId(),
@@ -244,6 +488,7 @@ export default function ChatWidget() {
       setMessages((prev) => [...prev, userMsg]);
       setInputValue("");
       setIsTyping(true);
+      setShowWelcome(false);
 
       const lowerInput = trimmed.toLowerCase();
       if (lowerInput.includes("skill") || lowerInput.includes("tech")) {
@@ -291,7 +536,7 @@ export default function ChatWidget() {
         setIsTyping(false);
       });
     },
-    [isTyping, messages]
+    [isTyping, messages, lastSentAt]
   );
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -381,29 +626,52 @@ export default function ChatWidget() {
                     Online • ATNX Assistant
                   </p>
                 </div>
-                <div className="ml-auto flex items-center gap-1 text-[9px] text-slate-300 dark:text-zinc-700 shrink-0">
-                  <Keyboard size={10} />
-                  <span>ESC</span>
+                <div className="ml-auto flex items-center gap-1.5 shrink-0">
+                  {/* Clear Chat Button */}
+                  {!showWelcome && messages.length > 0 && (
+                    <button
+                      onClick={handleClearChat}
+                      className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-400 dark:text-zinc-500 transition-colors cursor-pointer"
+                      title="Hapus percakapan"
+                    >
+                      <Trash2 size={13} />
+                    </button>
+                  )}
+                  <div className="flex items-center gap-1 text-[9px] text-slate-300 dark:text-zinc-700">
+                    <Keyboard size={10} />
+                    <span>ESC</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* ─── Messages ─── */}
+            {/* ─── Messages or Welcome Screen ─── */}
             <div
               ref={messagesContainerRef}
               data-lenis-prevent
               className="flex-1 min-h-0 overflow-y-auto overscroll-contain touch-pan-y px-3.5 py-3.5 bg-slate-50/50 dark:bg-[#0a0a0e] [&::-webkit-scrollbar]:w-[3px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-200 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-800 [&::-webkit-scrollbar-thumb]:rounded-full"
             >
-              <AnimatePresence initial={false}>
-                {messages.map((msg) => (
-                  <MessageBubble key={msg.id} message={msg} />
-                ))}
+              <AnimatePresence mode="wait">
+                {showWelcome && messages.length === 0 ? (
+                  <WelcomeScreen key="welcome" onStart={handleStartChat} />
+                ) : (
+                  <>
+                    {messages.map((msg) => (
+                      <MessageBubble
+                        key={msg.id}
+                        message={msg}
+                        onReact={handleReact}
+                        reactions={reactions}
+                      />
+                    ))}
+                  </>
+                )}
               </AnimatePresence>
               <AnimatePresence>
                 {isTyping && <TypingIndicator />}
               </AnimatePresence>
 
-              {showChips && (
+              {showChips && !showWelcome && (
                 <SuggestionChips
                   onSelect={handleSendMessage}
                   context={chipContext}
