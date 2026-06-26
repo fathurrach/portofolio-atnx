@@ -75,11 +75,15 @@ ${p.funFacts.map(f => `• ${f}`).join("\n")}
 `;
 
   try {
-    const contents: any[] = [];
+    interface GeminiContent {
+      role: "user" | "model";
+      parts: { text: string }[];
+    }
+    const contents: GeminiContent[] = [];
 
     // Build conversation history for Gemini
     if (Array.isArray(history)) {
-      history.forEach((msg: any) => {
+      history.forEach((msg: { sender: string; text: string }) => {
         if (msg.sender === "user" || msg.sender === "bot") {
           contents.push({
             role: msg.sender === "user" ? "user" : "model",
@@ -130,8 +134,9 @@ ${p.funFacts.map(f => `• ${f}`).join("\n")}
       "Hmm, gw agak bingung nih jawabnya. Coba tanya lagi ya! 😅";
 
     return res.status(200).json({ text: botText });
-  } catch (error: any) {
-    console.error("[api/chat] Server error:", error.message);
-    return res.status(500).json({ error: error.message });
+  } catch (error: unknown) {
+    const errMsg = error instanceof Error ? error.message : "Unknown error";
+    console.error("[api/chat] Server error:", errMsg);
+    return res.status(500).json({ error: errMsg });
   }
 }

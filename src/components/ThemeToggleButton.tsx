@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { flushSync } from "react-dom";
 
 // Simple class merger utility
-function cn(...classes: any[]) {
+function cn(...classes: (string | undefined | null | false)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
@@ -21,12 +21,13 @@ export const ThemeToggleButton1 = ({
 
   const handleToggle = () => {
     // Graceful fallback for older browsers that do not support View Transitions
-    if (!(document as any).startViewTransition) {
+    const doc = document as Document & { startViewTransition?: (cb: () => void) => { ready: Promise<void> } };
+    if (!doc.startViewTransition) {
       toggleTheme();
       return;
     }
 
-    const transition = (document as any).startViewTransition(() => {
+    const transition = doc.startViewTransition(() => {
       flushSync(() => {
         toggleTheme();
       });

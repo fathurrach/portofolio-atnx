@@ -337,7 +337,9 @@ const STORAGE_KEY = "kimshie-chat-history";
 function saveChatHistory(messages: ChatMessage[]) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
-  } catch {}
+  } catch (e) {
+    console.warn('Failed to save chat history:', e);
+  }
 }
 
 function loadChatHistory(): ChatMessage[] | null {
@@ -346,9 +348,9 @@ function loadChatHistory(): ChatMessage[] | null {
     if (!saved) return null;
     const parsed = JSON.parse(saved);
     // Restore Date objects from JSON
-    return parsed.map((m: any) => ({
+    return parsed.map((m: Record<string, unknown>) => ({
       ...m,
-      timestamp: new Date(m.timestamp),
+      timestamp: new Date(m.timestamp as string),
     }));
   } catch {
     return null;
@@ -358,17 +360,24 @@ function loadChatHistory(): ChatMessage[] | null {
 function clearChatHistory() {
   try {
     localStorage.removeItem(STORAGE_KEY);
-  } catch {}
+  } catch (e) {
+    console.warn('Failed to clear chat history:', e);
+  }
 }
 
 /* ─── Main ChatWidget ─── */
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>(() => {
+    const saved = loadChatHistory();
+    return saved && saved.length > 0 ? saved : [];
+  });
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const [hasGreeted, setHasGreeted] = useState(false);
-  const [showWelcome, setShowWelcome] = useState(true);
+  const [showWelcome, setShowWelcome] = useState(() => {
+    const saved = loadChatHistory();
+    return !(saved && saved.length > 0);
+  });
   const [chipContext, setChipContext] = useState<
     "initial" | "after_skill" | "after_project" | "general"
   >("initial");
@@ -384,15 +393,7 @@ export default function ChatWidget() {
     }
   }, []);
 
-  // Load saved chat on mount
-  useEffect(() => {
-    const saved = loadChatHistory();
-    if (saved && saved.length > 0) {
-      setMessages(saved);
-      setHasGreeted(true);
-      setShowWelcome(false);
-    }
-  }, []);
+  // Load saved chat on mount — now handled via useState initializer above
 
   useEffect(() => {
     scrollToBottom();
@@ -421,20 +422,6 @@ export default function ChatWidget() {
     }
   }, [messages]);
 
-  useEffect(() => {
-    if (isOpen && !hasGreeted) {
-      const greetingMsg: ChatMessage = {
-        id: generateId(),
-        text: GREETING,
-        sender: "bot",
-        timestamp: new Date(),
-      };
-      setMessages([greetingMsg]);
-      setHasGreeted(true);
-      setShowWelcome(false);
-    }
-  }, [isOpen, hasGreeted]);
-
   const handleReact = useCallback((msgId: string, emoji: string) => {
     setReactions((prev) => {
       const next = { ...prev };
@@ -449,7 +436,6 @@ export default function ChatWidget() {
 
   const handleClearChat = useCallback(() => {
     setMessages([]);
-    setHasGreeted(false);
     setShowWelcome(true);
     setReactions({});
     setChipContext("initial");
@@ -464,7 +450,6 @@ export default function ChatWidget() {
       timestamp: new Date(),
     };
     setMessages([greetingMsg]);
-    setHasGreeted(true);
     setShowWelcome(false);
   }, []);
 

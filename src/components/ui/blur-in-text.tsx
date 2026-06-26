@@ -44,7 +44,7 @@ export const BlurInText = ({
       filter: "blur(0px)",
       transition: {
         duration: duration,
-        ease: [0.2, 0.65, 0.3, 0.9] as any, // Premium smooth bezier curve
+        ease: [0.2, 0.65, 0.3, 0.9] as [number, number, number, number], // Premium smooth bezier curve
       },
     },
   };
@@ -91,7 +91,7 @@ export const BlurInText = ({
 };
 
 // Simple class merger utility local
-function cn(...classes: any[]) {
+function cn(...classes: (string | undefined | null | false)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
